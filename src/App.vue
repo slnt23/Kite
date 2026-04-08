@@ -1,7 +1,7 @@
-<script setup>
-import WelcomeLanding from './components/WelcomeLanding.vue'
-</script>
-
-<template>
-  <WelcomeLanding />
+﻿<template>
+  <RouterView />
 </template>
+
+<script setup>
+import { RouterView } from 'vue-router'
+</script>
