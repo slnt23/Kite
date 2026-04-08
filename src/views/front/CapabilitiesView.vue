@@ -82,7 +82,7 @@ const capabilityRows = [
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .front-page {
   display: grid;
   gap: 28px;

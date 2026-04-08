@@ -99,8 +99,8 @@ const featureItems = [
   </div>
 </template>
 
-<style scoped>
-/* 共用主题变量与可复用样式见 src/style.css：content-stack */
+<style scoped lang="scss">
+/* 共用主题变量与可复用样式见 src/style.scss：content-stack */
 .front-page {
   display: grid;
   gap: 28px;

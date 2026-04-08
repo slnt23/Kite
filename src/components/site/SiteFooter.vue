@@ -15,8 +15,8 @@
   </footer>
 </template>
 
-<style scoped>
-/* 共用主题变量与可复用样式见 src/style.css：glass-panel */
+<style scoped lang="scss">
+/* 共用主题变量与可复用样式见 src/style.scss：glass-panel */
 .site-footer {
   margin-top: 28px;
   padding: 28px;

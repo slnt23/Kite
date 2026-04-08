@@ -23,7 +23,7 @@ defineProps({
   </header>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .section-intro p:first-child {
   margin: 0 0 14px;
   color: rgba(245, 251, 255, 0.86);

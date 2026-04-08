@@ -19,7 +19,7 @@ defineProps({
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .timeline {
   display: grid;
   gap: 18px;
