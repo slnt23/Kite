@@ -1,29 +1,87 @@
-﻿<template>
+﻿<script setup>
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { isAuthenticated, loginWithAccessCode, logout } from '../../utils/auth.js'
+
+const router = useRouter()
+const route = useRoute()
+
+const accessCode = ref('')
+const errorMessage = ref('')
+const submitting = ref(false)
+const authed = ref(isAuthenticated())
+
+const redirectTarget = computed(() => route.query.redirect || '/')
+
+const submitLogin = () => {
+  submitting.value = true
+  errorMessage.value = ''
+
+  const result = loginWithAccessCode(accessCode.value.trim())
+
+  if (!result.success) {
+    errorMessage.value = result.message
+    submitting.value = false
+    return
+  }
+
+  authed.value = true
+  submitting.value = false
+  router.replace(String(redirectTarget.value))
+}
+
+const handleLogout = () => {
+  logout()
+  authed.value = false
+  accessCode.value = ''
+}
+</script>
+
+<template>
   <div class="front-page front-page--article">
-    <section class="article-hero article-hero--compact">
+    <section class="article-hero article-hero--compact glass-panel">
       <p>Login</p>
-      <h1>登录入口已预留，后续可以直接接入后台或账号系统。</h1>
+      <h1>受保护页面已接入前端路由守卫。</h1>
       <p class="article-hero__body">
-        目前这是一个前台占位页，按钮和路由已经准备好。后面如果你接入鉴权、管理员后台或会员系统，可以直接在这里延展成正式登录流程。
+        当前是方案 B 的前端鉴权骨架。现在直接输入受保护路径会先跳到这里，登录后再回到原目标页面。后续如果接入后端，这里可以直接替换成真实登录流程。
       </p>
     </section>
 
-    <section class="content-section content-section--narrow">
-      <div class="capability-block">
+    <section class="content-section content-section--narrow content-stack">
+      <div v-if="!authed" class="login-panel glass-panel">
+        <div class="login-panel__copy">
+          <h2>输入访问码</h2>
+          <p>
+            当前演示访问码为 <code>cc-2026-kite</code>。这一版只是前端限制骨架，真正安全仍然需要后端接口鉴权。
+          </p>
+        </div>
+
+        <form class="login-form" @submit.prevent="submitLogin">
+          <label class="login-form__field">
+            <span>访问码</span>
+            <input v-model="accessCode" type="password" placeholder="请输入访问码" />
+          </label>
+
+          <p v-if="errorMessage" class="login-form__error">{{ errorMessage }}</p>
+
+          <button class="login-form__submit" type="submit" :disabled="submitting">
+            {{ submitting ? '验证中...' : '进入受保护页面' }}
+          </button>
+        </form>
+      </div>
+
+      <div v-else class="capability-block glass-panel">
         <div class="capability-block__row capability-block__row--head">
-          <span>阶段</span>
-          <span>当前状态</span>
-          <span>后续方向</span>
+          <span>状态</span>
+          <span>当前结果</span>
+          <span>操作</span>
         </div>
         <div class="capability-block__row">
-          <strong>当前</strong>
-          <span>已完成登录按钮、路由入口与页面占位</span>
-          <span>可接后台管理或账号体系</span>
-        </div>
-        <div class="capability-block__row">
-          <strong>下一步</strong>
-          <span>接入 Axios、鉴权接口、表单验证</span>
-          <span>对接管理端与角色权限</span>
+          <strong>已登录</strong>
+          <span>你已经通过前端守卫验证，可以访问受保护页面。</span>
+          <button class="capability-block__action" type="button" @click="handleLogout">
+            退出当前验证
+          </button>
         </div>
       </div>
     </section>
@@ -31,6 +89,7 @@
 </template>
 
 <style scoped lang="scss">
+/* 共用主题变量与可复用样式见 src/style.scss：glass-panel、content-stack */
 .front-page {
   display: grid;
   gap: 28px;
@@ -39,11 +98,7 @@
 .article-hero {
   margin-top: 110px;
   padding: 28px;
-  border: 1px solid var(--color-border);
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(8, 37, 76, 0.72), rgba(7, 28, 60, 0.86));
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
 }
 
 .article-hero > p:first-child {
@@ -67,22 +122,76 @@
   color: var(--color-text-soft);
 }
 
-.content-section {
-  display: grid;
-  gap: 20px;
-}
-
 .content-section--narrow {
   max-width: 860px;
 }
 
+.login-panel {
+  padding: 28px;
+  border-radius: 30px;
+  display: grid;
+  gap: 22px;
+}
+
+.login-panel__copy h2 {
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+
+.login-panel__copy p {
+  margin: 0;
+  color: var(--color-text-soft);
+}
+
+.login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.login-form__field {
+  display: grid;
+  gap: 8px;
+}
+
+.login-form__field span {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.login-form__field input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  outline: none;
+}
+
+.login-form__field input::placeholder {
+  color: rgba(236, 247, 255, 0.52);
+}
+
+.login-form__error {
+  margin: 0;
+  color: #ffd4d4;
+}
+
+.login-form__submit,
+.capability-block__action {
+  justify-self: start;
+  min-width: 160px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(202, 239, 255, 0.72));
+  color: var(--color-text-deep);
+  font-weight: 700;
+}
+
 .capability-block {
   overflow: hidden;
-  border: 1px solid var(--color-border);
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(8, 37, 76, 0.72), rgba(7, 28, 60, 0.86));
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
 }
 
 .capability-block__row {
@@ -110,7 +219,8 @@
 }
 
 @media (max-width: 760px) {
-  .article-hero {
+  .article-hero,
+  .login-panel {
     padding: 20px;
   }
 }

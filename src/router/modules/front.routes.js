@@ -18,16 +18,25 @@ const frontRoutes = [
         path: 'story',
         name: 'front-story',
         component: StoryView,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'capabilities',
         name: 'front-capabilities',
         component: CapabilitiesView,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'login',
         name: 'front-login',
         component: LoginView,
+        meta: {
+          publicOnly: true,
+        },
       },
     ],
   },

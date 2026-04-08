@@ -1,4 +1,5 @@
 ﻿import { createRouter, createWebHistory } from 'vue-router'
+import { isAuthenticated } from '../utils/auth.js'
 import frontRoutes from './modules/front.routes.js'
 
 const router = createRouter({
@@ -18,6 +19,29 @@ const router = createRouter({
 
     return { top: 0 }
   },
+})
+
+router.beforeEach((to) => {
+  const requiresAuth = to.matched.some((record) => record.meta?.requiresAuth)
+  const publicOnly = to.matched.some((record) => record.meta?.publicOnly)
+  const authenticated = isAuthenticated()
+
+  if (requiresAuth && !authenticated) {
+    return {
+      name: 'front-login',
+      query: {
+        redirect: to.fullPath,
+      },
+    }
+  }
+
+  if (publicOnly && authenticated) {
+    return {
+      name: 'front-home',
+    }
+  }
+
+  return true
 })
 
 export default router
