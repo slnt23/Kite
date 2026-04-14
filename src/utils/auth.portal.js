@@ -1,8 +1,10 @@
 const AUTH_STORAGE_KEY = 'kite_front_auth_session'
 const AUTH_CHANGE_EVENT = 'kite-auth-change'
 
-const LOGIN_MODE_PASSWORD = 'password'
-const LOGIN_MODE_CODE = 'code'
+export const AUTH_LOGIN_MODE = {
+  PASSWORD: 'password',
+  CODE: 'code',
+}
 
 const DEMO_CREDENTIALS = {
   admin: {
@@ -24,11 +26,9 @@ const DEMO_CREDENTIALS = {
 const isClient = () => typeof window !== 'undefined'
 
 const emitAuthChange = () => {
-  if (!isClient()) {
-    return
+  if (isClient()) {
+    window.dispatchEvent(new Event(AUTH_CHANGE_EVENT))
   }
-
-  window.dispatchEvent(new Event(AUTH_CHANGE_EVENT))
 }
 
 const readSession = () => {
@@ -50,31 +50,18 @@ const readSession = () => {
   }
 }
 
-export const getAuthSession = () => readSession()
-
-export const getCurrentUser = () => {
-  const session = readSession()
-
-  if (!session) {
-    return null
-  }
-
-  return {
-    token: session.token,
-    role: session.role,
-    roleLabel: session.roleLabel,
-    displayName: session.displayName,
-    loginMode: session.loginMode,
-    loginModeLabel: session.loginModeLabel,
-    loginAt: session.loginAt,
-  }
-}
+export const getCurrentUser = () => readSession()
 
 export const isAuthenticated = () => Boolean(readSession()?.token)
 
 export const isAdminUser = () => readSession()?.role === 'admin'
 
 export const getDefaultRouteForUser = (user) => (user?.role === 'admin' ? '/admin' : '/profile')
+
+export const getDemoCredentials = () => ({
+  admin: { ...DEMO_CREDENTIALS.admin },
+  user: { ...DEMO_CREDENTIALS.user },
+})
 
 export const login = ({ role, mode, secret }) => {
   const candidate = DEMO_CREDENTIALS[role]
@@ -90,12 +77,16 @@ export const login = ({ role, mode, secret }) => {
   if (!trimmedSecret) {
     return {
       success: false,
-      message: mode === LOGIN_MODE_PASSWORD ? '请输入登录密码。' : '请输入登录验证码。',
+      message: mode === AUTH_LOGIN_MODE.PASSWORD ? '请输入登录密码。' : '请输入登录验证码。',
     }
   }
 
   const expectedSecret =
-    mode === LOGIN_MODE_PASSWORD ? candidate.password : mode === LOGIN_MODE_CODE ? candidate.code : ''
+    mode === AUTH_LOGIN_MODE.PASSWORD
+      ? candidate.password
+      : mode === AUTH_LOGIN_MODE.CODE
+        ? candidate.code
+        : ''
 
   if (!expectedSecret) {
     return {
@@ -107,7 +98,10 @@ export const login = ({ role, mode, secret }) => {
   if (trimmedSecret !== expectedSecret) {
     return {
       success: false,
-      message: mode === LOGIN_MODE_PASSWORD ? '密码不正确，请检查后重试。' : '验证码不正确，请检查后重试。',
+      message:
+        mode === AUTH_LOGIN_MODE.PASSWORD
+          ? '密码不正确，请检查后重试。'
+          : '验证码不正确，请检查后重试。',
     }
   }
 
@@ -117,7 +111,7 @@ export const login = ({ role, mode, secret }) => {
     roleLabel: candidate.roleLabel,
     displayName: candidate.displayName,
     loginMode: mode,
-    loginModeLabel: mode === LOGIN_MODE_PASSWORD ? '密码登录' : '验证码登录',
+    loginModeLabel: mode === AUTH_LOGIN_MODE.PASSWORD ? '密码登录' : '验证码登录',
     loginAt: new Date().toISOString(),
   }
 
@@ -154,24 +148,4 @@ export const onAuthChange = (callback) => {
     window.removeEventListener(AUTH_CHANGE_EVENT, handler)
     window.removeEventListener('storage', handler)
   }
-}
-
-export const getDemoCredentials = () => ({
-  admin: {
-    roleLabel: DEMO_CREDENTIALS.admin.roleLabel,
-    displayName: DEMO_CREDENTIALS.admin.displayName,
-    password: DEMO_CREDENTIALS.admin.password,
-    code: DEMO_CREDENTIALS.admin.code,
-  },
-  user: {
-    roleLabel: DEMO_CREDENTIALS.user.roleLabel,
-    displayName: DEMO_CREDENTIALS.user.displayName,
-    password: DEMO_CREDENTIALS.user.password,
-    code: DEMO_CREDENTIALS.user.code,
-  },
-})
-
-export const AUTH_LOGIN_MODE = {
-  PASSWORD: LOGIN_MODE_PASSWORD,
-  CODE: LOGIN_MODE_CODE,
 }
