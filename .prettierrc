@@ -1,0 +1,19 @@
+{
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 120,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "avoid",
+    "overrides": [
+        {
+            "files": "*.vue",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}

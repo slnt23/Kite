@@ -3,7 +3,7 @@
     <div class="site-footer__inner">
       <div>
         <p class="site-footer__eyebrow">Kite Studio</p>
-        <h3>让个人网站既有表达力，也能持续进化。</h3>
+        <h3>Adventure is worthwhile.</h3>
       </div>
 
       <div class="site-footer__links">

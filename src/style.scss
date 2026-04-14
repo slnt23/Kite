@@ -5,29 +5,30 @@
     'Noto Sans SC',
     'Microsoft YaHei',
     sans-serif;
-  color: #eef8ff;
+  color: #eff7fb;
   background:
-    radial-gradient(circle at top, rgba(191, 235, 255, 0.65), transparent 26%),
-    radial-gradient(circle at right top, rgba(100, 193, 255, 0.45), transparent 28%),
-    linear-gradient(180deg, #dff5ff 0%, #a8dcff 28%, #71bdf3 62%, #2a7bc5 100%);
+    radial-gradient(circle at top, rgba(188, 220, 236, 0.24), transparent 24%),
+    radial-gradient(circle at right top, rgba(116, 168, 196, 0.18), transparent 28%),
+    linear-gradient(180deg, #d7e0e7 0%, #bccbd6 30%, #aebfc9 62%, #8ea5b4 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  --color-primary: #74d4ff;
-  --color-primary-strong: #38b6ff;
-  --color-accent: #f5fbff;
-  --color-surface: rgba(8, 37, 76, 0.56);
-  --color-surface-strong: rgba(7, 28, 60, 0.82);
-  --color-surface-soft: rgba(255, 255, 255, 0.16);
-  --color-border: rgba(255, 255, 255, 0.24);
-  --color-text: #f8fdff;
-  --color-text-soft: rgba(236, 247, 255, 0.8);
-  --color-text-deep: #0d2744;
-  --shadow-soft: 0 30px 90px rgba(7, 25, 53, 0.22);
+  --color-primary: #8ecdee;
+  --color-primary-strong: #5aa8d4;
+  --color-accent: #f7fbff;
+  --color-surface: rgba(207, 222, 232, 0.56);
+  --color-surface-strong: rgba(96, 119, 136, 0.28);
+  --color-surface-soft: rgba(255, 255, 255, 0.36);
+  --color-border: rgba(255, 255, 255, 0.52);
+  --color-text: #f5fbff;
+  --color-text-soft: rgba(236, 244, 249, 0.8);
+  --color-text-deep: #243847;
+  --color-muted-deep: #667987;
+  --shadow-soft: 0 28px 80px rgba(64, 86, 101, 0.18);
   --shell-width: min(1320px, calc(100% - 20px));
-  --shell-width-mobile: min(100% - 16px, 1320px);
+  --shell-width-mobile: min(1320px, calc(100% - 20px));
 }
 
 *,
@@ -46,6 +47,8 @@ body,
 
 body {
   min-height: 100vh;
+  color: var(--color-text-deep);
+  background-attachment: fixed;
 }
 
 a,
@@ -75,7 +78,9 @@ img {
 
 .glass-panel {
   border: 1px solid var(--color-border);
-  background: linear-gradient(180deg, rgba(8, 37, 76, 0.72), rgba(7, 28, 60, 0.86));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(194, 214, 225, 0.14)),
+    rgba(129, 151, 165, 0.12);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px);
 }
@@ -92,4 +97,9 @@ img {
 .content-stack {
   display: grid;
   gap: 20px;
+}
+
+body.body-home-scrollsnap,
+html.body-home-scrollsnap {
+  scroll-snap-type: y mandatory;
 }

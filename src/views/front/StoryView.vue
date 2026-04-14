@@ -78,7 +78,9 @@ const timeline = [
   padding: 28px;
   border: 1px solid var(--color-border);
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(8, 37, 76, 0.72), rgba(7, 28, 60, 0.86));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(184, 226, 247, 0.16)),
+    rgba(120, 183, 215, 0.12);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px);
 }
@@ -123,7 +125,9 @@ const timeline = [
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: 30px;
-  background: linear-gradient(180deg, rgba(8, 37, 76, 0.72), rgba(7, 28, 60, 0.86));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(184, 226, 247, 0.16)),
+    rgba(120, 183, 215, 0.12);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px);
 }

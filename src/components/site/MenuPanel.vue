@@ -29,8 +29,8 @@ const emit = defineEmits(['close'])
         <section class="menu-panel__sheet glass-panel">
           <div class="menu-panel__header">
             <div>
-              <p>Explore</p>
-              <h2>从这里进入《匆匆》的各个前台页面。</h2>
+              <p>Navigate</p>
+              <h2>选择你要进入的功能入口</h2>
             </div>
 
             <button class="menu-panel__close" type="button" @click="emit('close')">
@@ -79,8 +79,8 @@ const emit = defineEmits(['close'])
   position: relative;
   z-index: 1;
   width: var(--shell-width);
-  max-height: calc(100vh - 40px);
-  margin: 20px auto;
+  max-height: calc(100vh - 20px);
+  margin: 10px auto;
   padding: 24px;
   overflow: auto;
   border-radius: 32px;
@@ -183,8 +183,8 @@ const emit = defineEmits(['close'])
 @media (max-width: 760px) {
   .menu-panel__sheet {
     width: var(--shell-width-mobile);
-    max-height: calc(100vh - 24px);
-    margin: 12px auto;
+    max-height: calc(100vh - 20px);
+    margin: 10px auto;
     padding: 20px;
   }
 

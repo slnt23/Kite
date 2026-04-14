@@ -1,5 +1,5 @@
 ﻿import { createRouter, createWebHistory } from 'vue-router'
-import { isAuthenticated } from '../utils/auth.js'
+import { isAuthenticated } from '../utils/auth.session.js'
 import frontRoutes from './modules/front.routes.js'
 
 const router = createRouter({
@@ -37,7 +37,7 @@ router.beforeEach((to) => {
 
   if (publicOnly && authenticated) {
     return {
-      name: 'front-home',
+      name: 'front-profile',
     }
   }
 

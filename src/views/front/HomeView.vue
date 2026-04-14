@@ -63,9 +63,9 @@ const featureItems = [
       <div class="home-hero__glow" />
 
       <div class="home-hero__content">
-        <p>Sky Blue Narrative Site</p>
+        <p>Explore . Dream . Discover</p>
         <h1>《匆匆》</h1>
-        <h2>用天蓝与白色渐变，做一个带呼吸感的前台首页。</h2>
+        <h2>兴趣，乃探索之首位引领者。</h2>
         <p class="home-hero__summary">
           首屏改为全屏大图、半透明深色蒙版与绝对居中的核心文案。向下滑动后，导航会切换到紧凑状态，左侧显示网站名，右侧保留 MENU 与登录按钮。
         </p>
