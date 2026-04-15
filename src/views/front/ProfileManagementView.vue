@@ -6,7 +6,7 @@ import heroImage from '../../assets/admin/editorial-hero-01.jpg'
 import cardImageOne from '../../assets/admin/editorial-card-01.jpg'
 import cardImageTwo from '../../assets/admin/editorial-card-02.jpg'
 import cardImageThree from '../../assets/admin/editorial-card-03.jpg'
-import { getCurrentUser, logout, onAuthChange } from '../../utils/auth.session.js'
+import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.js'
 
 const router = useRouter()
 const currentUser = ref(getCurrentUser())

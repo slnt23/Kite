@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import bannerImage from '../../assets/front/banner.jpg'
@@ -594,4 +594,14 @@ onBeforeUnmount(() => {
     min-width: 160px;
   }
 }
+</style> -->
+<template>
+</template>
+
+
+<script setup>
+</script>
+
+
+<style scoped>
 </style>

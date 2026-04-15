@@ -1,11 +1,12 @@
 ﻿import FrontLayout from '../../layouts/FrontLayout.vue'
 import CapabilitiesView from '../../views/front/CapabilitiesView.vue'
-import AiChatView from '../../views/front/AiChatView.vue'
-import LandingHomeView from '../../views/front/LandingHomeView.vue'
+import AiChatView from '../../views/front/ai/AiChatView.vue'
 import PortalLoginView from '../../views/front/PortalLoginView.vue'
 import PriceLookupView from '../../views/front/PriceLookupView.vue'
 import ProfileManagementView from '../../views/front/ProfileManagementView.vue'
 import StoryView from '../../views/front/StoryView.vue'
+import HomeView from '../../views/front/HomeView.vue'
+// import LoginDialogView from '../../views/front/login/LoginDialogView.vue'
 
 const frontRoutes = [
   {
@@ -15,7 +16,7 @@ const frontRoutes = [
       {
         path: '',
         name: 'front-home',
-        component: LandingHomeView,
+        component: HomeView,
       },
       {
         path: 'price-query',
@@ -38,14 +39,14 @@ const frontRoutes = [
           requiresAuth: true,
         },
       },
-      {
-        path: 'login',
-        name: 'front-login',
-        component: PortalLoginView,
-        meta: {
-          publicOnly: true,
-        },
-      },
+      // {
+      //   path: 'login',
+      //   name: 'front-login',
+      //   component: LoginDialogView,
+      //   meta: {
+      //     publicOnly: true,
+      //   },
+      // },
       {
         path: 'ai-chat',
         name: 'front-ai-chat',

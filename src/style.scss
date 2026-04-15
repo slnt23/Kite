@@ -103,3 +103,23 @@ body.body-home-scrollsnap,
 html.body-home-scrollsnap {
   scroll-snap-type: y mandatory;
 }
+
+/* 隐藏浏览器默认滚动条（最右侧滑动条），但仍支持鼠标滚轮/触控板滚动 */
+html {
+  scrollbar-width: none;           /* Firefox */
+  -ms-overflow-style: none;        /* IE 和 Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none;                   /* Chrome、Safari、Edge（新版） */
+}
+
+/* 可选：如果只想针对 body 应用 */
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}

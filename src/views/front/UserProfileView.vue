@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCurrentUser, logout, onAuthChange } from '../../utils/auth.session.js'
+import { getCurrentUser, logout, onAuthChange } from '../../utils/auth.js'
 
 const router = useRouter()
 const currentUser = ref(getCurrentUser())
