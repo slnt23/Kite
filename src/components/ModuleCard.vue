@@ -1,10 +1,9 @@
-<script setup>
-defineProps({
-  module: {
-    type: Object,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { AppModule } from '@/types'
+
+defineProps<{
+  module: AppModule
+}>()
 </script>
 
 <template>

@@ -1,4 +1,17 @@
-﻿<script setup>
+﻿<script setup lang="ts">
+interface SpotlightItem {
+  eyebrow: string
+  title: string
+  description: string
+  image: string
+}
+
+interface FeatureItem {
+  icon: string
+  title: string
+  description: string
+}
+
 import bannerImage from '../../assets/front/banner.jpg'
 import projectImageOne from '../../assets/front/pic01.jpg'
 import projectImageTwo from '../../assets/front/pic02.jpg'
@@ -7,7 +20,7 @@ import FeatureGrid from '../../components/site/FeatureGrid.vue'
 import SectionIntro from '../../components/site/SectionIntro.vue'
 import SpotlightSection from '../../components/site/SpotlightSection.vue'
 
-const spotlightItems = [
+const spotlightItems: SpotlightItem[] = [
   {
     eyebrow: 'Brand System',
     title: '个人品牌与内容表达同时在线',
@@ -31,7 +44,7 @@ const spotlightItems = [
   },
 ]
 
-const featureItems = [
+const featureItems: FeatureItem[] = [
   {
     icon: '01',
     title: '全屏首屏叙事',
