@@ -12,7 +12,7 @@ const adminRoutes = [
     children: [
       {
         path: '',
-        name: 'admin-dashboard',
+        name: 'admin-home-dashboard',
         component: AdminDashboardView,
       },
     ],

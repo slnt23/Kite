@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCurrentUser, logout, onAuthChange } from '../../utils/auth.js'
+import { getCurrentUser, logout, onAuthChange } from '../../../utils/auth.js'
 
 const router = useRouter()
 const currentUser = ref(getCurrentUser())
@@ -66,7 +66,7 @@ onBeforeUnmount(() => {
         <h2>快捷入口</h2>
         <div class="profile-actions">
           <button type="button" @click="router.push('/')">进入价格查询</button>
-          <button type="button" @click="router.push('/ai-chat')">进入 AI 聊天</button>
+          <button type="button" @click="router.push('/crow-chat')">进入 AI 聊天</button>
           <button type="button" @click="handleLogout">退出当前账号</button>
         </div>
       </article>

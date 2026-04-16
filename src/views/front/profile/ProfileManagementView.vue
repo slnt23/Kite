@@ -1,11 +1,11 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import EditorialWorkspace from '../../components/management/EditorialWorkspace.vue'
-import heroImage from '../../assets/admin/editorial-hero-01.jpg'
-import cardImageOne from '../../assets/admin/editorial-card-01.jpg'
-import cardImageTwo from '../../assets/admin/editorial-card-02.jpg'
-import cardImageThree from '../../assets/admin/editorial-card-03.jpg'
+import EditorialWorkspace from '../../../components/management/EditorialWorkspace.vue'
+import heroImage from '../../../assets/admin/editorial-hero-01.jpg'
+import cardImageOne from '../../../assets/admin/editorial-card-01.jpg'
+import cardImageTwo from '../../../assets/admin/editorial-card-02.jpg'
+import cardImageThree from '../../../assets/admin/editorial-card-03.jpg'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.js'
 
 const router = useRouter()

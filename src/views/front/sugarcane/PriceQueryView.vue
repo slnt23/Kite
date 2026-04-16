@@ -1,11 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue'
-import bannerImage from '../../assets/front/banner.jpg'
-import projectImageOne from '../../assets/front/pic01.jpg'
-import projectImageTwo from '../../assets/front/pic02.jpg'
-import projectImageThree from '../../assets/front/pic03.jpg'
-import SectionIntro from '../../components/site/SectionIntro.vue'
-import SpotlightSection from '../../components/site/SpotlightSection.vue'
+import bannerImage from '../../../assets/front/banner.jpg'
+import projectImageOne from '../../../assets/front/pic01.jpg'
+import projectImageTwo from '../../../assets/front/pic02.jpg'
+import projectImageThree from '../../../assets/front/pic03.jpg'
+import SectionIntro from '../../../components/site/SectionIntro.vue'
+import SpotlightSection from '../../../components/site/SpotlightSection.vue'
 
 const keyword = ref('电缆')
 const selectedMarket = ref('华东')

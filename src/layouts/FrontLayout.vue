@@ -52,7 +52,7 @@ const menuItems = computed(() => [
   {
     title: 'AI聊天',
     subtitle: '进入聊天界面入口，查看对话交互样式',
-    path: '/ai-chat',
+    path: '/crow-chat',
     image: menuImageAiChat,
   },
 ])
