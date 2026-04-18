@@ -2,7 +2,7 @@
   <footer class="site-footer glass-panel">
     <div class="site-footer__inner">
       <div>
-        <p class="site-footer__eyebrow">Kite Studio</p>
+        <p class="site-footer__eyebrow eyebrow-label">Kite Studio</p>
         <h3>Adventure is worthwhile.</h3>
       </div>
 
@@ -23,18 +23,9 @@
   border-radius: 30px;
 }
 
-.site-footer__eyebrow {
-  margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
 .site-footer h3 {
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .site-footer__inner {
@@ -50,7 +41,7 @@
 }
 
 .site-footer__links a {
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 760px) {

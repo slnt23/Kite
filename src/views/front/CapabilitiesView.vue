@@ -53,7 +53,7 @@ const capabilityRows = [
 <template>
   <div class="front-page front-page--article">
     <section class="article-hero article-hero--compact">
-      <p>Capabilities</p>
+      <p class="eyebrow-label">Capabilities</p>
       <h1>把模板改造成一个可继续长大的前台项目。</h1>
       <p class="article-hero__body">
         服务能力页用来沉淀你当前这套前台项目能承载哪些内容、适合怎么继续扩展，也能作为后面接入真实内容系统前的说明页。
@@ -83,52 +83,19 @@ const capabilityRows = [
 </template>
 
 <style scoped lang="scss">
-.front-page {
-  display: grid;
-  gap: 28px;
-}
-
 .article-hero {
-  margin-top: 110px;
-  padding: 28px;
-  border: 1px solid var(--color-border);
-  border-radius: 30px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(184, 226, 247, 0.16)),
-    rgba(120, 183, 215, 0.12);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-}
-
-.article-hero > p:first-child {
-  margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  background: transparent;
 }
 
 .article-hero h1 {
   margin: 0 0 14px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
   line-height: 1.08;
   font-size: clamp(2.1rem, 4vw, 3.5rem);
-}
-
-.article-hero__body {
-  margin: 0;
-  color: var(--color-text-soft);
 }
 
 .content-section {
   display: grid;
   gap: 20px;
-}
-
-@media (max-width: 760px) {
-  .article-hero {
-    padding: 20px;
-  }
 }
 </style>

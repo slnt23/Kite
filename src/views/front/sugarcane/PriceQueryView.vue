@@ -179,11 +179,6 @@ const filteredRows = computed(() =>
 </template>
 
 <style scoped lang="scss">
-.front-page {
-  display: grid;
-  gap: 28px;
-}
-
 .price-hero {
   position: relative;
   display: grid;
@@ -222,7 +217,7 @@ const filteredRows = computed(() =>
 
 .price-hero__content > p:first-child {
   margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -231,7 +226,7 @@ const filteredRows = computed(() =>
 
 .price-hero__content h1,
 .price-hero__content h2 {
-  color: var(--color-text);
+  color: #ffffff;
 }
 
 .price-hero__content h1 {
@@ -249,7 +244,7 @@ const filteredRows = computed(() =>
 .price-hero__summary {
   max-width: 62ch;
   margin: 18px auto 0;
-  color: var(--color-text-soft);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .price-panel {
@@ -268,7 +263,7 @@ const filteredRows = computed(() =>
 
 .price-panel__header h3 {
   margin: 0;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .price-panel__badge {
@@ -289,7 +284,7 @@ const filteredRows = computed(() =>
 }
 
 .price-filters span {
-  color: var(--color-text);
+  color: var(--color-text-deep);
   font-weight: 600;
 }
 
@@ -300,7 +295,7 @@ const filteredRows = computed(() =>
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.08);
-  color: var(--color-text);
+  color: var(--color-text-deep);
   outline: none;
 }
 
@@ -320,17 +315,17 @@ const filteredRows = computed(() =>
 
 .price-table__head {
   background: rgba(255, 255, 255, 0.06);
-  color: rgba(245, 251, 255, 0.9);
+  color: var(--color-text-deep);
   font-weight: 700;
 }
 
 .price-table__row {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 .price-table__row strong {
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .price-table__trend--down {
@@ -353,11 +348,11 @@ const filteredRows = computed(() =>
 .metric-card p,
 .metric-card span {
   margin: 0;
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 .metric-card strong {
-  color: var(--color-text);
+  color: var(--color-text-deep);
   font-size: 2rem;
 }
 

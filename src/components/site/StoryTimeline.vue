@@ -38,19 +38,19 @@ defineProps({
 }
 
 .timeline__year {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-deep);
   font-weight: 800;
   letter-spacing: 0.1em;
 }
 
 .timeline__content h3 {
   margin: 0 0 10px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .timeline__content p {
   margin: 0;
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 760px) {

@@ -40,16 +40,16 @@ defineProps({
 
 .capability-table__row--head {
   border-top: 0;
-  color: rgba(245, 251, 255, 0.9);
+  color: var(--color-text-deep);
   font-weight: 700;
 }
 
 .capability-table strong {
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .capability-table span {
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 960px) {

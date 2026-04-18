@@ -44,12 +44,12 @@ defineProps({
 
 .feature-card h3 {
   margin: 0 0 12px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .feature-card p:last-child {
   margin: 0;
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 960px) {

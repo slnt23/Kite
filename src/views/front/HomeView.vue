@@ -113,10 +113,9 @@ const featureItems: FeatureItem[] = [
 </template>
 
 <style scoped lang="scss">
-/* 共用主题变量与可复用样式见 src/style.scss：content-stack */
 .front-page {
   display: grid;
-  gap: 28px;
+  gap: 42px;
 }
 
 .home-hero {
@@ -140,100 +139,99 @@ const featureItems: FeatureItem[] = [
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(1.06) brightness(0.78);
+  filter: saturate(1.02) brightness(0.9);
 }
 
 .home-hero__overlay {
   background:
-    linear-gradient(180deg, rgba(3, 17, 39, 0.36), rgba(6, 24, 50, 0.72)),
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.08), transparent 44%);
+    linear-gradient(180deg, rgba(10, 23, 35, 0.48), rgba(10, 23, 35, 0.62)),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 46%);
 }
 
 .home-hero__glow {
-  background:
-    radial-gradient(circle at center, rgba(154, 226, 255, 0.26), transparent 34%),
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 28%);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.22), transparent 34%);
 }
 
 .home-hero__content {
   position: relative;
   z-index: 1;
-  width: min(980px, calc(100% - 24px));
+  width: min(1080px, calc(100% - 120px));
   text-align: center;
 }
 
 .home-hero__content > p:first-child {
-  margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  margin: 0 0 16px;
+  color: rgba(246, 251, 255, 0.95);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
 .home-hero h1,
 .home-hero h2 {
-  color: var(--color-text);
+  color: #ffffff;
 }
 
 .home-hero h1 {
   margin: 0;
-  font-size: clamp(4rem, 8vw, 7.4rem);
-  line-height: 0.95;
-  letter-spacing: 0.12em;
+  font-size: clamp(3.4rem, 8vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: 0.11em;
 }
 
 .home-hero h2 {
-  max-width: 18ch;
-  margin: 18px auto 0;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.06;
+  max-width: 22ch;
+  margin: 22px auto 0;
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  line-height: 1.24;
+  font-weight: 500;
 }
 
 .home-hero__summary {
-  max-width: 60ch;
-  margin: 22px auto 0;
-  color: var(--color-text-soft);
-  font-size: 1.06rem;
+  max-width: 64ch;
+  margin: 30px auto 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
 }
 
 .home-hero__scroll {
   position: absolute;
-  bottom: 36px;
+  bottom: 34px;
   left: 50%;
   z-index: 1;
   display: grid;
   justify-items: center;
-  gap: 12px;
+  gap: 10px;
   transform: translateX(-50%);
 }
 
 .home-hero__scroll span {
   width: 1px;
-  height: 72px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0));
+  height: 62px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
 }
 
 .home-hero__scroll small {
-  color: rgba(248, 253, 255, 0.84);
+  color: rgba(248, 253, 255, 0.93);
   letter-spacing: 0.2em;
 }
 
-.content-section {
-  padding: 0 0 8px;
-}
-
 @media (max-width: 760px) {
+  .front-page {
+    gap: 30px;
+  }
+
   .home-hero__content {
-    width: min(100% - 20px, 980px);
+    width: min(100% - 28px, 980px);
   }
 
   .home-hero h1 {
-    font-size: clamp(3.2rem, 18vw, 5rem);
+    font-size: clamp(3rem, 17vw, 4.8rem);
   }
 
   .home-hero h2 {
-    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    font-size: clamp(1.3rem, 7vw, 2.1rem);
   }
 }
 </style>

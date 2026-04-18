@@ -195,18 +195,6 @@ const closeDialog = () => {
   overflow: hidden;
   padding: 50px;
 
-  //这里是统一圆角的，但是都没有起作用，/* 统一 Element Plus 圆角为 10px */
-  :root{
-    --el-border-radius-base: 10px;
-  }
-
-  //:deep(:root) {
-  //  --el-border-radius-base: 12px;     /* 修改为您想要的圆角值 */
-  //  --el-border-radius-small: 6px;     /* 可同时调整小圆角 */
-  //  --el-border-radius-round: 20px;    /* 大圆角（如某些按钮） */
-  //}
-
-  /* 清除 Element Plus 默认内边距 */
   :deep(.el-dialog__body) {
     padding: 0 !important;
   }
@@ -218,25 +206,22 @@ const closeDialog = () => {
     flex-direction: row;
 
     .main-panel {
-      // width: 100%; 移除，因为现在动态设置
-
       &:first-child {
         border-right: 1px solid #ccc;
       }
 
       &.user-mode {
-        flex-direction: row; /* 用户登录：左图片，右表单 */
+        flex-direction: row;
       }
 
       &.admin-mode {
-        flex-direction: row-reverse; /* 管理员登录：左表单，右图片 */
+        flex-direction: row-reverse;
       }
 
       .form-panel {
         text-align: center;
-        width: 100%; // 占满整个面板
+        width: 100%;
         padding: 20px;
-        //margin: 50px;
 
         h3 {
           margin-bottom: 20px;
@@ -244,36 +229,31 @@ const closeDialog = () => {
         }
 
         .form-header {
-          // 样式 for dialog-header，如果需要可以添加
           padding: 40px;
           text-align: center;
 
           .tabs {
-
             :deep(.el-tabs__nav) {
               border: none;
               background: transparent;
-              margin: 0 auto; /* 辅助居中 */
+              margin: 0 auto;
             }
 
-            /* 让 Tabs 内容整体居中，不占满右侧 */
             :deep(.el-tabs__nav-wrap),
             :deep(.el-tabs__nav-scroll) {
               display: flex;
               justify-content: center;
             }
 
-            /* 每个 Tab 项样式 */
             :deep(.el-tabs__item) {
-              padding: 0 32px 16px; /* 适当加大左右间距，使两个选项更均衡 */
-              font-size: 18px; /* 加大字体 */
-              color: #303133; /* 默认黑色 */
+              padding: 0 32px 16px;
+              font-size: 18px;
+              color: #303133;
               background: transparent;
               border: none;
               position: relative;
               transition: color 0.3s;
 
-              /* 两个 Tab 之间添加竖线分隔 */
               &:not(:last-child)::after {
                 content: '';
                 position: absolute;
@@ -281,11 +261,10 @@ const closeDialog = () => {
                 top: 50%;
                 transform: translateY(-50%);
                 width: 1px;
-                height: 18px; /* 加大竖线高度 */
+                height: 18px;
                 background-color: #dcdfe6;
               }
 
-              /* 选中状态：蓝色 + 加粗 */
               &.is-active {
                 color: #409eff;
                 font-weight: 500;
@@ -296,9 +275,8 @@ const closeDialog = () => {
               }
             }
 
-            /* 关键：去掉蓝色的滑动横条（active-bar） */
             :deep(.el-tabs__active-bar) {
-              display: none !important; /* 彻底隐藏下划线 */
+              display: none !important;
             }
           }
         }
@@ -306,9 +284,8 @@ const closeDialog = () => {
         .form-body {
           padding: 5px 40px;
           text-align: center;
-          font-size: 16px; /* 加大字体 */
+          font-size: 16px;
 
-          /* 加大表单组件 */
           :deep(.el-form-item__label) {
             font-size: 16px;
             font-weight: 500;
@@ -333,14 +310,14 @@ const closeDialog = () => {
             width: 100%;
 
             .email-input {
-              flex: 1; /* 输入框占满剩余空间 */
+              flex: 1;
             }
           }
 
           .form-button-group {
             display: flex;
             gap: 12px;
-            margin: 0 0 0;
+            margin: 0;
 
             .form-button {
               flex: 1;
@@ -359,29 +336,19 @@ const closeDialog = () => {
           .el-input {
             width: 100%;
           }
-
-          .el-button {
-            // 按钮样式，如果需要
-          }
         }
 
         .error-message {
           color: #f56c6c;
           margin: 0 0 16px;
         }
-
-        .el-button {
-          // 登录按钮样式
-        }
       }
 
       .image-panel {
         text-align: center;
-        width: 100%; // 占满整个面板
+        width: 100%;
         padding: 75px;
-        //margin: 20px;
         border-radius: 10px;
-        //border: 1px solid #000000;
 
         img {
           max-width: 100%;
@@ -390,12 +357,9 @@ const closeDialog = () => {
         }
       }
     }
-
   }
 
-
   .dialog-footer {
-    //font-size: 80%;
     text-align: center;
     margin-top: 10px;
   }
@@ -416,5 +380,4 @@ const closeDialog = () => {
     }
   }
 }
-
 </style>

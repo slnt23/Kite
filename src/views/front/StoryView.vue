@@ -26,7 +26,7 @@ const timeline = [
 <template>
   <div class="front-page front-page--article">
     <section class="article-hero">
-      <p>Brand Story</p>
+      <p class="eyebrow-label">Brand Story</p>
       <h1>一个成熟的前台，不只是漂亮，而是能承载你未来的方向。</h1>
       <p class="article-hero__body">
         品牌故事页延续了模板里的通用内页结构，但内容上切换成更适合个人网站的表达方式，用来解释你在做什么、为什么做、未来会走向哪里。
@@ -68,42 +68,15 @@ const timeline = [
 </template>
 
 <style scoped lang="scss">
-.front-page {
-  display: grid;
-  gap: 28px;
-}
-
 .article-hero {
-  margin-top: 110px;
-  padding: 28px;
-  border: 1px solid var(--color-border);
-  border-radius: 30px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(184, 226, 247, 0.16)),
-    rgba(120, 183, 215, 0.12);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-}
-
-.article-hero > p:first-child {
-  margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  background: transparent;
 }
 
 .article-hero h1 {
   margin: 0 0 14px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
   line-height: 1.08;
   font-size: clamp(2.1rem, 4vw, 3.5rem);
-}
-
-.article-hero__body {
-  margin: 0;
-  color: var(--color-text-soft);
 }
 
 .content-section {
@@ -125,11 +98,8 @@ const timeline = [
   overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: 30px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(184, 226, 247, 0.16)),
-    rgba(120, 183, 215, 0.12);
+  background: transparent;
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
 }
 
 .story-columns__panel img {
@@ -144,12 +114,12 @@ const timeline = [
 
 .story-columns__panel h2 {
   margin: 0 0 12px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .story-columns__panel p {
   margin: 0;
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 960px) {
@@ -159,7 +129,6 @@ const timeline = [
 }
 
 @media (max-width: 760px) {
-  .article-hero,
   .story-columns__panel div {
     padding: 20px;
   }

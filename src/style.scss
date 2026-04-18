@@ -1,34 +1,54 @@
+
+
+/* Global design tokens and baseline styles */
+
 :root {
-  font-family:
-    'Avenir Next',
-    'PingFang SC',
-    'Noto Sans SC',
-    'Microsoft YaHei',
-    sans-serif;
-  color: #eff7fb;
+  --el-border-radius-base: 10px;
+
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 16px;
+
+  --color-primary: #2f6f94;
+  --color-primary-strong: #204e6a;
+  --color-accent: #f5f9fc;
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface-strong: rgba(244, 248, 252, 0.92);
+  --color-surface-soft: rgba(255, 255, 255, 0.52);
+  --color-border: rgba(28, 54, 72, 0.14);
+
+  --color-text: #111111;
+  --color-text-soft: #2f2f2f;
+  --color-text-deep: #000000;
+  --color-muted-deep: #3f3f3f;
+
+  --shadow-soft: 0 18px 48px rgba(27, 44, 57, 0.08);
+  --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
+
+  --shell-width: min(1320px, calc(100% - 64px));
+  --shell-width-mobile: min(1320px, calc(100% - 28px));
+
+  --font-family-base: 'Avenir Next', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  font-family: var(--font-family-base), serif;
+  color: var(--color-text-deep);
   background:
-    radial-gradient(circle at top, rgba(188, 220, 236, 0.24), transparent 24%),
-    radial-gradient(circle at right top, rgba(116, 168, 196, 0.18), transparent 28%),
-    linear-gradient(180deg, #d7e0e7 0%, #bccbd6 30%, #aebfc9 62%, #8ea5b4 100%);
+    radial-gradient(circle at top left, rgba(220, 233, 243, 0.42), transparent 40%),
+    linear-gradient(180deg, #fbfdff 0%, #f4f8fb 46%, #edf3f7 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
-  --color-primary: #8ecdee;
-  --color-primary-strong: #5aa8d4;
-  --color-accent: #f7fbff;
-  --color-surface: rgba(207, 222, 232, 0.56);
-  --color-surface-strong: rgba(96, 119, 136, 0.28);
-  --color-surface-soft: rgba(255, 255, 255, 0.36);
-  --color-border: rgba(255, 255, 255, 0.52);
-  --color-text: #f5fbff;
-  --color-text-soft: rgba(236, 244, 249, 0.8);
-  --color-text-deep: #243847;
-  --color-muted-deep: #667987;
-  --shadow-soft: 0 28px 80px rgba(64, 86, 101, 0.18);
-  --shell-width: min(1320px, calc(100% - 20px));
-  --shell-width-mobile: min(1320px, calc(100% - 20px));
+  line-height: 1.7;
 }
 
 *,
@@ -49,6 +69,11 @@ body {
   min-height: 100vh;
   color: var(--color-text-deep);
   background-attachment: fixed;
+  font-weight: var(--font-weight-normal);
+}
+
+body.body-chat-lock {
+  overflow: hidden;
 }
 
 a,
@@ -78,16 +103,14 @@ img {
 
 .glass-panel {
   border: 1px solid var(--color-border);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(194, 214, 225, 0.14)),
-    rgba(129, 151, 165, 0.12);
+  background: transparent;
   box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
+  backdrop-filter: none;
 }
 
 .eyebrow-label {
   margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
+  color: #2d4352;
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -96,7 +119,7 @@ img {
 
 .content-stack {
   display: grid;
-  gap: 20px;
+  gap: 28px;
 }
 
 body.body-home-scrollsnap,
@@ -104,22 +127,31 @@ html.body-home-scrollsnap {
   scroll-snap-type: y mandatory;
 }
 
-/* 隐藏浏览器默认滚动条（最右侧滑动条），但仍支持鼠标滚轮/触控板滚动 */
-html {
-  scrollbar-width: none;           /* Firefox */
-  -ms-overflow-style: none;        /* IE 和 Edge */
+.content-section {
+  padding: 12px 0 24px;
 }
 
-html::-webkit-scrollbar {
-  display: none;                   /* Chrome、Safari、Edge（新版） */
+.front-page {
+  display: grid;
+  gap: 28px;
 }
 
-/* 可选：如果只想针对 body 应用 */
-body {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.article-hero {
+  margin-top: 110px;
+  padding: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 30px;
+  background: transparent;
+  box-shadow: var(--shadow-soft);
 }
 
-body::-webkit-scrollbar {
-  display: none;
+.article-hero__body {
+  margin: 0;
+  color: var(--color-muted-deep);
+}
+
+@media (max-width: 760px) {
+  .article-hero {
+    padding: 20px;
+  }
 }

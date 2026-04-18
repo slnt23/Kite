@@ -20,7 +20,7 @@ defineProps({
       </div>
 
       <div class="spotlight-card__content">
-        <p>{{ item.eyebrow }}</p>
+        <p class="eyebrow-label">{{ item.eyebrow }}</p>
         <h3>{{ item.title }}</h3>
         <p class="spotlight-card__description">{{ item.description }}</p>
       </div>
@@ -61,23 +61,14 @@ defineProps({
   padding: 28px;
 }
 
-.spotlight-card__content > p:first-child {
-  margin: 0 0 14px;
-  color: rgba(245, 251, 255, 0.86);
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
 .spotlight-card h3 {
   margin: 0 0 12px;
-  color: var(--color-text);
+  color: var(--color-text-deep);
 }
 
 .spotlight-card__description {
   margin: 0;
-  color: var(--color-text-soft);
+  color: var(--color-muted-deep);
 }
 
 @media (max-width: 960px) {
