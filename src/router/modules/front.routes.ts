@@ -21,6 +21,9 @@ const frontRoutes = [
         path: 'price-query',
         name: 'front-price-query',
         component: PriceLookupView,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'story',
@@ -42,14 +45,17 @@ const frontRoutes = [
         path: 'ai-chat',
         name: 'front-ai-chat',
         component: AiChatView,
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'profile',
         name: 'front-profile',
         component: ProfileManagementView,
-        /* meta: {
+        meta: {
           requiresAuth: true,
-        }, */
+        },
       },
     ],
   },

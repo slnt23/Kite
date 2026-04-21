@@ -91,21 +91,15 @@ const featureItems: FeatureItem[] = [
     </section>
 
     <section class="content-section content-stack">
-      <SectionIntro
-        eyebrow="Template Translation"
-        title="保留模板气质，但重建成更适合个人站点的结构。"
-        description="首页依然保持清晰的章节推进方式，不过每个章节都围绕你的个人品牌、项目表达和长期扩展能力来设计。"
-      />
+      <SectionIntro eyebrow="Template Translation" title="保留模板气质，但重建成更适合个人站点的结构。"
+        description="首页依然保持清晰的章节推进方式，不过每个章节都围绕你的个人品牌、项目表达和长期扩展能力来设计。" />
 
       <SpotlightSection :items="spotlightItems" />
     </section>
 
     <section class="content-section content-stack">
-      <SectionIntro
-        eyebrow="Why This Works"
-        title="这套前台更像一个可进化的展示系统。"
-        description="它既可以承载现在的官网首页，也能继续长成博客、项目中心、实验室和更多兴趣模块的入口。"
-      />
+      <SectionIntro eyebrow="Why This Works" title="这套前台更像一个可进化的展示系统。"
+        description="它既可以承载现在的官网首页，也能继续长成博客、项目中心、实验室和更多兴趣模块的入口。" />
 
       <FeatureGrid :items="featureItems" />
     </section>
@@ -159,7 +153,7 @@ const featureItems: FeatureItem[] = [
   text-align: center;
 }
 
-.home-hero__content > p:first-child {
+.home-hero__content>p:first-child {
   margin: 0 0 16px;
   color: rgba(246, 251, 255, 0.95);
   font-size: 0.8rem;

@@ -1,8 +1,9 @@
-import request from '../request/index'
+// import service from '../request/index'
+import service from '../request/index'
 
 // 登录 API
 export const loginApi = (data: any) => {
-  return request({
+  return service({
     url: '/api/login',
     method: 'post',
     data
@@ -11,16 +12,17 @@ export const loginApi = (data: any) => {
 
 // 注册 API
 export const registerApi = (data: any) => {
-  return request({
-    url: '/api/register',
-    method: 'post',
-    data
-  })
+  // return service({
+  //   url: '/api/register',
+  //   method: 'post',
+  //   data
+  // })
+  return service.post('/api/register', data)
 }
 
 // 发送验证码 API
 export const sendCodeApi = (data: any) => {
-  return request({
+  return service({
     url: '/api/send-code',
     method: 'post',
     data
@@ -29,7 +31,7 @@ export const sendCodeApi = (data: any) => {
 
 // 获取用户信息 API
 export const getUserInfoApi = () => {
-  return request({
+  return service({
     url: '/api/user/info',
     method: 'get'
   })

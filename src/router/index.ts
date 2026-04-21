@@ -1,16 +1,17 @@
-﻿// src/router/index.js
+﻿
+
 import { createRouter, createWebHistory } from 'vue-router'
-
-// 使用 @ 路径别名 + 正确的文件名
 import { isAuthenticated, getCurrentUser } from '@/utils/auth.js'
-
 import adminRoutes from './modules/admin.routes.js'
 import frontRoutes from './modules/front.routes.js'
 
+
+// 创建路由实例
 const router = createRouter({
   history: createWebHistory(),
   routes: [...frontRoutes, ...adminRoutes],
 
+  // 滚动行为：保存位置、锚点或回到顶部
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
     if (to.hash) {

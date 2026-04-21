@@ -131,7 +131,6 @@ onBeforeUnmount(() => {
         <!--        后续可以追加背景音乐按钮-->
         <!--        </button>-->
         <button class="site-header__button site-header__button--menu" type="button" @click="toggleMenu">
-          <!--          {{ menuOpen ? '关闭 MENU' : 'MENU ' }}-->
           LET'S MENU
         </button>
         <button

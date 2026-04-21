@@ -12,3 +12,24 @@
 
 - `index.js`
   作为统一导出入口，方便页面层按模块引用。
+  
+# Request 目录说明
+
+这里后续用于放置 axios 基础封装，例如：
+
+- `http.js`
+- `interceptors.js`
+- `status-map.js`
+
+当前仅预留目录。
+
+# API Modules 目录说明
+
+这里后续按业务模块拆分接口文件，例如：
+
+- `article.api.js`
+- `project.api.js`
+- `user.api.js`
+- `setting.api.js`
+
+当前仅预留目录。
