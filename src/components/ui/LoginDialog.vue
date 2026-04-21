@@ -191,7 +191,7 @@ const closeDialog = () => {
 
 <style scoped lang="scss">
 .login-dialog {
-  border-radius: 10px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
   padding: 50px;
 
@@ -294,13 +294,13 @@ const closeDialog = () => {
           :deep(.el-input__inner) {
             height: 44px;
             font-size: 16px;
-            border-radius: 10px;
+            border-radius: var(--radius-ui);
           }
 
           :deep(.el-button) {
             height: 44px;
             font-size: 16px;
-            border-radius: 10px;
+            border-radius: var(--radius-ui);
           }
 
           .email-input-group {
@@ -348,7 +348,7 @@ const closeDialog = () => {
         text-align: center;
         width: 100%;
         padding: 75px;
-        border-radius: 10px;
+        border-radius: var(--border-radius-md);
 
         img {
           max-width: 100%;
@@ -380,4 +380,5 @@ const closeDialog = () => {
     }
   }
 }
+
 </style>

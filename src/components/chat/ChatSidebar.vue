@@ -56,7 +56,7 @@ const emit = defineEmits<{
   width: 100%;
   padding: 10px 14px;
   border: 1px solid #d8d8d8;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   background: #ffffff;
   color: #111111;
   text-align: left;
@@ -75,7 +75,7 @@ const emit = defineEmits<{
   gap: 4px;
   padding: 10px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   background: #ffffff;
   text-align: left;
 }

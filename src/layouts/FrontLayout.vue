@@ -20,8 +20,9 @@ let removeAuthListener = () => {
 }
 
 const isHome = computed(() => route.path === '/')
+const isChatRoute = computed(() => route.path === '/ai-chat')
 const showCompactHeader = computed(() => !isHome.value || isScrolled.value)
-const showFooter = computed(() => !isHome.value && route.path !== '/crow-chat')
+const showFooter = computed(() => !isHome.value && route.path !== '/ai-chat')
 
 // 菜单选项
 const menuItems = computed(() => [
@@ -53,7 +54,7 @@ const menuItems = computed(() => [
   {
     title: 'AI聊天',
     subtitle: '进入聊天界面入口，查看对话交互样式',
-    path: '/crow-chat',
+    path: '/ai-chat',
     image: menuImageAiChat,
   },
 ])
@@ -103,7 +104,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="site-shell" :class="{ 'site-shell--menu-open': menuOpen }">
+  <div
+      class="site-shell"
+      :class="{ 'site-shell--menu-open': menuOpen, 'site-shell--chat': isChatRoute }"
+  >
     <header
         class="site-header"
         :class="{
@@ -111,7 +115,6 @@ onBeforeUnmount(() => {
         'site-header--compact': showCompactHeader,
       }"
     >
-      <!--      标签之中是不可以加注释的，-->
       <RouterLink
           class="site-brand"
           to="/"
@@ -170,13 +173,19 @@ onBeforeUnmount(() => {
   padding-bottom: 80px;
 }
 
+.site-shell--chat {
+  width: 100%;
+  max-width: none;
+  padding-bottom: 0;
+}
+
 .site-main {
   width: 100%;
 }
 
 .site-header {
   position: fixed;
-  top: 18px;
+  top: var(--site-header-offset);
   left: 50%;
   z-index: 40;
   width: var(--shell-width);
@@ -185,18 +194,19 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  border: 1px solid transparent;
-  border-radius: 16px;
+  min-height: var(--site-header-height);
+  border-radius: var(--radius-pill);
   transition: background 220ms ease,
   border-color 220ms ease,
   opacity 220ms ease,
   transform 220ms ease;
 }
 
+
 .site-header--compact {
   background: transparent;
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-soft);
+  border-color: transparent;
+  box-shadow: none;
   backdrop-filter: none;
 }
 
@@ -239,7 +249,7 @@ onBeforeUnmount(() => {
   justify-content: center;
   min-width: 110px;
   padding: 9px 20px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 500;
   overflow: hidden;
   transition: transform 180ms ease,
@@ -312,10 +322,8 @@ onBeforeUnmount(() => {
   }
 
   .site-header {
-    top: 10px;
     width: var(--shell-width-mobile);
     padding: 10px 12px;
-    border-radius: 14px;
   }
 
   .site-brand strong {

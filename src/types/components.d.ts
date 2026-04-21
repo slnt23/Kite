@@ -12,9 +12,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CapabilityTable: typeof import('./../components/site/CapabilityTable.vue')['default']
-    ChatComposer: typeof import('@/components/chat/ChatComposer.vue')['default']
-    ChatSidebar: typeof import('@/components/chat/ChatSidebar.vue')['default']
-    ChatStream: typeof import('@/components/chat/ChatStream.vue')['default']
+    ChatComposer: typeof import('./../components/chat/ChatComposer.vue')['default']
+    ChatSidebar: typeof import('./../components/chat/ChatSidebar.vue')['default']
+    ChatStream: typeof import('./../components/chat/ChatStream.vue')['default']
     EditorialWorkspace: typeof import('./../components/management/EditorialWorkspace.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']

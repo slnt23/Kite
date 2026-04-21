@@ -1,6 +1,6 @@
 ﻿import FrontLayout from '../../layouts/FrontLayout.vue'
 import CapabilitiesView from '../../views/front/CapabilitiesView.vue'
-import AiChatView from '../../views/front/crow/AiChatView.vue'
+import AiChatView from '@/views/front/ai/AiChatView.vue'
 import PriceLookupView from '../../views/front/sugarcane/PriceLookupView.vue'
 import ProfileManagementView from '../../views/front/profile/ProfileManagementView.vue'
 import StoryView from '../../views/front/StoryView.vue'
@@ -39,17 +39,17 @@ const frontRoutes = [
         },
       },
       {
-        path: 'crow-chat',
-        name: 'front-crow-chat',
+        path: 'ai-chat',
+        name: 'front-ai-chat',
         component: AiChatView,
       },
       {
         path: 'profile',
         name: 'front-profile',
         component: ProfileManagementView,
-        meta: {
+        /* meta: {
           requiresAuth: true,
-        },
+        }, */
       },
     ],
   },

@@ -179,8 +179,11 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .chat-page {
-  height: calc(100vh - 86px);
-  padding-top: 86px;
+  height: 100vh;
+  padding:
+    calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap))
+    var(--chat-edge-gap)
+    var(--chat-edge-gap);
   overflow: hidden;
 }
 
@@ -189,9 +192,10 @@ onBeforeUnmount(() => {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
   border: 1px solid #e5e5e5;
-  border-radius: 16px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
   background: #ffffff;
+  box-shadow: var(--shadow-soft);
 }
 
 .chat-workspace__main {
@@ -226,8 +230,7 @@ onBeforeUnmount(() => {
 
 @media (max-width: 760px) {
   .chat-page {
-    height: calc(100vh - 74px);
-    padding-top: 74px;
+    padding-top: calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap));
   }
 
   .chat-workspace__messages {

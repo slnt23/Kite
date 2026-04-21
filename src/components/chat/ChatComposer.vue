@@ -43,7 +43,7 @@ const onKeydown = (event: KeyboardEvent) => {
   max-height: 160px;
   padding: 12px 14px;
   border: 1px solid #d8d8d8;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   background: #ffffff;
   color: #111111;
   resize: vertical;
@@ -58,7 +58,7 @@ const onKeydown = (event: KeyboardEvent) => {
   min-width: 88px;
   height: 42px;
   padding: 0 16px;
-  border-radius: 10px;
+  border-radius: var(--radius-pill);
   background: #111111;
   color: #ffffff;
   font-weight: 600;
