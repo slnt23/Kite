@@ -35,11 +35,11 @@
   --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
 
   /* 页面内容与导航安全留白 */
-  --page-edge-gap: 10px;
-  --shell-width: min(1320px, calc(100% - (var(--page-edge-gap) * 1)));
+  --page-edge-gap: 20px; // 页面内容与浏览器边缘的最小距离
+  --shell-width: min(13200px, calc(100% - (var(--page-edge-gap) * 1)));
   --shell-width-mobile: min(1320px, calc(100% - (var(--page-edge-gap) * 2)));
-  --site-header-offset: 18px;
-  --site-header-height: 58px;
+  --site-header-offset: 0px; // 顶部预留空间（如有固定头部时设置为头部高度）
+  --site-header-height: 54px; // 头部高度（如有固定头部时设置为头部实际高度）
   --chat-nav-gap: 18px;
   --chat-edge-gap: var(--page-edge-gap);
 

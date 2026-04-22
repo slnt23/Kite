@@ -22,7 +22,7 @@ const frontRoutes = [
         name: 'front-price-query',
         component: PriceLookupView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -30,7 +30,7 @@ const frontRoutes = [
         name: 'front-story',
         component: StoryView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -38,7 +38,7 @@ const frontRoutes = [
         name: 'front-capabilities',
         component: CapabilitiesView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -46,7 +46,7 @@ const frontRoutes = [
         name: 'front-ai-chat',
         component: AiChatView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -54,7 +54,7 @@ const frontRoutes = [
         name: 'front-profile',
         component: ProfileManagementView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
     ],
