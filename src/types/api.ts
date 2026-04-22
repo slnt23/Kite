@@ -15,19 +15,19 @@ export interface LoginParams {
 
 export interface LoginResult {
   success: boolean
-  session?: UserSession
+  session?: UserInfo
   message?: string
 }
 
-export interface UserSession {
-  token: string
-  role: 'admin' | 'user'
-  roleLabel: string
-  displayName: string
-  loginMode: 'password' | 'code'
-  loginModeLabel: string
-  loginAt: string
-}
+// export interface UserSession {
+//   token: string
+//   role: 'admin' | 'user'
+//   roleLabel: string
+//   displayName: string
+//   loginMode: 'password' | 'code'
+//   loginModeLabel: string
+//   loginAt: string
+// }
 
 export interface UserInfo {
   token: string
@@ -39,17 +39,17 @@ export interface UserInfo {
   loginAt: string
 }
 
-export interface DemoCredentials {
-  admin: {
-    roleLabel: string
-    displayName: string
-    password: string
-    code: string
-  }
-  user: {
-    roleLabel: string
-    displayName: string
-    password: string
-    code: string
-  }
-}
+// export interface DemoCredentials {
+//   admin: {
+//     roleLabel: string
+//     displayName: string
+//     password: string
+//     code: string
+//   }
+//   user: {
+//     roleLabel: string
+//     displayName: string
+//     password: string
+//     code: string
+//   }
+// }
