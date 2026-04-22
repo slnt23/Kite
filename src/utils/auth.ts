@@ -1,14 +1,19 @@
 ﻿
 /**
- * 登录鉴权工具模块，提供用户登录、登出、会话管理等功能
+ * 登录鉴权工具模块 - 与后端API交互的真实认证系统
+ * 提供用户登录、登出、会话管理等功能
  */
 
-import type { UserSession, UserInfo, LoginParams, LoginResult } from '@/types'
+import type { UserSession, UserInfo, LoginResult } from '@/types'
+import { loginApi, getUserInfoApi } from '@/api/modules/auth'
 
 // ==================== 常量定义 ====================
 
 /** 本地存储中用于保存认证会话的键名 */
 const AUTH_STORAGE_KEY = 'kite_front_auth_session'
+
+/** 本地存储中用于保存用户token的键名 */
+const TOKEN_STORAGE_KEY = 'kite_front_token'
 
 /** 认证状态变化时触发的事件名称 */
 const AUTH_CHANGE_EVENT = 'kite-auth-change'
@@ -21,29 +26,6 @@ export const AUTH_LOGIN_MODE = {
 
 /** 登录方式类型定义 */
 type LoginMode = typeof AUTH_LOGIN_MODE[keyof typeof AUTH_LOGIN_MODE]
-
-// ==================== 演示数据 ====================
-
-/**
- * 演示用的用户凭据数据
- * 在实际项目中，这些数据应该从后端API获取
- */
-const DEMO_CREDENTIALS = {
-  admin: {
-    role: 'admin' as const,        // 管理员角色
-    roleLabel: '管理员',           // 角色显示名称
-    displayName: '系统管理员',      // 用户显示名称
-    password: 'admin@kite2026',    // 管理员密码
-    code: '880088',                // 管理员验证码
-  },
-  user: {
-    role: 'user' as const,         // 普通用户角色
-    roleLabel: '普通用户',         // 角色显示名称
-    displayName: '体验用户',       // 用户显示名称
-    password: 'user@kite2026',     // 用户密码
-    code: '202668',                // 用户验证码
-  },
-}
 
 // ==================== 内部工具函数 ====================
 
@@ -104,7 +86,10 @@ export const getCurrentUser = (): UserInfo | null => {
  * 检查用户是否已认证（是否有有效的token）
  * @returns 是否已认证
  */
-export const isAuthenticated = (): boolean => Boolean(readSession()?.token)
+export const isAuthenticated = (): boolean => {
+  const token = isClient() ? window.localStorage.getItem(TOKEN_STORAGE_KEY) : null
+  return Boolean(token)
+}
 
 /**
  * 检查当前用户是否为管理员
@@ -121,91 +106,138 @@ export const getDefaultRouteForUser = (user: UserInfo | null): string =>
   user?.role === 'admin' ? 'admin-dashboard' : 'front-profile'
 
 /**
+ * 获取用户信息 - 从后端API获取当前用户信息
+ * @returns 用户信息对象或null
+ */
+/* export const fetchUserInfo = async (): Promise<UserInfo | null> => {
+  try {
+    const response = await getUserInfoApi()
+    
+    // 假设后端返回格式：{ success: true, data: { ...userInfo } }
+    if (response.success) {
+      const user = response.data
+      
+      // 更新本地存储的用户信息
+      const session = readSession()
+      if (session && isClient()) {
+        const updatedSession: UserSession = {
+          ...session,
+          ...user,
+          roleLabel: user.role === 'admin' ? '管理员' : '普通用户'
+        }
+        window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedSession))
+        emitAuthChange()
+        
+        return {
+          token: updatedSession.token,
+          role: updatedSession.role,
+          roleLabel: updatedSession.roleLabel,
+          displayName: updatedSession.displayName,
+          loginMode: updatedSession.loginMode,
+          loginModeLabel: updatedSession.loginModeLabel,
+          loginAt: updatedSession.loginAt,
+        }
+      }
+    }
+  } catch (error) {
+    console.error('获取用户信息失败:', error)
+  }
+  
+  return null
+} */
+
+/**
  * 获取演示用的用户凭据（用于登录界面显示）
- * @returns 演示凭据对象的副本
+ * 保留此函数以保持与现有组件的兼容性
+ * @returns 空的凭据对象（实际项目中应从后端获取）
  */
 export const getDemoCredentials = () => ({
-  admin: { ...DEMO_CREDENTIALS.admin },
-  user: { ...DEMO_CREDENTIALS.user },
+  admin: { 
+    role: 'admin' as const,
+    roleLabel: '管理员',
+    displayName: '系统管理员',
+    password: 'admin@kite2026',
+    code: '880088',
+  },
+  user: { 
+    role: 'user' as const,
+    roleLabel: '普通用户',
+    displayName: '体验用户',
+    password: 'user@kite2026',
+    code: '202668',
+  },
 })
 
 /**
- * 用户登录函数
- * @param params 登录参数对象，包含角色、登录方式和密码/验证码
+ * 用户登录函数 - 与后端API交互
+ * @param loginData 登录参数对象，包含用户名、密码等
  * @returns 登录结果对象，包含成功状态、消息和会话信息
  */
-export const login = ({ role, mode, secret }: LoginParams): LoginResult => {
-  // 根据角色获取对应的凭据信息
-  const candidate = DEMO_CREDENTIALS[role]
-  const trimmedSecret = secret.trim()
-
-  // 验证角色选择
-  if (!candidate) {
-    return { success: false, message: '请选择登录身份。' }
-  }
-
-  // 验证密码/验证码是否为空
-  if (!trimmedSecret) {
-    return {
-      success: false,
-      message: mode === AUTH_LOGIN_MODE.PASSWORD
-        ? '请输入登录密码。'
-        : '请输入登录验证码。',
+/* export const login = async (loginData: any): Promise<LoginResult> => {
+  try {
+    // 调用后端登录API
+    const response = await loginApi(loginData)
+    
+    // 假设后端返回格式：{ success: true, data: { token: 'xxx', user: {...} } }
+    if (response.success) {
+      const { token, user } = response.data
+      
+      // 保存token到本地存储
+      if (isClient()) {
+        window.localStorage.setItem(TOKEN_STORAGE_KEY, token)
+        
+        // 构造会话对象
+        const session: UserSession = {
+          token: token,
+          role: user.role || 'user',
+          roleLabel: user.role === 'admin' ? '管理员' : '普通用户',
+          displayName: user.username || user.displayName || '用户',
+          loginMode: AUTH_LOGIN_MODE.PASSWORD, // 后端登录默认为密码登录
+          loginModeLabel: '密码登录',
+          loginAt: new Date().toISOString(),
+          ...user // 包含后端返回的其他用户信息
+        }
+        
+        // 保存完整会话信息
+        window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session))
+        emitAuthChange()
+        
+        return { success: true, session }
+      }
+    } else {
+      // 登录失败，返回错误信息
+      return { 
+        success: false, 
+        message: response.message || '登录失败，请检查用户名和密码' 
+      }
+    }
+  } catch (error: any) {
+    // 网络错误或API调用失败
+    console.error('登录请求失败:', error)
+    return { 
+      success: false, 
+      message: error.response?.data?.message || '网络错误，请稍后重试' 
     }
   }
-
-  // 根据登录方式获取预期的密码/验证码
-  const expectedSecret =
-    mode === AUTH_LOGIN_MODE.PASSWORD
-      ? candidate.password
-      : mode === AUTH_LOGIN_MODE.CODE
-        ? candidate.code
-        : ''
-
-  // 验证登录方式是否有效
-  if (!expectedSecret) {
-    return { success: false, message: '登录方式无效，请刷新页面后重试。' }
-  }
-
-  // 验证密码/验证码是否正确
-  if (trimmedSecret !== expectedSecret) {
-    return {
-      success: false,
-      message: mode === AUTH_LOGIN_MODE.PASSWORD
-        ? '密码不正确，请检查后重试。'
-        : '验证码不正确，请检查后重试。',
-    }
-  }
-
-  // 登录成功，构造会话对象
-  const session: UserSession = {
-    token: `kite-${role}-${Date.now()}`,  // 生成模拟token
-    role: candidate.role,
-    roleLabel: candidate.roleLabel,
-    displayName: candidate.displayName,
-    loginMode: mode,
-    loginModeLabel: mode === AUTH_LOGIN_MODE.PASSWORD ? '密码登录' : '验证码登录',
-    loginAt: new Date().toISOString(),  // 记录登录时间
-  }
-
-  // 保存会话到本地存储并触发状态更新
-  if (isClient()) {
-    window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session))
-    emitAuthChange()
-  }
-
-  return { success: true, session }
-}
+  
+  return { success: false, message: '未知错误' }
+} */
 
 /**
  * 用户登出函数
  * 清除本地存储中的会话信息并触发认证状态更新
+ * 在实际项目中，可能需要调用后端登出API
  */
 export const logout = (): void => {
   if (isClient()) {
+    // 清除所有认证相关的存储
     window.localStorage.removeItem(AUTH_STORAGE_KEY)
+    window.localStorage.removeItem(TOKEN_STORAGE_KEY)
     emitAuthChange()
   }
+  
+  // 可选：调用后端登出API
+  // logoutApi().catch(console.error)
 }
 
 /**
