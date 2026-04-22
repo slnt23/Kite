@@ -5,7 +5,7 @@
  */
 
 import type { UserSession, UserInfo, LoginResult } from '@/types'
-import { loginApi, getUserInfoApi } from '@/api/modules/auth'
+import { loginApi, getUserInfoApi } from '@/api/modules/auth.api.ts'
 
 // ==================== 常量定义 ====================
 

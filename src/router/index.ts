@@ -1,5 +1,4 @@
 ﻿
-
 import { createRouter, createWebHistory } from 'vue-router'
 import { isAuthenticated, getCurrentUser } from '@/utils/auth.js'
 import adminRoutes from './modules/admin.routes.js'
