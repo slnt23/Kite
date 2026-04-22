@@ -165,7 +165,7 @@ onBeforeUnmount(() => {
           {{ conversations.find((item) => item.id === activeConversationId)?.title || '新会话' }}
         </div>
 
-        <div class="chat-workspace__messages">
+        <div class="chat-workspace__messages u-scrollbar-hidden">
           <ChatStream :messages="activeMessages" :is-typing="isTyping" />
         </div>
 

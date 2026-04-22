@@ -26,7 +26,7 @@ const emit = defineEmits(['close'])
           @click="emit('close')"
         />
 
-        <section class="menu-panel__sheet glass-panel">
+        <section class="menu-panel__sheet glass-panel u-scrollbar-hidden">
           <div class="menu-panel__header">
             <div>
               <p class="eyebrow-label">Navigate</p>
@@ -61,7 +61,7 @@ const emit = defineEmits(['close'])
 </template>
 
 <style scoped lang="scss">
-/* 共用主题变量与可复用样式见 src/style.scss：glass-panel */
+/* 共用主题变量与可复用样式见 src/style/index.scss：glass-panel */
 .menu-panel {
   position: fixed;
   inset: 0;
@@ -87,14 +87,6 @@ const emit = defineEmits(['close'])
   border-radius: 32px;
   background: #ffffff;
   backdrop-filter: blur(18px);
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.menu-panel__sheet::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
 }
 
 .menu-panel__header {

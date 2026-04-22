@@ -23,7 +23,7 @@ const emit = defineEmits<{
       <button type="button" class="chat-sidebar__new" @click="emit('create')">新建会话</button>
     </div>
 
-    <div class="chat-sidebar__list">
+    <div class="chat-sidebar__list u-scrollbar-hidden">
       <button
         v-for="item in conversations"
         :key="item.id"

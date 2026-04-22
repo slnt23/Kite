@@ -1,0 +1,75 @@
+:root {
+  /* 圆角体系 */
+  --radius-pill: 999px;
+  --radius-soft-sm: 16px;
+  --radius-soft-md: 24px;
+  --radius-soft-lg: 32px;
+  --radius-ui: 28px;
+
+  /* Element Plus 全局圆角变量 */
+  --el-border-radius-base: var(--radius-ui);
+  --el-border-radius-small: 18px;
+  --el-border-radius-round: var(--radius-pill);
+  --el-border-radius-circle: 50%;
+
+  /* 语义化圆角变量 */
+  --border-radius-sm: var(--radius-soft-sm);
+  --border-radius-md: var(--radius-soft-md);
+  --border-radius-lg: var(--radius-soft-lg);
+
+  /* 全局主题色 */
+  --color-primary: #2f6f94;
+  --color-primary-strong: #204e6a;
+  --color-accent: #f5f9fc;
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --color-surface-strong: rgba(244, 248, 252, 0.92);
+  --color-surface-soft: rgba(255, 255, 255, 0.52);
+  --color-border: rgba(28, 54, 72, 0.14);
+
+  --color-text: #111111;
+  --color-text-soft: #2f2f2f;
+  --color-text-deep: #000000;
+  --color-muted-deep: #3f3f3f;
+
+  --shadow-soft: 0 18px 48px rgba(27, 44, 57, 0.08);
+  --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
+
+  /* 页面内容与导航安全留白 */
+  --page-edge-gap: 10px;
+  --shell-width: min(1320px, calc(100% - (var(--page-edge-gap) * 1)));
+  --shell-width-mobile: min(1320px, calc(100% - (var(--page-edge-gap) * 2)));
+  --site-header-offset: 18px;
+  --site-header-height: 58px;
+  --chat-nav-gap: 18px;
+  --chat-edge-gap: var(--page-edge-gap);
+
+  --font-family-base: 'Avenir Next', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  font-family: var(--font-family-base), serif;
+  color: var(--color-text-deep);
+  background:
+    radial-gradient(circle at top left, rgba(220, 233, 243, 0.42), transparent 40%),
+    linear-gradient(180deg, #fbfdff 0%, #f4f8fb 46%, #edf3f7 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --site-header-offset: 10px;
+    --site-header-height: 54px;
+    --chat-nav-gap: 14px;
+  }
+}

@@ -18,7 +18,7 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
-/* 共用主题变量与可复用样式见 src/style.scss：glass-panel */
+/* 共用主题变量与可复用样式见 src/style/index.scss：glass-panel */
 .feature-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

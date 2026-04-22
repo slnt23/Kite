@@ -29,7 +29,7 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
-/* 共用主题变量与可复用样式见 src/style.scss：glass-panel */
+/* 共用主题变量与可复用样式见 src/style/index.scss：glass-panel */
 .spotlight-list {
   display: grid;
   gap: 20px;

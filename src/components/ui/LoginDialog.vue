@@ -1,7 +1,7 @@
 <script setup>
-import {ref, computed, reactive} from 'vue'
-import {useRouter} from 'vue-router'
-import {login} from '@/utils/auth.js'
+import { ref, computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { loginApi } from '@/api/modules'
 import loginAdminImage from '@/assets/login/login_admin_1.jpg'
 import loginUserImage from '@/assets/login/login_user_1.jpg'
 
@@ -22,9 +22,7 @@ const showAdmin = ref(false)
 const password = ref('')
 const submitting = ref(false)
 const errorMessage = ref('')
-
 const router = useRouter()
-
 const activeTab = ref('mail')
 
 // 管理员登录表单
@@ -51,9 +49,8 @@ const toggleMode = () => {
 const submitLogin = async () => {
   submitting.value = true
   errorMessage.value = ''
-
   const role = showAdmin.value ? 'admin' : 'user'
-  const result = login({role, mode: 'password', secret: password.value})
+  const result = loginApi({ role, mode: 'password', secret: password.value })
 
   if (!result.success) {
     errorMessage.value = result.message
@@ -80,22 +77,16 @@ const closeDialog = () => {
 </script>
 
 <template>
-  <el-dialog
-      v-model="visible"
-      width="1000px"
-      :show-close="false"
-      @close="closeDialog"
-      class="login-dialog"
-  >
+  <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
     <!-- 自定义关闭按钮 -->
     <button class="login-close-button" @click="closeDialog">×</button>
 
     <div class="dialog-content">
       <!-- 左边：如果 showAdmin 为 true 显示表单，否则显示图片   admin  -->
-      <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin}"
-           :style="{ width: showAdmin ? '60%' : '40%' }">
+      <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin }"
+        :style="{ width: showAdmin ? '60%' : '40%' }">
         <div v-if="showAdmin" class="form-panel">
-<!--          <h2>管理员登录 请保存好密码 后期删掉</h2>-->
+          <!--          <h2>管理员登录 请保存好密码 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
               <el-tab-pane label="邮箱验证码登录" name="mail"></el-tab-pane>
@@ -108,32 +99,32 @@ const closeDialog = () => {
               <el-form-item prop="mail">
                 <div class="email-input-group">
                   <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable></el-input>
-                  <el-button v-if="activeTab==='mail'">发送验证码</el-button>
+                  <el-button v-if="activeTab === 'mail'">发送验证码</el-button>
                 </div>
 
               </el-form-item>
 
               <el-form-item prop="code" v-if="activeTab === 'mail'">
-                <el-input v-model="loginForm.code" clearable placeholder="请输入验证码"/>
+                <el-input v-model="loginForm.code" clearable placeholder="请输入验证码" />
               </el-form-item>
               <el-form-item prop="password" v-else>
-                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码"/>
+                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
               </el-form-item>
-                <el-button class="form-button" type="primary" :loading="submitting" @click="submitLogin">登录</el-button>
+              <el-button class="form-button" type="primary" :loading="submitting" @click="submitLogin">登录</el-button>
             </el-form>
           </div>
 
         </div>
         <div v-else class="image-panel">
-          <img :src="loginAdminImage" alt="管理员登录背景"/>
+          <img :src="loginAdminImage" alt="管理员登录背景" />
         </div>
       </div>
 
       <!-- 右边：如果 showAdmin 为 false 显示表单，否则显示图片  user -->
-      <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin}"
-           :style="{ width: showAdmin ? '40%' : '60%' }">
+      <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin }"
+        :style="{ width: showAdmin ? '40%' : '60%' }">
         <div v-if="!showAdmin" class="form-panel">
-<!--          <h2>欢迎用户登录 后期删掉</h2>-->
+          <!--          <h2>欢迎用户登录 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
               <el-tab-pane label="邮箱验证码登录" name="mail"></el-tab-pane>
@@ -145,12 +136,12 @@ const closeDialog = () => {
             <el-form>
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input placeholder="请输入邮箱地址" clearable class="email-input"/>
+                  <el-input placeholder="请输入邮箱地址" clearable class="email-input" />
                   <el-button>发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="password" type="text" show-password clearable placeholder="请输入验证码"/>
+                <el-input v-model="password" type="text" show-password clearable placeholder="请输入验证码" />
               </el-form-item>
               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
               <div class="form-button-group">
@@ -160,13 +151,13 @@ const closeDialog = () => {
             </el-form>
           </div>
 
-          <div v-else-if="activeTab==='password'" class="form-body">
+          <div v-else-if="activeTab === 'password'" class="form-body">
             <el-form>
               <el-form-item prop="mail">
-                <el-input placeholder="请输入邮箱地址" clearable/>
+                <el-input placeholder="请输入邮箱地址" clearable />
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="password" type="password" show-password clearable placeholder="请输入密码"/>
+                <el-input v-model="password" type="password" show-password clearable placeholder="请输入密码" />
               </el-form-item>
 
               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -177,7 +168,7 @@ const closeDialog = () => {
           </div>
         </div>
         <div v-else class="image-panel">
-          <img :src="loginUserImage" alt="用户登录背景"/>
+          <img :src="loginUserImage" alt="用户登录背景" />
         </div>
       </div>
     </div>
@@ -380,5 +371,4 @@ const closeDialog = () => {
     }
   }
 }
-
 </style>

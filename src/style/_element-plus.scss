@@ -1,0 +1,16 @@
+.el-button,
+.el-input__wrapper,
+.el-textarea__inner,
+.el-tabs__nav,
+.el-select__wrapper,
+.el-card {
+  border-radius: var(--radius-ui);
+}
+
+.el-dialog,
+.el-message-box,
+.el-popover.el-popper,
+.el-tooltip__popper,
+.el-dropdown__popper .el-dropdown-menu {
+  border-radius: var(--border-radius-md);
+}

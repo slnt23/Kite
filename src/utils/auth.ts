@@ -1,7 +1,7 @@
 ﻿
 import type { UserInfo } from "@/types";
 import { getUserInfoApi } from "@/api/modules";
-import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY } from "@/constants";
+import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constants";
 
 
 /**
@@ -50,4 +50,24 @@ export const logout = (): void => {
 
   // 可选：调用后端登出API
   // logoutApi().catch(console.error)
+}
+
+
+/**
+ * 注册认证状态变化监听器,用于在主页来监听认证状态变化（如登录/登出）并更新UI
+ * @param callback 当认证状态变化时调用的回调函数
+ * @returns 取消监听的函数
+ */
+export const onAuthChange = (callback: () => void): (() => void) => {
+  if (!isClient() || typeof callback !== 'function') {
+    return () => { } // 返回空函数
+  }
+
+  // 添加事件监听器
+  window.addEventListener(AUTH_CHANGE_EVENT, callback)
+
+  // 返回取消监听的函数
+  return () => {
+    window.removeEventListener(AUTH_CHANGE_EVENT, callback)
+  }
 }
