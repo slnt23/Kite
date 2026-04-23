@@ -48,6 +48,7 @@ import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons
 
 <style scoped lang="scss">
 .site-footer {
+  // height: 80vh; //这里后期还得改，
   margin-top: 40px;
   padding: 40px 0 20px;
   text-align: center;
