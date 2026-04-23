@@ -14,12 +14,14 @@ export interface SpotlightItem {
     title: string
     description: string
     image: string
-    id: number  //
-    order: number
-    link: string
-    target: string
+    id: number  //是否唯一
+    order: number  //排序
+    link: string  //链接
+    target: string  //打开方式
 }
 
 export interface FeatureItem {
     icon: string
+    title: string
+    description: string
 }

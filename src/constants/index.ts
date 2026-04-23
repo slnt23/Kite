@@ -3,3 +3,4 @@
 export * from './key.constant'
 export * from './url.constant'
 export * from './menu.constant'
+export * from './example.constant'

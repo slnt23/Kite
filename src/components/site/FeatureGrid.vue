@@ -41,14 +41,6 @@ const displayItems = computed(() => props.items.slice(0, 4))
 const stage = computed(() => {
   const value = progress.value
 
-  // return {
-  //   background: mapProgress(value, 0.02, 0.15),  // 背景色渐变提前结束
-  //   visible: mapProgress(value, 0.06, 0.15),    // 显示动画提前结束
-  //   spread: mapProgress(value, 0.15, 0.25),     // 卡片展开在1/4处完成
-  //   flip: mapProgress(value, 0.2, 0.25),         // 翻转动画在1/4处完成
-  //   detail: mapProgress(value, 0.22, 0.3),       // 细节显示提前完成
-  // }
-
   return {
     background: mapProgress(value, 0.02, 0.18),  // 背景色渐变提前结束
     visible: mapProgress(value, 0.06, 0.18),    // 显示动画提前结束
@@ -187,7 +179,7 @@ onBeforeUnmount(() => {
 
               <div class="feature-card__footer">
                 <span class="feature-card__symbol feature-card__symbol--footer">{{ item.icon || `0${index + 1}`
-                  }}</span>
+                }}</span>
                 <strong>{{ item.title }}</strong>
               </div>
             </div>
