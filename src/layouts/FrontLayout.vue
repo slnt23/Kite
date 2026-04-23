@@ -1,63 +1,31 @@
 ﻿<script setup>
-import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue'
-import {RouterLink, RouterView, useRoute} from 'vue-router'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import MenuPanel from '../components/site/MenuPanel.vue'
 import SiteFooter from '../components/site/SiteFooter.vue'
 import LoginDialog from '../components/ui/LoginDialog.vue'
-import {getCurrentUser, onAuthChange} from '../utils/auth.js'
+import { getCurrentUser, onAuthChange } from '../utils/auth.js'
+
 import menuImageHome from '../assets/front/banner.jpg'
 import menuImagePriceQuery from '../assets/front/pic01.jpg'
 import menuImageStory from '../assets/front/pic02.jpg'
 import menuImageCapabilities from '../assets/front/pic03.jpg'
 import menuImageAiChat from '../assets/front/pic04.jpg'
+import { FRONT_MENU_ITEMS } from '@/constants'
 
 const route = useRoute()
 const menuOpen = ref(false)
 const isScrolled = ref(false)
 const currentUser = ref(getCurrentUser())
 const showLoginDialog = ref(false)
-let removeAuthListener = () => {
-}
+let removeAuthListener = () => { }
 
 const isHome = computed(() => route.path === '/')
 const isChatRoute = computed(() => route.path === '/ai-chat')
 const showCompactHeader = computed(() => !isHome.value || isScrolled.value)
-const showFooter = computed(() => !isHome.value && route.path !== '/ai-chat')
+// const showFooter = computed(() => !isHome.value && route.path !== '/ai-chat')
 
-// 菜单选项
-const menuItems = computed(() => [
-  {
-    title: '首页',
-    subtitle: '查看全屏滚动总览与模块入口',
-    path: '/',
-    image: menuImageHome,
-    size: 'large',
-  },
-  {
-    title: '价格查询',
-    subtitle: '进入独立查询界面，查看价格与趋势',
-    path: '/price-query',
-    image: menuImagePriceQuery,
-  },
-  {
-    title: '品牌故事',
-    subtitle: '查看当前项目的设计方向与页面叙事',
-    path: '/story',
-    image: menuImageStory,
-  },
-  {
-    title: '服务能力',
-    subtitle: '浏览前台项目的结构与能力范围',
-    path: '/capabilities',
-    image: menuImageCapabilities,
-  },
-  {
-    title: 'AI聊天',
-    subtitle: '进入聊天界面入口，查看对话交互样式',
-    path: '/ai-chat',
-    image: menuImageAiChat,
-  },
-])
+const menuItems = computed(() => FRONT_MENU_ITEMS)
 
 
 const accountRoute = computed(() => (currentUser.value ? '/profile' : '/login'))
@@ -80,13 +48,13 @@ const closeMenu = () => {
 
 
 watch(
-    () => route.path,
-    () => {
-      closeMenu()
-      window.requestAnimationFrame(() => {
-        syncScrollState()
-      })
-    },
+  () => route.path,
+  () => {
+    closeMenu()
+    window.requestAnimationFrame(() => {
+      syncScrollState()
+    })
+  },
 )
 
 onMounted(() => {
@@ -94,7 +62,7 @@ onMounted(() => {
   removeAuthListener = onAuthChange((user) => {
     currentUser.value = user
   })
-  window.addEventListener('scroll', syncScrollState, {passive: true})
+  window.addEventListener('scroll', syncScrollState, { passive: true })
 })
 
 onBeforeUnmount(() => {
@@ -104,24 +72,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-      class="site-shell"
-      :class="{ 'site-shell--menu-open': menuOpen, 'site-shell--chat': isChatRoute }"
-  >
-    <header
-        class="site-header"
-        :class="{
-        'site-header--home-top': isHome && !showCompactHeader,
-        'site-header--compact': showCompactHeader,
-      }"
-    >
-      <RouterLink
-          class="site-brand"
-          to="/"
-          @click="closeMenu"
-      >
+  <div class="site-shell" :class="{ 'site-shell--menu-open': menuOpen, 'site-shell--chat': isChatRoute }">
+    <header class="site-header" :class="{
+      'site-header--home-top': isHome && !showCompactHeader,
+      'site-header--compact': showCompactHeader,
+    }">
+      <RouterLink class="site-brand" to="/" @click="closeMenu">
         <strong>
-          <!-- 主页 -->
           <img class="site-brand__logo" src="../assets/front/brand_home_header.png" alt="主页">
         </strong>
       </RouterLink>
@@ -133,34 +90,25 @@ onBeforeUnmount(() => {
         <button class="site-header__button site-header__button--menu" type="button" @click="toggleMenu">
           LET'S MENU
         </button>
-        <button
-            v-if="!currentUser"
-            class="site-header__button site-header__button--login"
-            type="button"
-            @click="showLoginDialog = true"
-        >
+        <button v-if="!currentUser" class="site-header__button site-header__button--login" type="button"
+          @click="showLoginDialog = true">
           {{ accountLabel }}
         </button>
-        <RouterLink
-            v-else
-            class="site-header__button site-header__button--login"
-            :to="accountRoute"
-            @click="closeMenu"
-        >
+        <RouterLink v-else class="site-header__button site-header__button--login" :to="accountRoute" @click="closeMenu">
           {{ accountLabel }}
         </RouterLink>
       </div>
     </header>
 
     <main class="site-main">
-      <RouterView/>
+      <RouterView />
     </main>
 
-    <SiteFooter v-if="showFooter"/>
+    <SiteFooter />
 
-    <MenuPanel :open="menuOpen" :items="menuItems" @close="closeMenu"/>
+    <MenuPanel :open="menuOpen" :items="menuItems" @close="closeMenu" />
 
-    <LoginDialog v-model="showLoginDialog"/>
+    <LoginDialog v-model="showLoginDialog" />
   </div>
 </template>
 
@@ -196,9 +144,9 @@ onBeforeUnmount(() => {
   min-height: var(--site-header-height);
   border-radius: var(--radius-pill);
   transition: background 220ms ease,
-  border-color 220ms ease,
-  opacity 220ms ease,
-  transform 220ms ease;
+    border-color 220ms ease,
+    opacity 220ms ease,
+    transform 220ms ease;
 }
 
 
@@ -252,8 +200,8 @@ onBeforeUnmount(() => {
   font-weight: 500;
   overflow: hidden;
   transition: transform 180ms ease,
-  background 220ms ease,
-  color 220ms ease;
+    background 220ms ease,
+    color 220ms ease;
 }
 
 .site-header__button--menu {
@@ -282,7 +230,7 @@ onBeforeUnmount(() => {
   opacity: 0;
   transform: translateX(-10px);
   transition: opacity 220ms ease,
-  transform 220ms ease;
+    transform 220ms ease;
 }
 
 .site-header__button--menu:hover {
