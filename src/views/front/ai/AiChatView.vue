@@ -119,10 +119,10 @@ const sendMessage = () => {
   conversations.value = conversations.value.map((item) =>
     item.id === conversationId
       ? {
-          ...item,
-          preview: text.length > 26 ? `${text.slice(0, 26)}...` : text,
-          timestamp: new Date(),
-        }
+        ...item,
+        preview: text.length > 26 ? `${text.slice(0, 26)}...` : text,
+        timestamp: new Date(),
+      }
       : item,
   )
 
@@ -153,16 +153,12 @@ onBeforeUnmount(() => {
 <template>
   <div class="chat-page">
     <section class="chat-workspace">
-      <ChatSidebar
-        :conversations="conversations"
-        :active-conversation-id="activeConversationId"
-        @create="createConversation"
-        @select="activeConversationId = $event"
-      />
+      <ChatSidebar :conversations="conversations" :active-conversation-id="activeConversationId"
+        @create="createConversation" @select="activeConversationId = $event" />
 
       <div class="chat-workspace__main">
         <div class="chat-workspace__title">
-          {{ conversations.find((item) => item.id === activeConversationId)?.title || '新会话' }}
+          {{conversations.find((item) => item.id === activeConversationId)?.title || '新会话'}}
         </div>
 
         <div class="chat-workspace__messages u-scrollbar-hidden">
@@ -181,9 +177,8 @@ onBeforeUnmount(() => {
 .chat-page {
   height: 100vh;
   padding:
-    calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap))
-    var(--chat-edge-gap)
-    var(--chat-edge-gap);
+    // calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap))
+    var(--chat-edge-gap) var(--chat-edge-gap);
   overflow: hidden;
 }
 
