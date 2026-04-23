@@ -1,8 +1,8 @@
 ﻿import FrontLayout from '../../layouts/FrontLayout.vue'
 import CapabilitiesView from '../../views/front/CapabilitiesView.vue'
-import AiChatView from '@/views/front/ai/AiChatView.vue'
-import PriceLookupView from '../../views/front/sugarcane/PriceLookupView.vue'
-import ProfileManagementView from '../../views/front/profile/ProfileManagementView.vue'
+import AiChatView from '@/views/front/AiChatView.vue'
+import PriceLookupView from '../../views/front/PriceLookupView.vue'
+import UserProfileView from '../../views/front/UserProfileView.vue'
 import StoryView from '../../views/front/StoryView.vue'
 import HomeView from '../../views/front/HomeView.vue'
 
@@ -52,7 +52,7 @@ const frontRoutes = [
       {
         path: 'profile',
         name: 'front-profile',
-        component: ProfileManagementView,
+        component: UserProfileView,
         meta: {
           // requiresAuth: true,
         },

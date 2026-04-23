@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
-import SectionIntro from '../../../components/site/SectionIntro.vue'
-import FeatureGrid from '../../../components/site/FeatureGrid.vue'
-import CapabilityTable from '../../../components/site/CapabilityTable.vue'
+import SectionIntro from '../../components/site/SectionIntro.vue'
+import FeatureGrid from '../../components/site/FeatureGrid.vue'
+import CapabilityTable from '../../components/site/CapabilityTable.vue'
 
 const keyword = ref('')
 const selectedMarket = ref('全部区域')
