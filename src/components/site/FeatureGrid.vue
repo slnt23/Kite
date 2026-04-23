@@ -53,7 +53,7 @@ const stage = computed(() => {
     background: mapProgress(value, 0.02, 0.18),  // 背景色渐变提前结束
     visible: mapProgress(value, 0.06, 0.18),    // 显示动画提前结束
     spread: mapProgress(value, 0.18, 0.4),     // 卡片展开在1/4处完成
-    flip: mapProgress(value, 0.34, 0.56),         // 翻转动画在1/4处完成
+    flip: mapProgress(value, 0.25, 0.45),         // 翻转动画在1/4处完成
     detail: mapProgress(value, 0.42, 0.6),       // 细节显示提前完成
   }
 }
@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .feature-grid {
   position: relative;
-  min-height: 200vh;
+  min-height: 100vh;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   background: var(--feature-stage-bg);
