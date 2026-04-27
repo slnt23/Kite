@@ -3,7 +3,7 @@ import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { loginApi } from '@/api/modules'
 import loginAdminImage from '@/assets/login/login_admin_1.jpg'
-import loginUserImage from '@/assets/login/login_user_1.jpg'
+import loginUserImage from '@/assets/login/login_user_1.png'
 
 // Props
 const props = defineProps({
@@ -116,7 +116,7 @@ const closeDialog = () => {
 
         </div>
         <div v-else class="image-panel">
-          <img :src="loginAdminImage" alt="管理员登录背景" />
+          <img :src="loginUserImage" alt="用户登录背景" />
         </div>
       </div>
 
@@ -168,7 +168,7 @@ const closeDialog = () => {
           </div>
         </div>
         <div v-else class="image-panel">
-          <img :src="loginUserImage" alt="用户登录背景" />
+          <img :src="loginAdminImage" alt="管理员登录背景" />
         </div>
       </div>
     </div>

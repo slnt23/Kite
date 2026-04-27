@@ -10,8 +10,9 @@ import { FRONT_MENU_ITEMS } from '@/constants'
 const route = useRoute()
 const menuOpen = ref(false)
 const isScrolled = ref(false)
-const isHeaderVisible = ref(true)
+const isHeaderVisible = ref(false)
 const isHeaderPinned = ref(false)
+const isHeaderForcedHidden = ref(true)
 const currentUser = ref(getCurrentUser())
 const showLoginDialog = ref(false)
 let removeAuthListener = () => {}
@@ -57,9 +58,17 @@ const schedulePinnedHeaderHide = () => {
 }
 
 const showHeaderTemporarily = () => {
+  isHeaderForcedHidden.value = false
   isHeaderPinned.value = true
   isHeaderVisible.value = true
   schedulePinnedHeaderHide()
+}
+
+const hideHeader = () => {
+  clearPinnedHideTimer()
+  isHeaderPinned.value = false
+  isHeaderForcedHidden.value = true
+  isHeaderVisible.value = false
 }
 
 const syncScrollState = () => {
@@ -68,10 +77,12 @@ const syncScrollState = () => {
 
   isScrolled.value = currentScrollY > window.innerHeight * 0.28
 
-  if (menuOpen.value || showLoginDialog.value || isHeaderPinned.value) {
+  if (isHeaderForcedHidden.value) {
+    isHeaderVisible.value = false
+  } else if (menuOpen.value || showLoginDialog.value || isHeaderPinned.value) {
     isHeaderVisible.value = true
   } else if (currentScrollY <= 24) {
-    isHeaderVisible.value = true
+    isHeaderVisible.value = false
   } else if (scrollDelta > scrollRevealThreshold) {
     isHeaderVisible.value = false
   } else if (scrollDelta < -scrollRevealThreshold) {
@@ -90,6 +101,12 @@ const closeMenu = () => {
 }
 
 const handleKeydown = (event) => {
+  if (event.shiftKey && !event.repeat && event.key.toLowerCase() === 'h') {
+    hideHeader()
+    lastShiftPressAt = 0
+    return
+  }
+
   if (event.key !== 'Shift' || event.repeat) {
     return
   }
@@ -116,7 +133,7 @@ watch(
   () => route.path,
   () => {
     closeMenu()
-    isHeaderVisible.value = true
+    hideHeader()
     window.requestAnimationFrame(() => {
       lastScrollY = window.scrollY
       syncScrollState()
@@ -128,6 +145,7 @@ watch(
   () => menuOpen.value,
   (open) => {
     if (open) {
+      isHeaderForcedHidden.value = false
       isHeaderVisible.value = true
       return
     }
@@ -140,6 +158,7 @@ watch(
   () => showLoginDialog.value,
   (open) => {
     if (open) {
+      isHeaderForcedHidden.value = false
       isHeaderVisible.value = true
       return
     }
@@ -231,7 +250,7 @@ onBeforeUnmount(() => {
   position: relative;
   width: var(--shell-width);
   margin: 0 auto;
-  padding-bottom: 80px;
+  //padding-bottom: 80px;
 }
 
 .site-shell--chat {

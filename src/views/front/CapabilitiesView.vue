@@ -61,21 +61,14 @@ const capabilityRows = [
     </section>
 
     <section class="content-section">
-      <SectionIntro
-        eyebrow="Feature Set"
-        title="现阶段已经具备的前台能力"
-        description="这些能力是从模板中提炼出来，再结合你自己的项目结构重构后的第一版基础。"
-      />
+      <SectionIntro eyebrow="Feature Set" title="现阶段已经具备的前台能力" description="这些能力是从模板中提炼出来，再结合你自己的项目结构重构后的第一版基础。" />
 
-      <FeatureGrid :items="featureItems" />
+      <!-- <FeatureGrid :items="featureItems" /> -->
     </section>
 
     <section class="content-section">
-      <SectionIntro
-        eyebrow="Capability Map"
-        title="后续功能怎么接，也已经提前留好了接口。"
-        description="现在还没有接入真实后台和接口，但目录、路由和内容模块的分工已经明确，继续往下做会很顺。"
-      />
+      <SectionIntro eyebrow="Capability Map" title="后续功能怎么接，也已经提前留好了接口。"
+        description="现在还没有接入真实后台和接口，但目录、路由和内容模块的分工已经明确，继续往下做会很顺。" />
 
       <CapabilityTable :rows="capabilityRows" />
     </section>

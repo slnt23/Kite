@@ -1,7 +1,7 @@
 ﻿import FrontLayout from '../../layouts/FrontLayout.vue'
 import CapabilitiesView from '../../views/front/CapabilitiesView.vue'
 import AiChatView from '@/views/front/AiChatView.vue'
-import PriceLookupView from '../../views/front/PriceLookupView.vue'
+import PriceSearchView from '../../views/front/PriceSearchView.vue'
 import UserProfileView from '../../views/front/UserProfileView.vue'
 import StoryView from '../../views/front/StoryView.vue'
 import HomeView from '../../views/front/HomeView.vue'
@@ -20,7 +20,7 @@ const frontRoutes = [
       {
         path: 'price-query',
         name: 'front-price-query',
-        component: PriceLookupView,
+        component: PriceSearchView,
         meta: {
           // requiresAuth: true,
         },

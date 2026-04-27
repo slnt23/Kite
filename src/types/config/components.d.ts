@@ -31,6 +31,7 @@ declare module 'vue' {
     ModuleCard: typeof import('./../../components/ModuleCard.vue')['default']
     ModuleGrid: typeof import('./../../components/ModuleGrid.vue')['default']
     OverviewPanel: typeof import('./../../components/OverviewPanel.vue')['default']
+    PriceResult: typeof import('./../../components/price/PriceResult.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionIntro: typeof import('./../../components/site/SectionIntro.vue')['default']
