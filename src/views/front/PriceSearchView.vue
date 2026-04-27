@@ -138,7 +138,7 @@ const capabilityRows = computed(() =>
         description="首页只负责总览，这里则集中承载筛选、结果、趋势和后续接口扩展。"
       />
 
-      <FeatureGrid :items="featureItems" />
+<!--      <FeatureGrid :items="featureItems" />-->
     </section>
 
     <section class="content-section content-stack">
