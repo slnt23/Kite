@@ -2,7 +2,7 @@
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { loginApi } from '@/api/modules'
-import loginAdminImage from '@/assets/login/login_admin_1.jpg'
+import loginAdminImage from '@/assets/login/login_admin_1.png'
 import loginUserImage from '@/assets/login/login_user_1.png'
 
 // Props
