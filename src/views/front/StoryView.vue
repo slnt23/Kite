@@ -1,136 +1,228 @@
-﻿<script setup>
-import SideImageLeft from '../../assets/front/pic04.jpg'
-import SideImageRight from '../../assets/front/pic05.jpg'
-import SectionIntro from '../../components/site/SectionIntro.vue'
-import StoryTimeline from '../../components/site/StoryTimeline.vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import GalleryLightbox from '@/components/site/GalleryLightbox.vue'
+import { STORY_GALLERY_ITEMS } from '@/constants'
 
-const timeline = [
-  {
-    year: '01',
-    title: '从模板分析开始',
-    description: '先拆出模板中的首页结构、内页结构和资源，确认哪些部分适合延用，哪些部分应当彻底改写。',
-  },
-  {
-    year: '02',
-    title: '转成 Vue3 页面体系',
-    description: '把原本的静态 HTML 转成布局、页面和组件三层，后续新增页面时不再需要复制整块 HTML。',
-  },
-  {
-    year: '03',
-    title: '形成你自己的内容叙事',
-    description: '将模板文案替换为你的品牌表达、项目方向和长期愿景，让网站开始真正服务于你自己。',
-  },
-]
+const activeIndex = ref(0)
+const previewOpen = ref(false)
+
+const activeItem = computed(() => STORY_GALLERY_ITEMS[activeIndex.value] ?? null)
+
+const openPreview = (index: number) => {
+  activeIndex.value = index
+  previewOpen.value = true
+}
+
+const closePreview = () => {
+  previewOpen.value = false
+}
+
+const showPrev = () => {
+  activeIndex.value = (activeIndex.value - 1 + STORY_GALLERY_ITEMS.length) % STORY_GALLERY_ITEMS.length
+}
+
+const showNext = () => {
+  activeIndex.value = (activeIndex.value + 1) % STORY_GALLERY_ITEMS.length
+}
 </script>
 
 <template>
-  <div class="front-page front-page--article">
-    <section class="article-hero">
-      <p class="eyebrow-label">Brand Story</p>
-      <h1>一个成熟的前台，不只是漂亮，而是能承载你未来的方向。</h1>
-      <p class="article-hero__body">
-        品牌故事页延续了模板里的通用内页结构，但内容上切换成更适合个人网站的表达方式，用来解释你在做什么、为什么做、未来会走向哪里。
-      </p>
+  <div class="story-gallery-page">
+    <section class="story-gallery">
+      <button
+        v-for="(item, index) in STORY_GALLERY_ITEMS"
+        :key="`${item.title}-${index}`"
+        type="button"
+        class="story-gallery__item"
+        @click="openPreview(index)"
+      >
+        <img class="story-gallery__image" :src="item.thumbnail" :alt="item.title" />
+        <span class="story-gallery__overlay" />
+        <span class="story-gallery__content">
+          <strong class="story-gallery__label">{{ item.title }}</strong>
+          <small class="story-gallery__description">{{ item.description }}</small>
+        </span>
+      </button>
     </section>
 
-    <section class="content-section content-section--narrow">
-      <SectionIntro
-        eyebrow="Narrative"
-        title="从静态展示页，转成带方向感的个人站点。"
-        description="这里适合承载你的经历、设计观、技术取向以及你为什么要做这个网站。它不是一段简历，而是一段更有温度的长期叙事。"
-      />
+    <GalleryLightbox
+      :open="previewOpen"
+      :items="STORY_GALLERY_ITEMS"
+      :active-index="activeIndex"
+      @close="closePreview"
+      @prev="showPrev"
+      @next="showNext"
+    />
 
-      <StoryTimeline :items="timeline" />
-    </section>
-
-    <section class="story-columns">
-      <article class="story-columns__panel">
-        <img :src="SideImageLeft" alt="creative workspace" />
-        <div>
-          <h2>表达层</h2>
-          <p>
-            前台项目首先要建立足够清晰的视觉记忆点，所以我们将主色收口到蓝色体系，再用轻微暖色去平衡内容与互动区域的冷感。
-          </p>
-        </div>
-      </article>
-
-      <article class="story-columns__panel">
-        <img :src="SideImageRight" alt="product planning" />
-        <div>
-          <h2>增长层</h2>
-          <p>
-            网站后续还会增加更多兴趣模块，所以页面结构必须天然支持扩展，品牌故事页也会成为理解整站方向的重要入口。
-          </p>
-        </div>
-      </article>
+    <section v-if="activeItem" class="story-gallery__hint">
+      <p>点击任意图片可放大浏览，支持左右切换与 `Esc` 关闭。</p>
     </section>
   </div>
 </template>
 
 <style scoped lang="scss">
-.article-hero {
-  background: transparent;
-}
-
-.article-hero h1 {
-  margin: 0 0 14px;
-  color: var(--color-text-deep);
-  line-height: 1.08;
-  font-size: clamp(2.1rem, 4vw, 3.5rem);
-}
-
-.content-section {
+.story-gallery-page {
   display: grid;
-  gap: 20px;
+  gap: 16px;
+  padding: 0 0 36px;
 }
 
-.content-section--narrow {
-  max-width: 860px;
-}
-
-.story-columns {
+.story-gallery {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  background: #0f1117;
 }
 
-.story-columns__panel {
+.story-gallery__item {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 22rem;
+  padding: 0;
+  border: none;
+  background: #11151c;
+  text-align: left;
+  cursor: pointer;
   overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-radius: 30px;
-  background: transparent;
-  box-shadow: var(--shadow-soft);
 }
 
-.story-columns__panel img {
+.story-gallery__image,
+.story-gallery__overlay {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 260px;
+  height: 100%;
+}
+
+.story-gallery__image {
   object-fit: cover;
+  transition:
+    transform 360ms ease,
+    filter 360ms ease;
 }
 
-.story-columns__panel div {
-  padding: 28px;
+.story-gallery__overlay {
+  background:
+    linear-gradient(180deg, rgba(6, 10, 16, 0.08), rgba(6, 10, 16, 0.34)),
+    linear-gradient(0deg, rgba(6, 10, 16, 0.72), rgba(6, 10, 16, 0) 34%);
+  transition: background 240ms ease;
 }
 
-.story-columns__panel h2 {
-  margin: 0 0 12px;
-  color: var(--color-text-deep);
+.story-gallery__content {
+  position: absolute;
+  right: 36px;
+  bottom: 30px;
+  left: 36px;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
 }
 
-.story-columns__panel p {
+.story-gallery__label {
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 1.02rem;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.story-gallery__description {
+  display: block;
+  max-width: 34ch;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.7;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.story-gallery__item:hover .story-gallery__image {
+  transform: scale(1.04);
+  filter: saturate(1.06);
+}
+
+.story-gallery__item:hover .story-gallery__overlay {
+  background:
+    linear-gradient(180deg, rgba(6, 10, 16, 0.08), rgba(6, 10, 16, 0.4)),
+    linear-gradient(0deg, rgba(6, 10, 16, 0.82), rgba(6, 10, 16, 0.06) 46%);
+}
+
+.story-gallery__item:hover .story-gallery__description,
+.story-gallery__item:focus-visible .story-gallery__description {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-gallery__item:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.82);
+  outline-offset: -3px;
+}
+
+.story-gallery__hint {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.story-gallery__hint p {
   margin: 0;
-  color: var(--color-muted-deep);
+  color: #5c6677;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
 }
 
 @media (max-width: 960px) {
-  .story-columns {
-    grid-template-columns: 1fr;
+  .story-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .story-gallery__item {
+    min-height: 18rem;
+  }
+
+  .story-gallery__content {
+    right: 22px;
+    bottom: 20px;
+    left: 22px;
+  }
+
+  .story-gallery__label {
+    font-size: 0.92rem;
   }
 }
 
-@media (max-width: 760px) {
-  .story-columns__panel div {
-    padding: 20px;
+@media (max-width: 640px) {
+  .story-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .story-gallery__item {
+    min-height: 13rem;
+  }
+
+  .story-gallery__content {
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    gap: 8px;
+  }
+
+  .story-gallery__label {
+    font-size: 0.86rem;
+    letter-spacing: 0.12em;
+  }
+
+  .story-gallery__description {
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
 }
+
 </style>

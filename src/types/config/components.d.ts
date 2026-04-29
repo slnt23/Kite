@@ -27,6 +27,7 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     FeatureGrid: typeof import('./../../components/site/FeatureGrid.vue')['default']
+    GalleryLightbox: typeof import('./../../components/site/GalleryLightbox.vue')['default']
     HeroSection: typeof import('./../../components/site/HeroSection.vue')['default']
     LoginDialog: typeof import('./../../components/ui/LoginDialog.vue')['default']
     MenuPanel: typeof import('./../../components/site/MenuPanel.vue')['default']
