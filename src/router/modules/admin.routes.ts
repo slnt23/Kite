@@ -1,13 +1,13 @@
-import AdminLayout from '../../layouts/AdminLayout.vue'
-import AdminDashboardView from '../../views/admin/AdminDashboardView.vue'
+import AdminLayout from '@/layouts/AdminLayout.vue'
+import AdminDashboardView from '@/views/admin/AdminDashboardView.vue'
 
 const adminRoutes = [
   {
     path: '/admin',
     component: AdminLayout,
     meta: {
-      requiresAuth: true,
-      requiresAdmin: true,
+      // requiresAuth: true,
+      // requiresAdmin: true,
     },
     children: [
       {

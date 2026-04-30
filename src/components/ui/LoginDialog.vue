@@ -89,7 +89,7 @@ const closeDialog = () => {
           <!--          <h2>管理员登录 请保存好密码 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
-              <el-tab-pane label="邮箱验证码登录" name="mail"></el-tab-pane>
+              <el-tab-pane label="邮箱登录" name="mail"></el-tab-pane>
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
           </div>
@@ -127,7 +127,7 @@ const closeDialog = () => {
           <!--          <h2>欢迎用户登录 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
-              <el-tab-pane label="邮箱验证码登录" name="mail"></el-tab-pane>
+              <el-tab-pane label="邮箱注册/登录" name="mail"></el-tab-pane>
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
           </div>

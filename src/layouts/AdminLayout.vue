@@ -1,6 +1,6 @@
 <script setup>
-import ModuleGrid from '../components/ModuleGrid.vue'
-import OverviewPanel from '../components/OverviewPanel.vue'
+import ModuleGrid from '../components/management/ModuleGrid.vue'
+import OverviewPanel from '../components/management/OverviewPanel.vue'
 
 defineProps({
   meta: {
