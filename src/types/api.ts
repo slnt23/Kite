@@ -13,20 +13,20 @@ export interface LoginParams {
   secret: string
 }
 
-export interface LoginResult {
-  success: boolean
-  session?: UserInfo
-  message?: string
-}
+// export interface LoginResult {
+//   success: boolean
+//   session?: UserInfo
+//   message?: string
+// }
 
 
-export interface UserInfo {
-  token: string
-  role: 'admin' | 'user'
-  roleLabel: string
-  displayName: string
-  loginMode: 'password' | 'code'
-  loginModeLabel: string
-  loginAt: string
-}
+// export interface UserInfo {
+//   token: string
+//   role: 'admin' | 'user'
+//   roleLabel: string
+//   displayName: string
+//   loginMode: 'password' | 'code'
+//   loginModeLabel: string
+//   loginAt: string
+// }
 

@@ -1,3 +1,22 @@
+// Element Plus 全局变量定义
+:root {
+  /* Element Plus 圆角变量 */
+  --el-border-radius-base: var(--radius-ui);
+  --el-border-radius-small: 18px;
+  --el-border-radius-round: var(--radius-pill);
+  --el-border-radius-circle: 50%;
+
+  /* Element Plus 主题色变量 */
+  --el-color-primary: var(--color-primary);
+  --el-color-primary-light-3: rgba(47, 111, 148, 0.7);
+  --el-color-primary-light-5: rgba(47, 111, 148, 0.5);
+  --el-color-primary-light-7: rgba(47, 111, 148, 0.3);
+  --el-color-primary-light-8: rgba(47, 111, 148, 0.2);
+  --el-color-primary-light-9: rgba(47, 111, 148, 0.1);
+  --el-color-primary-dark-2: var(--color-primary-strong);
+}
+
+// Element Plus 组件样式
 .el-button,
 .el-input__wrapper,
 .el-textarea__inner,
@@ -13,4 +32,97 @@
 .el-tooltip__popper,
 .el-dropdown__popper .el-dropdown-menu {
   border-radius: var(--border-radius-md);
+}
+
+// Element Plus 表单组件
+.el-form-item {
+  margin-bottom: var(--spacing-lg);
+}
+
+.el-form-item__label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-deep);
+}
+
+// Element Plus 弹窗相关样式
+body.el-popup-parent--hidden {
+  width: 100% !important;
+  padding-right: 0 !important;
+}
+
+// Element Plus 消息提示
+.el-message {
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-medium);
+}
+
+// Element Plus 加载状态
+.el-loading-mask {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+// Element Plus 表格样式
+.el-table {
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.el-table th {
+  background-color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+}
+
+// Element Plus 分页器
+.el-pagination {
+  justify-content: center;
+  margin-top: var(--spacing-xl);
+}
+
+// Element Plus 菜单样式
+.el-menu {
+  border: none;
+}
+
+.el-menu-item {
+  border-radius: var(--radius-ui);
+  margin: 2px 8px;
+}
+
+.el-menu-item.is-active {
+  background-color: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+
+// Element Plus 标签页
+.el-tabs__item {
+  font-weight: var(--font-weight-medium);
+}
+
+.el-tabs__item.is-active {
+  color: var(--el-color-primary);
+}
+
+.el-tabs__active-bar {
+  background-color: var(--el-color-primary);
+}
+
+// Element Plus 图标样式
+.el-icon {
+  font-size: inherit;
+}
+
+// Element Plus 响应式适配
+@media (max-width: 760px) {
+  .el-dialog {
+    width: 90% !important;
+    margin: 5vh auto !important;
+  }
+
+  .el-message-box {
+    width: 90% !important;
+  }
+
+  .el-table {
+    font-size: 0.9rem;
+  }
 }

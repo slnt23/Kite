@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import featureCardBack from '../../assets/front/feature_item.jpg'
+import featureCardBack from '@/assets/front/feature_item.jpg'
 
 interface FeatureItem {
   icon?: string
@@ -17,54 +17,39 @@ const props = withDefaults(
   },
 )
 
+// 响应式引用
 const sectionRef = ref<HTMLElement | null>(null)
 const progress = ref(0)
 const isMobile = ref(false)
 let ticking = false
 
+// 工具函数
 const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value))
 const mix = (start: number, end: number, amount: number) => start + (end - start) * amount
+const mapProgress = (value: number, start: number, end: number) =>
+  end <= start ? (value >= end ? 1 : 0) : clamp((value - start) / (end - start))
 
-const mapProgress = (value: number, start: number, end: number) => {
-  if (end <= start) {
-    return value >= end ? 1 : 0
-  }
-
-  return clamp((value - start) / (end - start))
-}
-
-const lerpColor = (from: [number, number, number], to: [number, number, number], amount: number) =>
-  `rgb(${Math.round(mix(from[0], to[0], amount))}, ${Math.round(mix(from[1], to[1], amount))}, ${Math.round(mix(from[2], to[2], amount))})`
-
+// 计算属性
 const displayItems = computed(() => props.items.slice(0, 4))
 
 const stage = computed(() => {
   const value = progress.value
-
   return {
-    background: mapProgress(value, 0.02, 0.18),  // 背景色渐变提前结束
-    visible: mapProgress(value, 0.06, 0.18),    // 显示动画提前结束
-    spread: mapProgress(value, 0.18, 0.4),     // 卡片展开在1/4处完成
-    flip: mapProgress(value, 0.25, 0.45),         // 翻转动画在1/4处完成
-    detail: mapProgress(value, 0.42, 0.6),       // 细节显示提前完成
+    visible: mapProgress(value, 0.06, 0.18),
+    spread: mapProgress(value, 0.18, 0.4),
+    flip: mapProgress(value, 0.25, 0.45),
+    detail: mapProgress(value, 0.42, 0.6),
   }
-}
-)
+})
 
-const sectionStyle = computed(() => ({
-  '--feature-stage-bg': lerpColor([255, 255, 255], [35, 46, 247], stage.value.background),
-}))
-
+// 响应式函数
 const updateViewportMode = () => {
   isMobile.value = window.innerWidth < 840
 }
 
 const updateProgress = () => {
   ticking = false
-
-  if (!sectionRef.value) {
-    return
-  }
+  if (!sectionRef.value) return
 
   const rect = sectionRef.value.getBoundingClientRect()
   const viewportHeight = window.innerHeight || 1
@@ -75,39 +60,22 @@ const updateProgress = () => {
 }
 
 const requestProgressUpdate = () => {
-  if (ticking) {
-    return
-  }
-
+  if (ticking) return
   ticking = true
   window.requestAnimationFrame(updateProgress)
 }
 
-const handleResize = () => {
-  updateViewportMode()
-  requestProgressUpdate()
-}
-
-const getCardLines = (item: FeatureItem, index: number) => {
+// 卡片内容处理
+const getCardLines = (item: FeatureItem) => {
   const lines = item.description
     .split(/[，。；;]/)
-    .map((line) => line.trim())
+    .map(line => line.trim())
     .filter(Boolean)
 
-  if (lines.length > 1) {
-    return lines.slice(0, 5)
-  }
-
-  const fallbackMap = [
-    ['Digital experience strategy', 'hnology strategy', 'Creative direction', 'Discovery', 'Research'],
-    ['Art direction', 'UX/UI design', 'Motion design', 'Interactive design', 'Illustration'],
-    ['WebGL development', 'Front-end development', 'Unity / Unreal', 'Interactive installations', 'AR / VR experiences'],
-    ['Procedural modeling', '3D asset creation', '3D optimization', 'Animation', 'Pipeline development'],
-  ]
-
-  return fallbackMap[index] ?? [item.description]
+  return lines.length > 1 ? lines.slice(0, 5) : [item.description]
 }
 
+// 卡片状态计算
 const getCardState = (index: number) => {
   const stackedX = isMobile.value ? [-14, -4, 4, 14] : [-18, -6, 6, 18]
   const stackedY = isMobile.value ? [10, 3, -3, -10] : [16, 5, -5, -16]
@@ -138,21 +106,25 @@ const getCardState = (index: number) => {
 
 const cardStates = computed(() => displayItems.value.map((_, index) => getCardState(index)))
 
+// 生命周期
 onMounted(() => {
   updateViewportMode()
   updateProgress()
   window.addEventListener('scroll', requestProgressUpdate, { passive: true })
-  window.addEventListener('resize', handleResize, { passive: true })
+  window.addEventListener('resize', () => {
+    updateViewportMode()
+    requestProgressUpdate()
+  }, { passive: true })
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', requestProgressUpdate)
-  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('resize', updateViewportMode)
 })
 </script>
 
 <template>
-  <section ref="sectionRef" class="feature-grid" :style="sectionStyle">
+  <section ref="sectionRef" class="feature-grid">
     <div class="feature-grid__stage">
       <div class="feature-grid__cards">
         <article v-for="(item, index) in displayItems" :key="`${item.title}-${index}`" class="feature-card" :style="{
@@ -161,10 +133,12 @@ onBeforeUnmount(() => {
           zIndex: cardStates[index]?.zIndex,
         }">
           <div class="feature-card__inner" :style="{ transform: cardStates[index]?.innerTransform }">
+            <!-- 卡片背面 -->
             <div class="feature-card__face feature-card__face--back">
               <img :src="featureCardBack" :alt="`${item.title} 卡牌背面`" />
             </div>
 
+            <!-- 卡片正面 -->
             <div class="feature-card__face feature-card__face--front">
               <div class="feature-card__front-top">
                 <h3>{{ item.title }}</h3>
@@ -172,14 +146,15 @@ onBeforeUnmount(() => {
               </div>
 
               <ul class="feature-card__list">
-                <li v-for="line in getCardLines(item, index)" :key="line">
+                <li v-for="line in getCardLines(item)" :key="line">
                   <span>{{ line }}</span>
                 </li>
               </ul>
 
               <div class="feature-card__footer">
-                <span class="feature-card__symbol feature-card__symbol--footer">{{ item.icon || `0${index + 1}`
-                }}</span>
+                <span class="feature-card__symbol feature-card__symbol--footer">
+                  {{ item.icon || `0${index + 1}` }}
+                </span>
                 <strong>{{ item.title }}</strong>
               </div>
             </div>
@@ -191,28 +166,35 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+// 变量定义
+$card-border-color: #f0f0f0;
+$card-back-bg: #f8f9fa;
+$card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+$card-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+// 基础网格布局
 .feature-grid {
   position: relative;
   min-height: 100vh;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  background: var(--feature-stage-bg);
+  // margin-left: calc(50% - 50vw);
+  // margin-right: calc(50% - 50vw);
+  background: #ffffff;
   overflow: clip;
-  transition: background 100ms linear;
+
+  &__stage,
+  &__cards {
+    position: relative;
+    width: 100%;
+    min-height: inherit;
+  }
+
+  &__cards {
+    perspective: 2200px;
+    perspective-origin: center center;
+  }
 }
 
-.feature-grid__stage,
-.feature-grid__cards {
-  position: relative;
-  width: 100%;
-  min-height: inherit;
-}
-
-.feature-grid__cards {
-  perspective: 2200px;
-  perspective-origin: center center;
-}
-
+// 卡片样式
 .feature-card {
   position: absolute;
   top: 50%;
@@ -221,107 +203,112 @@ onBeforeUnmount(() => {
   aspect-ratio: 0.72;
   transform-origin: center center;
   will-change: transform, opacity;
+
+  &__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  // 卡片面
+  &__face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 24px;
+    backface-visibility: hidden;
+    border: 1px solid $card-border-color;
+    box-shadow: $card-shadow, $card-inset-shadow;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+
+    &--back {
+      background: $card-back-bg;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &--front {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 28px;
+      padding: 28px 28px 22px;
+      background: #ffffff;
+      color: #1a1a1a;
+      transform: rotateY(180deg);
+    }
+  }
+
+  // 卡片内容布局
+  &__front-top,
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  &__front-top h3,
+  &__footer strong {
+    margin: 0;
+    font-size: clamp(1.2rem, 1.4vw, 1.9rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  &__footer strong {
+    transform: rotate(180deg);
+  }
+
+  // 符号样式
+  &__symbol {
+    font-size: clamp(2rem, 2.8vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.08em;
+    text-transform: uppercase;
+
+    &--footer {
+      transform: rotate(180deg);
+    }
+  }
+
+  // 列表样式
+  &__list {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: grid;
+      gap: 10px;
+
+      &::after {
+        content: '';
+        height: 3px;
+        border-radius: 999px;
+        background-image: radial-gradient(circle, rgba(71, 97, 255, 0.28) 1.4px, transparent 1.6px);
+        background-size: 10px 3px;
+        background-repeat: repeat-x;
+      }
+    }
+
+    span {
+      font-size: clamp(1rem, 1.1vw, 1.28rem);
+      line-height: 1.25;
+    }
+  }
 }
 
-.feature-card__inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-}
-
-.feature-card__face {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: 24px;
-  backface-visibility: hidden;
-  box-shadow:
-    0 36px 90px rgba(15, 21, 70, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.2);
-}
-
-.feature-card__face--back {
-  background: #2130ff;
-}
-
-.feature-card__face--back img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.feature-card__face--front {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 28px;
-  padding: 28px 28px 22px;
-  background: #f8f8f7;
-  color: #10131b;
-  transform: rotateY(180deg);
-}
-
-.feature-card__front-top,
-.feature-card__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.feature-card__front-top h3,
-.feature-card__footer strong {
-  margin: 0;
-  font-size: clamp(1.2rem, 1.4vw, 1.9rem);
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-}
-
-.feature-card__footer strong {
-  transform: rotate(180deg);
-}
-
-.feature-card__symbol {
-  font-size: clamp(2rem, 2.8vw, 3.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.08em;
-  text-transform: uppercase;
-}
-
-.feature-card__symbol--footer {
-  transform: rotate(180deg);
-}
-
-.feature-card__list {
-  display: grid;
-  align-content: start;
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.feature-card__list li {
-  display: grid;
-  gap: 10px;
-}
-
-.feature-card__list li::after {
-  content: '';
-  height: 3px;
-  border-radius: 999px;
-  background-image: radial-gradient(circle, rgba(71, 97, 255, 0.28) 1.4px, transparent 1.6px);
-  background-size: 10px 3px;
-  background-repeat: repeat-x;
-}
-
-.feature-card__list span {
-  font-size: clamp(1rem, 1.1vw, 1.28rem);
-  line-height: 1.25;
-}
-
+// 响应式设计
 @media (max-width: 1100px) {
   .feature-grid {
     min-height: 220vh;
@@ -329,19 +316,27 @@ onBeforeUnmount(() => {
 
   .feature-card {
     width: clamp(160px, 23vw, 260px);
-  }
 
-  .feature-card__face--front {
-    gap: 18px;
-    padding: 18px 18px 16px;
-  }
+    &__face {
+      border-radius: 20px;
+      box-shadow:
+        0 3px 15px rgba(0, 0, 0, 0.06),
+        0 1px 5px rgba(0, 0, 0, 0.03),
+        $card-inset-shadow;
 
-  .feature-card__list {
-    gap: 8px;
-  }
+      &--front {
+        gap: 18px;
+        padding: 18px 18px 16px;
+      }
+    }
 
-  .feature-card__list span {
-    font-size: 0.9rem;
+    &__list {
+      gap: 8px;
+
+      span {
+        font-size: 0.9rem;
+      }
+    }
   }
 }
 
@@ -352,23 +347,27 @@ onBeforeUnmount(() => {
 
   .feature-card {
     width: clamp(145px, 34vw, 220px);
-  }
 
-  .feature-card__face {
-    border-radius: 18px;
-  }
+    &__face {
+      border-radius: 16px;
+      box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.02),
+        $card-inset-shadow;
+    }
 
-  .feature-card__front-top h3,
-  .feature-card__footer strong {
-    font-size: 0.95rem;
-  }
+    &__front-top h3,
+    &__footer strong {
+      font-size: 0.95rem;
+    }
 
-  .feature-card__symbol {
-    font-size: 1.8rem;
-  }
+    &__symbol {
+      font-size: 1.8rem;
+    }
 
-  .feature-card__list span {
-    font-size: 0.78rem;
+    &__list span {
+      font-size: 0.78rem;
+    }
   }
 }
 </style>

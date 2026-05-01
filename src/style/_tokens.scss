@@ -6,12 +6,6 @@
   --radius-soft-lg: 32px;
   --radius-ui: 28px;
 
-  /* Element Plus 全局圆角变量 */
-  --el-border-radius-base: var(--radius-ui);
-  --el-border-radius-small: 18px;
-  --el-border-radius-round: var(--radius-pill);
-  --el-border-radius-circle: 50%;
-
   /* 语义化圆角变量 */
   --border-radius-sm: var(--radius-soft-sm);
   --border-radius-md: var(--radius-soft-md);
@@ -35,7 +29,7 @@
   --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
 
   /* 页面内容与导航安全留白 */
-  --page-edge-gap: 20px; // 页面内容与浏览器边缘的最小距离
+  --page-edge-gap: 100px; // 页面内容与浏览器边缘的最小距离
   --shell-width: min(13200px, calc(100% - (var(--page-edge-gap) * 1)));
   --shell-width-mobile: min(1320px, calc(100% - (var(--page-edge-gap) * 2)));
   --site-header-offset: 0px; // 顶部预留空间（如有固定头部时设置为头部高度）

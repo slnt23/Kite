@@ -15,7 +15,7 @@ const isHeaderPinned = ref(false)
 const isHeaderForcedHidden = ref(true)
 const currentUser = ref(getCurrentUser())
 const showLoginDialog = ref(false)
-let removeAuthListener = () => {}
+let removeAuthListener = () => { }
 let lastScrollY = 0
 let lastShiftPressAt = 0
 let pinnedHideTimer = 0
@@ -193,14 +193,11 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="site-shell" :class="{ 'site-shell--menu-open': menuOpen, 'site-shell--chat': isChatRoute }">
-    <header
-      class="site-header"
-      :class="{
-        'site-header--home-top': isHome && !showCompactHeader,
-        'site-header--compact': showCompactHeader,
-        'site-header--hidden': !isHeaderVisible,
-      }"
-    >
+    <header class="site-header" :class="{
+      'site-header--home-top': isHome && !showCompactHeader,
+      'site-header--compact': showCompactHeader,
+      'site-header--hidden': !isHeaderVisible,
+    }">
       <RouterLink class="site-brand" to="/" @click="closeMenu">
         <strong>
           <img class="site-brand__logo" src="../assets/front/brand_home_header.png" alt="主页" />
@@ -214,20 +211,11 @@ onBeforeUnmount(() => {
         <button class="site-header__button site-header__button--menu" type="button" @click="toggleMenu">
           LET'S MENU
         </button>
-        <button
-          v-if="!currentUser"
-          class="site-header__button site-header__button--login"
-          type="button"
-          @click="showLoginDialog = true"
-        >
+        <button v-if="!currentUser" class="site-header__button site-header__button--login" type="button"
+          @click="showLoginDialog = true">
           {{ accountLabel }}
         </button>
-        <RouterLink
-          v-else
-          class="site-header__button site-header__button--login"
-          :to="accountRoute"
-          @click="closeMenu"
-        >
+        <RouterLink v-else class="site-header__button site-header__button--login" :to="accountRoute" @click="closeMenu">
           {{ accountLabel }}
         </RouterLink>
       </div>
@@ -246,23 +234,29 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
+// 变量定义
+$header-transition: 220ms ease;
+$button-transition: 180ms ease;
+$radius-pill: var(--radius-pill);
+
+// 基础布局
 .site-shell {
   position: relative;
   width: var(--shell-width);
   margin: 0 auto;
-  //padding-bottom: 80px;
-}
 
-.site-shell--chat {
-  width: 100%;
-  max-width: none;
-  padding-bottom: 0;
+  &--chat {
+    width: 100%;
+    max-width: none;
+    padding-bottom: 0;
+  }
 }
 
 .site-main {
   width: 100%;
 }
 
+// 头部样式
 .site-header {
   position: fixed;
   top: var(--site-header-offset);
@@ -277,7 +271,7 @@ onBeforeUnmount(() => {
   padding: 10px 14px;
   min-height: var(--site-header-height);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: calc(var(--radius-pill) - 2px);
+  border-radius: calc(#{$radius-pill} - 2px);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(244, 248, 252, 0.66)),
     rgba(255, 255, 255, 0.55);
@@ -285,39 +279,34 @@ onBeforeUnmount(() => {
     0 18px 40px rgba(27, 44, 57, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(18px) saturate(140%);
-  transition:
-    background 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease,
-    opacity 220ms ease,
-    transform 260ms ease,
-    padding 220ms ease;
+  transition: all $header-transition;
+
+  &--hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, calc(-100% - 18px));
+  }
+
+  &--compact {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(240, 246, 251, 0.88)),
+      rgba(255, 255, 255, 0.8);
+    border-color: rgba(185, 205, 221, 0.68);
+    box-shadow:
+      0 18px 42px rgba(18, 54, 82, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  &--home-top {
+    background: linear-gradient(135deg, rgba(14, 25, 37, 0.3), rgba(14, 25, 37, 0.08));
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 16px 34px rgba(8, 15, 24, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
 }
 
-.site-header--hidden {
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, calc(-100% - 18px));
-}
-
-.site-header--compact {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(240, 246, 251, 0.88)),
-    rgba(255, 255, 255, 0.8);
-  border-color: rgba(185, 205, 221, 0.68);
-  box-shadow:
-    0 18px 42px rgba(18, 54, 82, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.site-header--home-top {
-  background: linear-gradient(135deg, rgba(14, 25, 37, 0.3), rgba(14, 25, 37, 0.08));
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow:
-    0 16px 34px rgba(8, 15, 24, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
+// 品牌标识
 .site-brand {
   display: inline-flex;
   align-items: center;
@@ -326,37 +315,36 @@ onBeforeUnmount(() => {
   padding: 6px 10px 6px 6px;
   border-radius: 999px;
   text-decoration: none;
-  transition:
-    background 220ms ease,
-    transform 180ms ease;
+  transition: background $header-transition, transform $button-transition;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+  }
+
+  strong {
+    color: var(--color-text-deep);
+    font-size: 1.06rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  &__logo {
+    width: auto;
+    height: 38px;
+    display: block;
+  }
+
+  .site-header--home-top & {
+    background: rgba(255, 255, 255, 0.06);
+
+    strong {
+      color: #ffffff;
+    }
+  }
 }
 
-.site-brand:hover {
-  background: rgba(255, 255, 255, 0.22);
-  transform: translateY(-1px);
-}
-
-.site-brand strong {
-  color: var(--color-text-deep);
-  font-size: 1.06rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-
-.site-brand__logo {
-  width: auto;
-  height: 38px;
-  display: block;
-}
-
-.site-header--home-top .site-brand {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.site-header--home-top .site-brand strong {
-  color: #ffffff;
-}
-
+// 操作区域
 .site-header__actions {
   display: inline-flex;
   align-items: center;
@@ -365,7 +353,7 @@ onBeforeUnmount(() => {
   flex-shrink: 0;
 }
 
-/* 导航栏按钮样式保持不变 */
+// 按钮基础样式
 .site-header__button {
   position: relative;
   display: inline-flex;
@@ -375,114 +363,98 @@ onBeforeUnmount(() => {
   min-height: 42px;
   padding: 9px 20px;
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: $radius-pill;
   font-weight: 500;
   letter-spacing: 0.03em;
   text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
-  transition:
-    transform 180ms ease,
-    background 220ms ease,
-    color 220ms ease,
-    border-color 220ms ease,
-    box-shadow 220ms ease;
+  transition: all $header-transition;
+
+  &:focus-visible,
+  .site-brand:focus-visible {
+    outline: 2px solid rgba(47, 111, 148, 0.4);
+    outline-offset: 3px;
+  }
+
+  // 菜单按钮
+  &--menu {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 1px solid #333333;
+    min-width: 160px;
+
+    &::after {
+      content: '•';
+      position: absolute;
+      right: 10px;
+      font-size: 1.4em;
+      line-height: 1;
+      color: #ffffff;
+      opacity: 1;
+      transition: opacity $header-transition;
+    }
+
+    &::before {
+      content: '→';
+      position: absolute;
+      left: 10px;
+      font-size: 1.2em;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity $header-transition, transform $header-transition;
+    }
+
+    &:hover {
+      background: #0016ec;
+      color: #ffffff;
+      transform: translateY(-1px);
+      padding-left: 34px;
+      padding-right: 22px;
+
+      &::before {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      &::after {
+        opacity: 0;
+      }
+    }
+  }
+
+  // 登录按钮
+  &--login {
+    background: rgba(255, 255, 255, 0.68);
+    color: #18364a;
+    border-color: rgba(188, 205, 219, 0.9);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+
+    &:hover {
+      background: #ffffff;
+      color: #204e6a;
+      border-color: rgba(47, 111, 148, 0.5);
+      box-shadow: 0 10px 20px rgba(32, 78, 106, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .site-header--home-top & {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.28);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.38);
+      }
+    }
+  }
 }
 
-.site-header__button:focus-visible,
-.site-brand:focus-visible {
-  outline: 2px solid rgba(47, 111, 148, 0.4);
-  outline-offset: 3px;
-}
-
-.site-header__button--menu {
-  background: #1a1a1a;
-  color: #ffffff;
-  border: 1px solid #333333;
-  min-width: 160px;
-}
-
-.site-header__button--menu::after {
-  content: '•';
-  position: absolute;
-  right: 10px;
-  font-size: 1.4em;
-  line-height: 1;
-  color: #ffffff;
-  opacity: 1;
-  transition: opacity 220ms ease;
-}
-
-.site-header__button--menu::before {
-  content: '→';
-  position: absolute;
-  left: 10px;
-  font-size: 1.2em;
-  opacity: 0;
-  transform: translateX(-10px);
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease;
-}
-
-.site-header__button--menu:hover {
-  background: #0016ec;
-  color: #ffffff;
-  transform: translateY(-1px);
-  padding-left: 34px;
-  padding-right: 22px;
-}
-
-.site-header__button--menu:hover::before {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.site-header__button--menu:hover::after {
-  opacity: 0;
-}
-
-.site-header__button--login {
-  background: #e5e5e5;
-  color: #1a1a1a;
-  border: 1px solid #cccccc;
-  font-weight: 600;
-}
-
-.site-header__button--login:hover {
-  background: #ffffff;
-  color: #1a1a1a;
-  transform: translateY(-1px);
-}
-
-.site-header__button--login {
-  background: rgba(255, 255, 255, 0.68);
-  color: #18364a;
-  border-color: rgba(188, 205, 219, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-
-.site-header__button--login:hover {
-  background: #ffffff;
-  color: #204e6a;
-  border-color: rgba(47, 111, 148, 0.5);
-  box-shadow: 0 10px 20px rgba(32, 78, 106, 0.12);
-  transform: translateY(-2px);
-}
-
-.site-header--home-top .site-header__button--login {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-
-.site-header--home-top .site-header__button--login:hover {
-  background: rgba(255, 255, 255, 0.22);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.38);
-}
-
+// 响应式设计
 @media (max-width: 760px) {
   .site-shell {
     width: var(--shell-width-mobile);
@@ -494,12 +466,14 @@ onBeforeUnmount(() => {
     padding: 8px 10px;
   }
 
-  .site-brand strong {
-    font-size: 1rem;
-  }
+  .site-brand {
+    strong {
+      font-size: 1rem;
+    }
 
-  .site-brand__logo {
-    height: 32px;
+    &__logo {
+      height: 32px;
+    }
   }
 
   .site-header__actions {
@@ -511,34 +485,36 @@ onBeforeUnmount(() => {
     min-height: 38px;
     padding: 8px 12px;
     font-size: 13px;
-  }
 
-  .site-header__button--menu {
-    min-width: 132px;
-    padding-inline: 14px 28px;
-  }
+    &--menu {
+      min-width: 132px;
+      padding-inline: 14px 28px;
 
-  .site-header__button--menu::after {
-    right: 12px;
-    font-size: 0.92rem;
+      &::after {
+        right: 12px;
+        font-size: 0.92rem;
+      }
+    }
   }
 }
 
 @media (max-width: 560px) {
   .site-brand {
     padding-right: 4px;
+
+    &__logo {
+      height: 28px;
+    }
   }
 
-  .site-brand__logo {
-    height: 28px;
-  }
+  .site-header__button {
+    &--menu {
+      min-width: 116px;
+    }
 
-  .site-header__button--menu {
-    min-width: 116px;
-  }
-
-  .site-header__button--login {
-    min-width: 72px;
+    &--login {
+      min-width: 72px;
+    }
   }
 }
 </style>
