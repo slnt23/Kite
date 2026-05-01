@@ -12,19 +12,15 @@ const props = defineProps({
     default: false
   }
 })
-
 // Emits
 const emit = defineEmits(['update:modelValue'])
-
 // 是否显示管理员登录
 const showAdmin = ref(false)
-
 const password = ref('')
 const submitting = ref(false)
 const errorMessage = ref('')
 const router = useRouter()
 const activeTab = ref('mail')
-
 // 管理员登录表单
 const loginForm = reactive({
   email: '',
@@ -60,7 +56,7 @@ const submitLogin = async () => {
 
   submitting.value = false
   visible.value = false
-  router.push('/profile')
+  await router.push('/profile')
 }
 
 //提交注册
@@ -79,14 +75,13 @@ const closeDialog = () => {
 <template>
   <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
     <!-- 自定义关闭按钮 -->
-    <button class="login-close-button" @click="closeDialog">×</button>
+    <button class="login-close-button" @click="closeDialog">×关闭</button>
 
     <div class="dialog-content">
       <!-- 左边：如果 showAdmin 为 true 显示表单，否则显示图片   admin  -->
       <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin }"
         :style="{ width: showAdmin ? '60%' : '40%' }">
         <div v-if="showAdmin" class="form-panel">
-          <!--          <h2>管理员登录 请保存好密码 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
               <el-tab-pane label="邮箱登录" name="mail"></el-tab-pane>
@@ -101,9 +96,7 @@ const closeDialog = () => {
                   <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable></el-input>
                   <el-button v-if="activeTab === 'mail'">发送验证码</el-button>
                 </div>
-
               </el-form-item>
-
               <el-form-item prop="code" v-if="activeTab === 'mail'">
                 <el-input v-model="loginForm.code" clearable placeholder="请输入验证码" />
               </el-form-item>
@@ -124,7 +117,6 @@ const closeDialog = () => {
       <div class="main-panel" :class="{ 'user-mode': showAdmin, 'admin-mode': !showAdmin }"
         :style="{ width: showAdmin ? '40%' : '60%' }">
         <div v-if="!showAdmin" class="form-panel">
-          <!--          <h2>欢迎用户登录 后期删掉</h2>-->
           <div class="form-header">
             <el-tabs v-model="activeTab" class="tabs">
               <el-tab-pane label="邮箱注册/登录" name="mail"></el-tab-pane>
