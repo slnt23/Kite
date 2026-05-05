@@ -19,12 +19,7 @@ const emit = defineEmits(['close'])
   <Teleport to="body">
     <Transition name="menu-panel">
       <div v-if="open" class="menu-panel">
-        <button
-          class="menu-panel__backdrop"
-          type="button"
-          aria-label="关闭菜单"
-          @click="emit('close')"
-        />
+        <button class="menu-panel__backdrop" type="button" aria-label="关闭菜单" @click="emit('close')"></button>
 
         <section class="menu-panel__sheet glass-panel u-scrollbar-hidden">
           <div class="menu-panel__header">
@@ -32,21 +27,14 @@ const emit = defineEmits(['close'])
               <p class="eyebrow-label">Navigate</p>
               <h2>选择你要进入的功能入口</h2>
             </div>
-
-            <button class="menu-panel__close" type="button" @click="emit('close')">
+            <button class="ui-close-button ui-close-button--corner" type="button" @click="emit('close')">
               关闭
             </button>
           </div>
 
           <div class="menu-panel__masonry">
-            <RouterLink
-              v-for="item in items"
-              :key="item.path"
-              :to="item.path"
-              class="menu-panel__card"
-              :class="{ 'menu-panel__card--large': item.size === 'large' }"
-              @click="emit('close')"
-            >
+            <RouterLink v-for="item in items" :key="item.path" :to="item.path" class="menu-panel__card"
+              :class="{ 'menu-panel__card--large': item.size === 'large' }" @click="emit('close')">
               <img :src="item.image" :alt="item.title" />
               <div class="menu-panel__card-overlay">
                 <p>{{ item.title }}</p>
@@ -95,20 +83,12 @@ const emit = defineEmits(['close'])
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 22px;
+  padding-right: 120px;
 }
 
 .menu-panel__header h2 {
   margin: 0;
   color: var(--color-text-deep);
-}
-
-.menu-panel__close {
-  min-width: 96px;
-  padding: 10px 16px;
-  border: 1px solid #b7b7b7;
-  border-radius: 999px;
-  background: #e3e3e3;
-  color: #3f3f3f;
 }
 
 .menu-panel__masonry {
@@ -198,6 +178,7 @@ const emit = defineEmits(['close'])
 
   .menu-panel__header {
     flex-direction: column;
+    padding-right: 0;
   }
 
   .menu-panel__masonry {

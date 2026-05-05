@@ -1,12 +1,13 @@
-// types/auth.ts
+
 
 /**
- * 邮箱验证码登录/注册 请求参数（前端发送给后端）
+ * 登录或者注册
  */
-export interface EmailLoginOrRegisterParams {
+export interface LoginOrRegisterParams {
     email: string;
-    code: string;
-    role?: number;
+    code?: string;
+    password?: string;
+    role: number;
 }
 
 /**
@@ -14,15 +15,6 @@ export interface EmailLoginOrRegisterParams {
  */
 export interface SendCodeParams {
     email: string;
-}
-
-/**
- * 用户登录
- */
-export interface PasswordLoginParams {
-    email: string;
-    password?: string;
-    role?: number;
 }
 
 /**

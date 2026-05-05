@@ -1,9 +1,13 @@
-<script setup>
-import { ref, computed, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { loginApi } from '@/api/modules'
+<script setup lang="ts">
 import loginAdminImage from '@/assets/login/login_admin_1.png'
 import loginUserImage from '@/assets/login/login_user_1.png'
+
+
+import { ref, computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { loginApi, registerApi, sendCodeApi } from '@/api/modules'
+import type { LoginOrRegisterParams } from '@/types'
+import { setToken } from '@/utils/auth'
 
 // Props
 const props = defineProps({
@@ -14,18 +18,24 @@ const props = defineProps({
 })
 // Emits
 const emit = defineEmits(['update:modelValue'])
-// 是否显示管理员登录
 const showAdmin = ref(false)
 const password = ref('')
 const submitting = ref(false)
 const errorMessage = ref('')
 const router = useRouter()
 const activeTab = ref('mail')
+
+
 // 管理员登录表单
-const loginForm = reactive({
+const loginForm = reactive<LoginOrRegisterParams>({
   email: '',
   password: '',
-  code: ''
+  code: '',
+  role: 0
+})
+
+const codeForm = reactive({
+  email: ''
 })
 
 // 计算属性
@@ -41,26 +51,56 @@ const toggleMode = () => {
   errorMessage.value = ''
 }
 
-// 提交登录
-const submitLogin = async () => {
+// 提交登录或注册
+const submitLoginOrRegister = async (type: 'login' | 'register') => {
   submitting.value = true
   errorMessage.value = ''
-  const role = showAdmin.value ? 'admin' : 'user'
-  const result = loginApi({ role, mode: 'password', secret: password.value })
 
-  if (!result.success) {
-    errorMessage.value = result.message
+  // 构建提交数据
+  const submitData = {
+    email: loginForm.email,
+    ...(activeTab.value === 'mail' ? { code: loginForm.code } : { password: loginForm.password }),
+    role: showAdmin.value ? 1 : 0 //这里用1或者0来指角色，后续用英文，这样歧义太大
+  }
+
+  const result = type === 'login' ? await loginApi(submitData) : await registerApi(submitData)
+
+  if (result.code == 200) {
     submitting.value = false
+    visible.value = false
+
+    loginForm.email = ''
+    loginForm.password = ''
+    loginForm.code = ''
+
+    //保存token，后续需要在请求头中携带token进行认证
+    setToken(result.data)
+
+    await router.push('/')
+  } else {
+    errorMessage.value = result.message || '登录失败，请重试'
+    submitting.value = false
+  }
+}
+
+const sendCode = async () => {
+  if (!codeForm.email) {
+    errorMessage.value = '请输入邮箱地址'
     return
   }
 
-  submitting.value = false
-  visible.value = false
-  await router.push('/profile')
-}
+  submitting.value = true
+  errorMessage.value = ''
 
-//提交注册
-const submitRegister = async () => {
+  const result = await sendCodeApi(codeForm)
+
+  if (result.code == 200) {
+    submitting.value = false
+    errorMessage.value = '验证码已发送，请检查邮箱'
+  } else {
+    errorMessage.value = result.message || '发送验证码失败，请重试'
+    submitting.value = false
+  }
 }
 
 // 关闭弹窗
@@ -74,8 +114,7 @@ const closeDialog = () => {
 
 <template>
   <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
-    <!-- 自定义关闭按钮 -->
-    <button class="login-close-button" @click="closeDialog">×关闭</button>
+    <button class="ui-close-button ui-close-button--corner" type="button" @click="closeDialog">关闭</button>
 
     <div class="dialog-content">
       <!-- 左边：如果 showAdmin 为 true 显示表单，否则显示图片   admin  -->
@@ -93,8 +132,8 @@ const closeDialog = () => {
             <el-form :model="loginForm">
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable></el-input>
-                  <el-button v-if="activeTab === 'mail'">发送验证码</el-button>
+                  <el-input v-model="codeForm.email" placeholder="请输入邮箱地址" clearable></el-input>
+                  <el-button v-if="activeTab === 'mail'" @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="code" v-if="activeTab === 'mail'">
@@ -103,7 +142,8 @@ const closeDialog = () => {
               <el-form-item prop="password" v-else>
                 <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
               </el-form-item>
-              <el-button class="form-button" type="primary" :loading="submitting" @click="submitLogin">登录</el-button>
+              <el-button class="form-button" type="primary" :loading="submitting"
+                @click="submitLoginOrRegister('login')">登录</el-button>
             </el-form>
           </div>
 
@@ -128,8 +168,8 @@ const closeDialog = () => {
             <el-form>
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input placeholder="请输入邮箱地址" clearable class="email-input" />
-                  <el-button>发送验证码</el-button>
+                  <el-input v-model="codeForm.email" placeholder="请输入邮箱地址" clearable class="email-input" />
+                  <el-button @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="password">
@@ -137,8 +177,13 @@ const closeDialog = () => {
               </el-form-item>
               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
               <div class="form-button-group">
-                <el-button type="primary" @click="submitRegister" class="form-button">注册</el-button>
-                <el-button type="primary" :loading="submitting" @click="submitLogin" class="form-button">登录</el-button>
+                <el-button type="primary" @click="submitLoginOrRegister('register')" class="form-button">
+                  注册
+                </el-button>
+                <el-button type="primary" :loading="submitting" @click="submitLoginOrRegister('login')"
+                  class="form-button">
+                  登录
+                </el-button>
               </div>
             </el-form>
           </div>
@@ -154,7 +199,8 @@ const closeDialog = () => {
 
               <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
               <div class="form-button-group">
-                <el-button type="primary" :loading="submitting" @click="submitLogin" class="form-button">登录</el-button>
+                <el-button type="primary" :loading="submitting" @click="submitLoginOrRegister('login')"
+                  class="form-button">登录</el-button>
               </div>
             </el-form>
           </div>
@@ -180,6 +226,13 @@ const closeDialog = () => {
 
   :deep(.el-dialog__body) {
     padding: 0 !important;
+  }
+
+  >.ui-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
   }
 
   .dialog-content {
@@ -347,20 +400,9 @@ const closeDialog = () => {
     margin-top: 10px;
   }
 
-  .login-close-button {
-    position: absolute;
-    top: 20px;
+  .login_close_button {
     right: 20px;
-    background: none;
-    border: none;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #999;
-
-    &:hover {
-      color: #333;
-    }
+    top: 20px;
   }
 }
 </style>

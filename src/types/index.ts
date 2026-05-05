@@ -5,7 +5,8 @@ export * from './router'
 export * from './front'
 
 //导出DTO
-export * from './dto/user.dto.ts'
+export * from './dto/user.dto'
 
 //导出VO
-export * from './vo/user.vo.ts'
+export * from './vo/user.vo'
+export * from './vo/result'

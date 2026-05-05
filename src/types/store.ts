@@ -1,6 +1,6 @@
 // Store 相关类型定义
 
-import type { UserInfo } from './api'
+import type { UserInfo } from './dto/user.dto'
 
 export interface UserStore {
   user: UserInfo | null

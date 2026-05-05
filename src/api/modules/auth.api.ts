@@ -1,38 +1,43 @@
 
 import request from '../request/index'
+import type { LoginOrRegisterParams, Result, SendCodeParams } from '@/types'
+
 
 // 登录 API
-export const loginApi = (data: any) => {
-  return request({
-    url: '/api/login',
-    method: 'post',
-    data
-  })
+export const loginApi = async (data: LoginOrRegisterParams): Promise<Result<string>> => {
+  return request.post('/api/auth/login', data)
 }
 
 // 注册 API
-export const registerApi = (data: any) => {
-  // return service({
-  //   url: '/api/register',
-  //   method: 'post',
-  //   data
-  // })
-  return request.post('/api/register', data)
+export const registerApi = async (data: LoginOrRegisterParams): Promise<Result<string>> => {
+  return request.post('/api/auth/register', data)
 }
 
 // 发送验证码 API
-export const sendCodeApi = (data: any) => {
-  return request({
-    url: '/api/send-code',
-    method: 'post',
-    data
-  })
+export const sendCodeApi = async (data: SendCodeParams): Promise<Result<string>> => {
+  return request.post('/api/auth/send-code', data)
 }
+
 
 // 获取用户信息 API
 export const getUserInfoApi = () => {
-  return request({
-    url: '/api/user/info',
-    method: 'get'
-  })
+  return request.get('/api/user-info')
 }
+
+
+
+
+
+// 普通接口返回 Result<T>
+// export const getUserInfo = async (): Promise<Result<UserInfo>> => {
+//   return request({ url: '/api/user/info' })
+// }
+
+// 分页接口返回 PageResult<T>
+// export const getUserList = async (params: PageParams): Promise<PageResult<UserInfo>> => {
+//   return request({
+//     url: '/api/user/list',
+//     method: 'get',
+//     params
+//   })
+// }
