@@ -1,3 +1,4 @@
+import type { StoryGalleryItem } from '@/types'
 import full01 from '@/assets/front/story-gallery/fulls/01.jpg'
 import full02 from '@/assets/front/story-gallery/fulls/02.jpg'
 import full03 from '@/assets/front/story-gallery/fulls/03.jpg'
@@ -22,13 +23,6 @@ import thumb09 from '@/assets/front/story-gallery/thumbs/09.jpg'
 import thumb10 from '@/assets/front/story-gallery/thumbs/10.jpg'
 import thumb11 from '@/assets/front/story-gallery/thumbs/11.jpg'
 import thumb12 from '@/assets/front/story-gallery/thumbs/12.jpg'
-
-export interface StoryGalleryItem {
-  title: string
-  description: string
-  image: string
-  thumbnail: string
-}
 
 const defaultDescription =
   'Nunc blandit nisi ligula magna sodales lectus elementum non. Integer id venenatis velit.'

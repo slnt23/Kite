@@ -1,43 +1,67 @@
-<script setup>
+<script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import EditorialWorkspace from '../../components/management/EditorialWorkspace.vue'
-import heroImage from '../../assets/admin/editorial-hero-02.jpg'
-import cardImageOne from '../../assets/admin/editorial-card-01.jpg'
-import cardImageTwo from '../../assets/admin/editorial-card-02.jpg'
-import cardImageThree from '../../assets/admin/editorial-card-03.jpg'
-import { getCurrentUser, logout, onAuthChange } from '../../utils/auth.js'
+import SettingsWorkspaceShell from '@/components/layout/SettingsWorkspaceShell.vue'
+import ProfileAccountSection from '@/components/profile/ProfileAccountSection.vue'
+import ProfileAppearanceSection from '@/components/profile/ProfileAppearanceSection.vue'
+import ProfileSettingsSidebar from '@/components/profile/ProfileSettingsSidebar.vue'
+import {
+  ADMIN_DASHBOARD_NAV_SECTIONS,
+  ADMIN_DASHBOARD_SECTION_META,
+  ADMIN_OVERVIEW_FEATURE_CARDS,
+  ADMIN_OVERVIEW_QUICK_CARDS,
+  ADMIN_SETTINGS_INFO_FALLBACK,
+  EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
+} from '@/constants'
+import type { AdminDashboardSectionId, ProfileInfoExample, UserInfo } from '@/types'
+import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
+
+import cardImageOne from '@/assets/admin/editorial-card-01.jpg'
+import cardImageTwo from '@/assets/admin/editorial-card-02.jpg'
+import cardImageThree from '@/assets/admin/editorial-card-03.jpg'
 
 const router = useRouter()
-const currentUser = ref(getCurrentUser())
+const currentUser = ref<UserInfo | null>(getCurrentUser())
+const activeSectionId = ref<AdminDashboardSectionId>('overview')
 let removeAuthListener = () => {}
 
-const dashboardTitle = computed(() => `${currentUser.value?.displayName || '管理员'}后台管理`)
+const profileName = computed(
+  () => currentUser.value?.nickName || currentUser.value?.userName || '管理员',
+)
+const profileTitleLine = computed(() => {
+  const u = currentUser.value
+  const nick = (u?.nickName || '').trim()
+  const un = (u?.userName || '').trim()
+  if (nick && un) return `${nick} (${un})`
+  if (nick) return nick
+  if (un) return un
+  return profileName.value
+})
+const profileSidebarSubtitle = '管理员后台'
+const profileInitial = computed(() => profileName.value.trim().slice(0, 1).toUpperCase() || 'A')
 
-const quickLinks = [
-  { title: '控制台总览', description: '这里可接访问统计、模块状态和待办提醒。' },
-  { title: '内容管理', description: '占位承接文章、价格数据、AI 预设和资源配置。' },
-  { title: '系统设置', description: '后续可接权限角色、菜单开关和日志记录。' },
-]
+const sidebarAvatarUrl = computed(
+  () => (currentUser.value as { avatarUrl?: string } | null)?.avatarUrl?.trim()
+    || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatarUrl,
+)
 
-const featureItems = [
-  { icon: 'A1', title: '数据看板', description: '编辑部风格主区块改造成后台概览看板。' },
-  { icon: 'A2', title: '菜单管理', description: '预留给后台菜单、入口排序和模块开关管理。' },
-  { icon: 'A3', title: '用户与权限', description: '后续可接角色、权限组和登录审计能力。' },
-  { icon: 'A4', title: '运营内容', description: '占位给文章、图片、报价内容和配置项管理。' },
-]
+const activeSection = computed(() => ADMIN_DASHBOARD_SECTION_META[activeSectionId.value])
 
-const postItems = [
+const settingsCards = computed<ProfileInfoExample[]>(() => {
+  const u = currentUser.value
+  const roleLabel = u ? '已登录' : ADMIN_SETTINGS_INFO_FALLBACK[0].value
+  return [
+    { label: '当前角色', value: roleLabel },
+    ADMIN_SETTINGS_INFO_FALLBACK[1],
+    ADMIN_SETTINGS_INFO_FALLBACK[2],
+  ]
+})
+
+const contentPosts = [
   { image: cardImageOne, title: '内容发布', description: '这里先占位内容编辑与发布流程。', cta: '进入' },
   { image: cardImageTwo, title: '数据维护', description: '这里先占位价格维护、导入与校验。', cta: '进入' },
   { image: cardImageThree, title: '系统日志', description: '这里先占位后台操作日志与告警中心。', cta: '进入' },
 ]
-
-const contactItems = computed(() => [
-  { label: '当前角色', value: currentUser.value?.roleLabel || '未登录' },
-  { label: '管理模式', value: '管理员后台界面已独立于前台导航显示。' },
-  { label: '退出方式', value: '右上角保留退出登录按钮，便于从后台直接返回登录页。' },
-])
 
 const handleLogout = () => {
   logout()
@@ -45,8 +69,8 @@ const handleLogout = () => {
 }
 
 onMounted(() => {
-  removeAuthListener = onAuthChange((user) => {
-    currentUser.value = user
+  removeAuthListener = onAuthChange(() => {
+    currentUser.value = getCurrentUser() as UserInfo | null
   })
 })
 
@@ -56,20 +80,162 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <EditorialWorkspace
-    brand="Admin Console"
-    :title="dashboardTitle"
-    subtitle="后台管理员管理界面"
-    description="管理员登录后会进入独立后台。这个页面参考 html5up-editorial 模板重组为侧边栏管理台，前台导航在这里会被隐藏。"
-    :hero-image="heroImage"
-    sidebar-title="后台菜单"
-    sidebar-intro="菜单、搜索、通知、日志与系统信息都可以继续接进这条侧栏。当前先按模板节奏做占位结构。"
-    :quick-links="quickLinks"
-    :feature-items="featureItems"
-    :post-items="postItems"
-    :contact-items="contactItems"
-    logout-label="退出登录"
-    @logout="handleLogout"
-  />
+  <SettingsWorkspaceShell>
+    <template #sidebar>
+      <ProfileSettingsSidebar
+        v-model="activeSectionId"
+        :sections="ADMIN_DASHBOARD_NAV_SECTIONS"
+        :title-line="profileTitleLine"
+        :subtitle-line="profileSidebarSubtitle"
+        :avatar-url="sidebarAvatarUrl"
+        :avatar-initial="profileInitial"
+      >
+        <template #footer>
+          <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
+        </template>
+      </ProfileSettingsSidebar>
+    </template>
+
+    <div class="profile-content">
+      <header class="profile-content__header">
+        <div>
+          <p class="eyebrow-label">{{ activeSection.eyebrow }}</p>
+          <h2>{{ activeSection.heading }}</h2>
+          <p>{{ activeSection.description }}</p>
+        </div>
+      </header>
+
+      <template v-if="activeSectionId === 'overview'">
+        <ProfileAppearanceSection :cards="ADMIN_OVERVIEW_QUICK_CARDS" />
+        <ProfileAppearanceSection :cards="ADMIN_OVERVIEW_FEATURE_CARDS" />
+      </template>
+
+      <section v-else-if="activeSectionId === 'content'" class="admin-posts" aria-label="内容模块占位">
+        <article v-for="item in contentPosts" :key="item.title" class="admin-post-card">
+          <div class="admin-post-card__img-wrap">
+            <img :src="item.image" :alt="item.title" />
+          </div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <button type="button" class="admin-post-card__cta">{{ item.cta }}</button>
+        </article>
+      </section>
+
+      <ProfileAccountSection v-else :cards="settingsCards" />
+    </div>
+  </SettingsWorkspaceShell>
 </template>
-<!--<template></template>-->
+
+<style scoped lang="scss">
+.profile-logout {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #cf222e;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    background: #ffebe9;
+  }
+}
+
+.profile-content {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+
+.profile-content__header {
+  padding: 8px 4px 0;
+  background: transparent;
+}
+
+.profile-content__header h2 {
+  margin: 4px 0 10px;
+  font-size: 2rem;
+  color: var(--color-text);
+}
+
+.profile-content__header p:last-child {
+  margin: 0;
+  color: var(--color-text-soft);
+  max-width: 720px;
+}
+
+.admin-posts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.admin-post-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px 18px 20px;
+  border-radius: 22px;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.admin-post-card__img-wrap {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: rgba(15, 23, 42, 0.08);
+}
+
+.admin-post-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.admin-post-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.admin-post-card p {
+  margin: 0;
+  color: var(--color-text-soft);
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.admin-post-card__cta {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.08);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(15, 23, 42, 0.12);
+  }
+}
+
+@media (max-width: 1120px) {
+  .admin-posts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-posts {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
