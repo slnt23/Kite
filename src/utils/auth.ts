@@ -1,5 +1,5 @@
 ﻿
-import type { UserInfo } from "@/types";
+import type { UserInfoParams } from "@/types";
 import { getUserInfoApi } from "@/api/modules";
 import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constants";
 
@@ -36,24 +36,13 @@ export const logout = (): void => {
   if (isClient()) {
     window.localStorage.removeItem(AUTH_STORAGE_KEY)
     window.localStorage.removeItem(TOKEN_STORAGE_KEY)
-    // emitAuthChange()
   }
   // 可选：调用后端登出API
   // logoutApi().catch(console.error)
 }
 
-
-
-
-
-
-
-
-/** 
- * 获取当前用户信息 
- * @returns 用户信息对象或null（如果不存在或解析失败） 
- */
-export const getCurrentUser = (): UserInfo | null => {
+// 获取当前用户信息，
+export const getCurrentUser = (): UserInfoParams | null => {
   if (!isClient()) return null
   const rawSession = window.localStorage.getItem(AUTH_STORAGE_KEY)
   if (!rawSession) return null

@@ -38,7 +38,6 @@ src
 │  └─ modules              # 路由模块
 ├─ stores                  # Pinia 状态管理
 ├─ types                   # TypeScript 类型定义
-│  ├─ api.ts               # API 相关类型
 │  ├─ store.ts             # Store 相关类型
 │  ├─ router.ts            # 路由和模块配置类型
 │  ├─ auto-imports.d.ts    # 自动导入声明
@@ -60,7 +59,6 @@ src
 
 ### 类型定义结构
 
-- **API 类型** (`types/api.ts`): 接口请求/响应类型定义
 - **Store 类型** (`types/store.ts`): 状态管理相关类型
 - **路由类型** (`types/router.ts`): 路由和模块配置类型
 - **自动生成类型**: `auto-imports.d.ts` 和 `components.d.ts` 由构建工具自动生成
@@ -132,7 +130,6 @@ src
 
 TypeScript 类型定义目录：
 
-- `api.ts`: API 相关类型
 - `store.ts`: Store 相关类型
 - `router.ts`: 路由和模块类型
 - `auto-imports.d.ts`: 自动导入声明

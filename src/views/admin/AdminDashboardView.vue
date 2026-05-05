@@ -13,7 +13,7 @@ import {
   ADMIN_SETTINGS_INFO_FALLBACK,
   EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
 } from '@/constants'
-import type { AdminDashboardSectionId, ProfileInfoExample, UserInfo } from '@/types'
+import type { AdminDashboardSectionId, ProfileInfoExample, UserInfoParams } from '@/types'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
 import cardImageOne from '@/assets/admin/editorial-card-01.jpg'
@@ -21,7 +21,7 @@ import cardImageTwo from '@/assets/admin/editorial-card-02.jpg'
 import cardImageThree from '@/assets/admin/editorial-card-03.jpg'
 
 const router = useRouter()
-const currentUser = ref<UserInfo | null>(getCurrentUser())
+const currentUser = ref<UserInfoParams | null>(getCurrentUser())
 const activeSectionId = ref<AdminDashboardSectionId>('overview')
 let removeAuthListener = () => {}
 
@@ -70,7 +70,7 @@ const handleLogout = () => {
 
 onMounted(() => {
   removeAuthListener = onAuthChange(() => {
-    currentUser.value = getCurrentUser() as UserInfo | null
+    currentUser.value = getCurrentUser() as UserInfoParams | null
   })
 })
 

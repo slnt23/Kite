@@ -8,7 +8,7 @@ import ProfileNotificationsSection from '@/components/profile/ProfileNotificatio
 import ProfilePublicProfileSection from '@/components/profile/ProfilePublicProfileSection.vue'
 import SettingsWorkspaceShell from '@/components/layout/SettingsWorkspaceShell.vue'
 import ProfileSettingsSidebar from '@/components/profile/ProfileSettingsSidebar.vue'
-import type { EditablePublicProfile, ProfileSectionId, UserInfo } from '@/types'
+import type { EditablePublicProfile, ProfileSectionId, UserInfoParams } from '@/types'
 import {
   AUTH_CHANGE_EVENT,
   AUTH_STORAGE_KEY,
@@ -23,7 +23,7 @@ import {
 
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
-type ProfileUser = UserInfo & {
+type ProfileUser = UserInfoParams & {
   avatarUrl?: string
   pronouns?: string
   websiteUrl?: string

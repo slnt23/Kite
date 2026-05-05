@@ -9,7 +9,6 @@ import frontRoutes from './modules/front.routes.js'
 const router = createRouter({
   history: createWebHistory(),
   routes: [...frontRoutes, ...adminRoutes],
-
   // 滚动行为：保存位置、锚点或回到顶部
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition
@@ -19,7 +18,6 @@ const router = createRouter({
     return { top: 0 }
   },
 })
-
 
 // 全局前置守卫 - 路由权限控制
 router.beforeEach(async (to) => {

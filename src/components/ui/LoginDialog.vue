@@ -31,7 +31,7 @@ const loginForm = reactive<LoginOrRegisterParams>({
   email: '',
   password: '',
   code: '',
-  role: 0
+  role: ''
 })
 
 const codeForm = reactive({
@@ -60,7 +60,7 @@ const submitLoginOrRegister = async (type: 'login' | 'register') => {
   const submitData = {
     email: loginForm.email,
     ...(activeTab.value === 'mail' ? { code: loginForm.code } : { password: loginForm.password }),
-    role: showAdmin.value ? 1 : 0 //这里用1或者0来指角色，后续用英文，这样歧义太大
+    role: showAdmin.value ? 'admin' : 'user' //这里用1或者0来指角色，后续用英文，这样歧义太大
   }
 
   const result = type === 'login' ? await loginApi(submitData) : await registerApi(submitData)
