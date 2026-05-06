@@ -1,6 +1,5 @@
 ﻿
 import type { UserInfoParams } from "@/types";
-import { getUserInfoApi } from "@/api/modules";
 import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constants";
 
 
