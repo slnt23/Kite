@@ -1,8 +1,6 @@
 <script setup lang="ts">
 /**
  * 用户个人中心页面组件
- * 功能：管理用户个人资料、账户设置、外观、辅助功能和通知设置
- * 采用 Vue 3 组合式 API 设计
  */
 
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
@@ -31,7 +29,7 @@ import {
   PROFILE_ACCOUNT_CARDS,
   PROFILE_APPEARANCE_CARDS,
   PROFILE_NOTIFICATION_CARDS,
-  PROFILE_SECTION_ITEMS,
+  // PROFILE_SECTION_ITEMS,
   PROFILE_SETTINGS_NAV_SECTIONS,
 } from '@/constants'
 
@@ -114,9 +112,9 @@ const sidebarAvatarUrl = computed(
 /**
  * 计算属性：当前激活的功能区块配置信息
  */
-const activeSection = computed(
-  () => PROFILE_SECTION_ITEMS.find((item) => item.id === activeSectionId.value) || PROFILE_SECTION_ITEMS[0],
-)
+// const activeSection = computed(
+//   () => PROFILE_SECTION_ITEMS.find((item) => item.id === activeSectionId.value) || PROFILE_SECTION_ITEMS[0],
+// )
 
 // 公开资料默认值常量
 const examplePublic = EXAMPLE_PUBLIC_PROFILE_DEFAULTS
@@ -139,19 +137,7 @@ const publicProfile = computed<UserInfoParams>(() => {
   }
 })
 
-/**
- * 计算属性：账户信息卡片数据
- * 将静态卡片配置与动态用户数据结合
- */
-const accountCards = computed(() =>
-  PROFILE_ACCOUNT_CARDS.map((card) => {
-    if (card.label === '当前身份') return { ...card, value: profileRole.value }
-    if (card.label === '登录方式') return { ...card, value: profileLoginMode.value }
-    if (card.label === '最近活动') return { ...card, value: profileLoginAt.value }
-    if (card.label === '主邮箱') return { ...card, value: profileHandle.value }
-    return card
-  }),
-)
+
 
 /**
  * 处理用户退出登录
@@ -191,6 +177,8 @@ const handleSavePublicProfile = (payload: UserInfoParams) => {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentUser.value))
     window.dispatchEvent(new Event(AUTH_CHANGE_EVENT))
+
+    //后续要发送给后端接口，
   }
 }
 
@@ -219,18 +207,34 @@ onMounted(() => {
 onBeforeUnmount(() => {
   removeAuthListener()
 })
+
+// 后期清除
+
+/**
+ * 计算属性：账户信息卡片数据
+ * 将静态卡片配置与动态用户数据结合
+ */
+const accountCards = computed(() =>
+  PROFILE_ACCOUNT_CARDS.map((card) => {
+    if (card.label === '当前身份') return { ...card, value: profileRole.value }
+    if (card.label === '登录方式') return { ...card, value: profileLoginMode.value }
+    if (card.label === '最近活动') return { ...card, value: profileLoginAt.value }
+    if (card.label === '主邮箱') return { ...card, value: profileHandle.value }
+    return card
+  }),
+)
+
+// 
+
 </script>
 
 <template>
   <!-- 个人中心整体布局容器 -->
   <SettingsWorkspaceShell>
-    <!-- 侧边栏插槽 -->
     <template #sidebar>
-      <!-- 设置侧边导航栏 -->
       <SettingsSidebar v-model="activeSectionId" :sections="PROFILE_SETTINGS_NAV_SECTIONS"
         :title-line="profileTitleLine" :subtitle-line="profileSidebarSubtitle" :avatar-url="sidebarAvatarUrl"
         :avatar-initial="profileInitial">
-        <!-- 侧边栏底部插槽：退出登录按钮 -->
         <template #footer>
           <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
         </template>
@@ -243,8 +247,8 @@ onBeforeUnmount(() => {
       <header class="profile-content__header">
         <div>
           <p class="eyebrow-label">个人中心</p>
-          <h2>{{ activeSection.heading }}</h2>
-          <p>{{ activeSection.description }}</p>
+          <!-- <h2>{{ activeSection.heading }}</h2> -->
+          <!-- <p>{{ activeSection.description }}</p> -->
         </div>
       </header>
 
