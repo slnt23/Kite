@@ -6,8 +6,6 @@ import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/consta
 /**
  * 登录鉴权工具模块 - 与后端API交互的真实认证系统
  */
-
-
 export const setToken = (token: string): void => {
   localStorage.setItem(TOKEN_STORAGE_KEY, token)
 }
