@@ -5,9 +5,10 @@ import loginUserImage from '@/assets/login/login_user_1.png'
 
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { loginApi, registerApi, sendCodeApi } from '@/api/modules'
+import {getUserInfoApi, loginApi, registerApi, sendCodeApi} from '@/api/modules'
 import type { LoginOrRegisterParams } from '@/types'
 import { setToken } from '@/utils/auth'
+import {AUTH_STORAGE_KEY} from "@/constants";
 
 // Props
 const props = defineProps({
@@ -75,6 +76,11 @@ const submitLoginOrRegister = async (type: 'login' | 'register') => {
 
     //保存token，后续需要在请求头中携带token进行认证
     setToken(result.data)
+
+    const userInfoResult = await getUserInfoApi()
+    if(userInfoResult.code == 200){
+      window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userInfoResult.data))
+    }
 
     await router.push('/')
   } else {

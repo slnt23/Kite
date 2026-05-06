@@ -1,10 +1,10 @@
-﻿import FrontLayout from '../../layouts/FrontLayout.vue'
-import CapabilitiesView from '../../views/front/CapabilitiesView.vue'
+﻿import FrontLayout from '@/layouts/FrontLayout.vue'
+import CapabilitiesView from '@/views/front/CapabilitiesView.vue'
 import AiChatView from '@/views/front/AiChatView.vue'
-import PriceSearchView from '../../views/front/PriceSearchView.vue'
-import UserProfileView from '../../views/front/UserProfileView.vue'
-import StoryView from '../../views/front/StoryView.vue'
-import HomeView from '../../views/front/HomeView.vue'
+import PriceSearchView from '@/views/front/PriceSearchView.vue'
+import UserProfileView from '@/views/front/UserProfileView.vue'
+import StoryView from '@/views/front/StoryView.vue'
+import HomeView from '@/views/front/HomeView.vue'
 
 
 const frontRoutes = [
@@ -22,7 +22,7 @@ const frontRoutes = [
         name: 'front-price-query',
         component: PriceSearchView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
@@ -30,7 +30,7 @@ const frontRoutes = [
         name: 'front-story',
         component: StoryView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
@@ -38,15 +38,15 @@ const frontRoutes = [
         name: 'front-capabilities',
         component: CapabilitiesView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
-        path: 'ai-chat',
-        name: 'front-ai-chat',
+        path: 'ai-ai',
+        name: 'front-ai-ai',
         component: AiChatView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
@@ -54,7 +54,7 @@ const frontRoutes = [
         name: 'front-profile',
         component: UserProfileView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
     ],

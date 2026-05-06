@@ -69,8 +69,8 @@ const handleLogout = () => {
 }
 
 onMounted(() => {
-  removeAuthListener = onAuthChange(() => {
-    currentUser.value = getCurrentUser() as UserInfoParams | null
+  removeAuthListener = onAuthChange((user) => {
+    currentUser.value = user as UserInfoParams | null
   })
 })
 

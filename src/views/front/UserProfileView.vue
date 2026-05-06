@@ -122,8 +122,8 @@ const handleEditAvatar = () => {
 }
 
 onMounted(() => {
-  removeAuthListener = onAuthChange(() => {
-    currentUser.value = getCurrentUser() as ProfileUser | null
+  removeAuthListener = onAuthChange((user) => {
+    currentUser.value = user as ProfileUser | null
   })
 })
 

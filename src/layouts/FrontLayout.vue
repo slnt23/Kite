@@ -1,11 +1,12 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { getCurrentUser, onAuthChange } from '../utils/auth.js'
+import { FRONT_MENU_ITEMS } from '@/constants'
 import MenuPanel from '../components/site/MenuPanel.vue'
 import SiteFooter from '../components/site/SiteFooter.vue'
 import LoginDialog from '../components/ui/LoginDialog.vue'
-import { getCurrentUser, onAuthChange } from '../utils/auth.js'
-import { FRONT_MENU_ITEMS } from '@/constants'
+
 
 const route = useRoute()
 const menuOpen = ref(false)
@@ -23,16 +24,17 @@ let pinnedHideTimer = 0
 const shiftDoublePressGap = 360
 const pinnedHeaderDuration = 5000
 const scrollRevealThreshold = 12
-
 const isHome = computed(() => route.path === '/')
-const isChatRoute = computed(() => route.path === '/ai-chat')
+const isChatRoute = computed(() => route.path === '/ai-ai')
 const showCompactHeader = computed(() => !isHome.value || isScrolled.value)
 const showFooter = computed(() => isHome.value)
 const menuItems = computed(() => FRONT_MENU_ITEMS)
 const accountRoute = computed(() => (currentUser.value ? '/profile' : '/login'))
 const accountLabel = computed(() => (currentUser.value ? '我的' : '登录'))
 // 音乐功能暂未实现，预留接口
-const openMusic = computed(() => isScrolled.value)
+// const openMusic = computed(() => isScrolled.value)
+
+
 
 const clearPinnedHideTimer = () => {
   if (pinnedHideTimer) {
@@ -129,6 +131,20 @@ const refreshPinnedHeader = () => {
   schedulePinnedHeaderHide()
 }
 
+// 登录成功后的处理
+// const handleLoginSuccess = () => {
+//   // 登录成功后，如果有待处理的路径，则进行跳转
+//   if (authState.pendingRoute) {
+//     const pendingRoute = authState.pendingRoute
+//     authState.closeLoginDialog()
+
+//     // 延迟跳转，确保登录状态已更新
+//     setTimeout(() => {
+//       window.location.href = pendingRoute
+//     }, 100)
+//   }
+// }
+
 watch(
   () => route.path,
   () => {
@@ -166,6 +182,18 @@ watch(
     lastScrollY = window.scrollY
   },
 )
+
+// 监听全局状态变化
+// watch(() => authState.showLoginDialog, (newVal) => {
+//   showLoginDialog.value = newVal
+// })
+
+// // 监听本地弹窗状态变化，同步到全局状态
+// watch(showLoginDialog, (newVal) => {
+//   if (!newVal) {
+//     authState.closeLoginDialog()
+//   }
+// })
 
 onMounted(() => {
   lastScrollY = window.scrollY

@@ -2,8 +2,8 @@
 export * from './store'
 export * from './router'
 
-export * from './profile'
-export * from './story'
+
+
 
 
 //导出DTO
@@ -14,3 +14,10 @@ export * from './dto/front.dto'
 //导出VO
 export * from './vo/user.vo'
 export * from './vo/result'
+
+
+//导出models
+export * from './models/profile.ts'
+export * from './models/story.ts'
+
+

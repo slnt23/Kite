@@ -52,6 +52,29 @@ export const getCurrentUser = (): UserInfoParams | null => {
   }
 }
 
+// 全局状态管理 - 用于控制登录弹窗
+// export const globalAuthState = {
+//   showLoginDialog: false,
+//   pendingRoute: null as string | null,
+
+//   openLoginDialog(routePath: string) {
+//     this.showLoginDialog = true
+//     this.pendingRoute = routePath
+//   },
+
+//   closeLoginDialog() {
+//     this.showLoginDialog = false
+//     this.pendingRoute = null
+//   }
+// }
+
+
+
+
+
+
+
+
 
 
 
@@ -60,16 +83,21 @@ export const getCurrentUser = (): UserInfoParams | null => {
  * @param callback 当认证状态变化时调用的回调函数
  * @returns 取消监听的函数
  */
-export const onAuthChange = (callback: () => void): (() => void) => {
+export const onAuthChange = (callback: (user: UserInfoParams | null) => void): (() => void) => {
   if (!isClient() || typeof callback !== 'function') {
     return () => { } // 返回空函数
   }
 
-  // 添加事件监听器
-  window.addEventListener(AUTH_CHANGE_EVENT, callback)
+  // 包装监听器：当事件触发时，读取最新的用户信息并传给回调
+  const handler = () => {
+    const user = getCurrentUser()
+    callback(user)
+  }
+
+  window.addEventListener(AUTH_CHANGE_EVENT, handler)
 
   // 返回取消监听的函数
   return () => {
-    window.removeEventListener(AUTH_CHANGE_EVENT, callback)
+    window.removeEventListener(AUTH_CHANGE_EVENT, handler)
   }
 }

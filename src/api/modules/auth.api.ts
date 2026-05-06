@@ -1,6 +1,6 @@
 
 import request from '../request/index'
-import type { LoginOrRegisterParams, Result, SendCodeParams } from '@/types'
+import type {LoginOrRegisterParams, Result, SendCodeParams, UserInfoParams} from '@/types'
 
 
 // 登录 API
@@ -20,8 +20,8 @@ export const sendCodeApi = async (data: SendCodeParams): Promise<Result<string>>
 
 
 // 获取用户信息 API
-export const getUserInfoApi = () => {
-  return request.get('/api/user-info')
+export const getUserInfoApi = async ():Promise<Result<UserInfoParams>> => {
+  return request.get('/api/user/info')
 }
 
 

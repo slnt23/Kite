@@ -41,7 +41,7 @@ export const FRONT_MENU_ITEMS: MenuItem[] = [
     {
         title: 'AI聊天',
         subtitle: '进入聊天界面入口，查看对话交互样式',
-        path: '/ai-chat',
+        path: '/ai-ai',
         image: menuImageAiChat,
     },
 ]

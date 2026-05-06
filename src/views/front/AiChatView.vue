@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import ChatSidebar from '@/components/chat/ChatSidebar.vue'
-import ChatStream from '@/components/chat/ChatStream.vue'
-import ChatComposer from '@/components/chat/ChatComposer.vue'
+import ChatSidebar from '@/components/ai/ChatSidebar.vue'
+import ChatStream from '@/components/ai/ChatStream.vue'
+import ChatComposer from '@/components/ai/ChatComposer.vue'
 
 interface Message {
   id: string
@@ -142,11 +142,11 @@ const sendMessage = () => {
 }
 
 onMounted(() => {
-  document.body.classList.add('body-chat-lock')
+  document.body.classList.add('body-ai-lock')
 })
 
 onBeforeUnmount(() => {
-  document.body.classList.remove('body-chat-lock')
+  document.body.classList.remove('body-ai-lock')
 })
 </script>
 
@@ -177,7 +177,7 @@ onBeforeUnmount(() => {
 .chat-page {
   height: 100vh;
   padding:
-    // calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap))
+    // calc(var(--site-header-offset) + var(--site-header-height) + var(--ai-nav-gap))
     var(--chat-edge-gap) var(--chat-edge-gap);
   overflow: hidden;
 }
