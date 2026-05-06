@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import SettingsWorkspaceShell from '@/components/layout/SettingsWorkspaceShell.vue'
-import ProfileAccountSection from '@/components/profile/ProfileAccountSection.vue'
-import ProfileAppearanceSection from '@/components/profile/ProfileAppearanceSection.vue'
-import ProfileSettingsSidebar from '@/components/profile/ProfileSettingsSidebar.vue'
+import SettingsWorkspaceShell from '@/components/dashboard/SettingsWorkspaceShell.vue'
+import ProfileAccountSection from '@/components/dashboard/ProfileAccountSection.vue'
+import ProfileAppearanceSection from '@/components/dashboard/ProfileAppearanceSection.vue'
+import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue'
 import {
   ADMIN_DASHBOARD_NAV_SECTIONS,
   ADMIN_DASHBOARD_SECTION_META,
@@ -82,7 +82,7 @@ onBeforeUnmount(() => {
 <template>
   <SettingsWorkspaceShell>
     <template #sidebar>
-      <ProfileSettingsSidebar
+      <SettingsSidebar
         v-model="activeSectionId"
         :sections="ADMIN_DASHBOARD_NAV_SECTIONS"
         :title-line="profileTitleLine"
@@ -93,7 +93,7 @@ onBeforeUnmount(() => {
         <template #footer>
           <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
         </template>
-      </ProfileSettingsSidebar>
+      </SettingsSidebar>
     </template>
 
     <div class="profile-content">

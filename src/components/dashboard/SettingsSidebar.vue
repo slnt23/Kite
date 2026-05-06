@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
-import { computed, ref } from 'vue'
+import type {Component} from 'vue'
+import {computed, ref} from 'vue'
 import {
   ArrowDown,
   Bell,
@@ -27,18 +27,18 @@ import type {
 } from '@/types'
 
 const props = withDefaults(
-  defineProps<{
-    modelValue: string
-    sections: ProfileSettingsNavSection[]
-    titleLine: string
-    subtitleLine: string
-    avatarUrl?: string | null
-    avatarInitial?: string
-  }>(),
-  {
-    avatarUrl: null,
-    avatarInitial: '?',
-  },
+    defineProps<{
+      modelValue: string
+      sections: ProfileSettingsNavSection[]
+      titleLine: string
+      subtitleLine: string
+      avatarUrl?: string | null
+      avatarInitial?: string
+    }>(),
+    {
+      avatarUrl: null,
+      avatarInitial: '?',
+    },
 )
 
 const emit = defineEmits<{
@@ -97,7 +97,7 @@ const onRowClick = (item: ProfileSettingsNavItem) => {
   <aside class="ps-sidebar" aria-label="设置导航">
     <div class="ps-sidebar__header">
       <div v-if="showAvatarImage" class="ps-sidebar__avatar ps-sidebar__avatar--img">
-        <img :src="resolvedAvatarUrl" alt="" />
+        <img :src="resolvedAvatarUrl" alt=""/>
       </div>
       <div v-else class="ps-sidebar__avatar ps-sidebar__avatar--text" aria-hidden="true">
         {{ avatarInitial }}
@@ -110,34 +110,34 @@ const onRowClick = (item: ProfileSettingsNavItem) => {
 
     <nav class="ps-sidebar__nav">
       <template v-for="(section, sIdx) in sections" :key="sIdx">
-        <div v-if="sIdx > 0" class="ps-sidebar__divider" role="presentation" />
+        <div v-if="sIdx > 0" class="ps-sidebar__divider" role="presentation"/>
         <p v-if="section.title" class="ps-sidebar__section-title">{{ section.title }}</p>
         <ul class="ps-sidebar__list" role="list">
           <li v-for="item in section.items" :key="item.id" class="ps-sidebar__li" role="none">
             <button
-              type="button"
-              class="ps-sidebar__item"
-              :class="{
+                type="button"
+                class="ps-sidebar__item"
+                :class="{
                 'ps-sidebar__item--active': item.id === modelValue && item.navigable !== false,
                 'ps-sidebar__item--disabled': item.disabled,
               }"
-              :disabled="item.disabled"
-              role="menuitem"
-              @click="onRowClick(item)"
+                :disabled="item.disabled"
+                role="menuitem"
+                @click="onRowClick(item)"
             >
-              <span class="ps-sidebar__item-border" aria-hidden="true" />
+              <span class="ps-sidebar__item-border" aria-hidden="true"/>
               <el-icon class="ps-sidebar__icon" :size="16">
-                <component :is="resolveIcon(item.icon)" />
+                <component :is="resolveIcon(item.icon)"/>
               </el-icon>
               <span class="ps-sidebar__label">{{ item.label }}</span>
               <span v-if="item.badge" class="ps-sidebar__badge">{{ item.badge }}</span>
               <el-icon
-                v-if="item.expandable"
-                class="ps-sidebar__chevron"
-                :class="{ 'ps-sidebar__chevron--open': isExpanded(item.id) }"
-                :size="14"
+                  v-if="item.expandable"
+                  class="ps-sidebar__chevron"
+                  :class="{ 'ps-sidebar__chevron--open': isExpanded(item.id) }"
+                  :size="14"
               >
-                <ArrowDown />
+                <ArrowDown/>
               </el-icon>
             </button>
           </li>
@@ -146,7 +146,7 @@ const onRowClick = (item: ProfileSettingsNavItem) => {
     </nav>
 
     <div v-if="$slots.footer" class="ps-sidebar__footer">
-      <slot name="footer" />
+      <slot name="footer"/>
     </div>
   </aside>
 </template>

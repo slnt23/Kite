@@ -54,7 +54,7 @@ const frontRoutes = [
         name: 'front-profile',
         component: UserProfileView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
     ],

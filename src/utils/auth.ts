@@ -52,24 +52,6 @@ export const getCurrentUser = (): UserInfoParams | null => {
   }
 }
 
-// 全局状态管理 - 用于控制登录弹窗
-// export const globalAuthState = {
-//   showLoginDialog: false,
-//   pendingRoute: null as string | null,
-
-//   openLoginDialog(routePath: string) {
-//     this.showLoginDialog = true
-//     this.pendingRoute = routePath
-//   },
-
-//   closeLoginDialog() {
-//     this.showLoginDialog = false
-//     this.pendingRoute = null
-//   }
-// }
-
-
-
 
 
 

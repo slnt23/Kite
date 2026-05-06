@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * 设置类工作台布局：左侧栏 + 主内容区，与前台个人中心相同的栅格与响应式规则。
- * 主内容通过默认插槽传入；侧栏通过 `sidebar` 插槽传入（通常为 ProfileSettingsSidebar）。
+ * 主内容通过默认插槽传入；侧栏通过 `sidebar` 插槽传入（通常为 SettingsSidebar）。
  */
 </script>
 

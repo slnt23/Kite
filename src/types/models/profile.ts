@@ -38,7 +38,7 @@ export interface ProfileCardExample {
   description: string
 }
 
-/** 设置侧栏图标 key，在 ProfileSettingsSidebar 内映射为 Element Plus 图标 */
+/** 设置侧栏图标 key，在 SettingsSidebar 内映射为 Element Plus 图标 */
 export type ProfileSettingsIconKey =
   | 'user'
   | 'setting'

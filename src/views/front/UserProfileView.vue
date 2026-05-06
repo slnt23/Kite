@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import ProfileAccessibilitySection from '@/components/profile/ProfileAccessibilitySection.vue'
-import ProfileAccountSection from '@/components/profile/ProfileAccountSection.vue'
-import ProfileAppearanceSection from '@/components/profile/ProfileAppearanceSection.vue'
-import ProfileNotificationsSection from '@/components/profile/ProfileNotificationsSection.vue'
-import ProfilePublicProfileSection from '@/components/profile/ProfilePublicProfileSection.vue'
-import SettingsWorkspaceShell from '@/components/layout/SettingsWorkspaceShell.vue'
-import ProfileSettingsSidebar from '@/components/profile/ProfileSettingsSidebar.vue'
+import ProfileAccessibilitySection from '@/components/dashboard/ProfileAccessibilitySection.vue'
+import ProfileAccountSection from '@/components/dashboard/ProfileAccountSection.vue'
+import ProfileAppearanceSection from '@/components/dashboard/ProfileAppearanceSection.vue'
+import ProfileNotificationsSection from '@/components/dashboard/ProfileNotificationsSection.vue'
+import ProfilePublicProfileSection from '@/components/dashboard/ProfilePublicProfileSection.vue'
+import SettingsWorkspaceShell from '@/components/dashboard/SettingsWorkspaceShell.vue'
+import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue'
 import type { EditablePublicProfile, ProfileSectionId, UserInfoParams } from '@/types'
 import {
   AUTH_CHANGE_EVENT,
@@ -135,7 +135,7 @@ onBeforeUnmount(() => {
 <template>
   <SettingsWorkspaceShell>
     <template #sidebar>
-      <ProfileSettingsSidebar
+      <SettingsSidebar
         v-model="activeSectionId"
         :sections="PROFILE_SETTINGS_NAV_SECTIONS"
         :title-line="profileTitleLine"
@@ -146,7 +146,7 @@ onBeforeUnmount(() => {
         <template #footer>
           <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
         </template>
-      </ProfileSettingsSidebar>
+      </SettingsSidebar>
     </template>
 
     <div class="profile-content">

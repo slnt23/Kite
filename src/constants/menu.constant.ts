@@ -13,13 +13,13 @@ import menuImageAiChat from '../assets/front/pic04.jpg'
  * 前台菜单选项配置常量
  */
 export const FRONT_MENU_ITEMS: MenuItem[] = [
-    {
-        title: '首页',
-        subtitle: '查看全屏滚动总览与模块入口',
-        path: '/',
-        image: menuImageHome,
-        size: 'large',
-    },
+    // {
+    //     title: '首页',
+    //     subtitle: '查看全屏滚动总览与模块入口',
+    //     path: '/',
+    //     image: menuImageHome,
+    //     size: 'large',
+    // },
     {
         title: '价格查询',
         subtitle: '进入独立查询界面，查看价格与趋势',
