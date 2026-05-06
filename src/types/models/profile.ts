@@ -81,14 +81,14 @@ export interface AdminDashboardSectionMeta {
   description: string
 }
 
-/** 个人中心「公开资料」表单可编辑快照 */
-export interface EditablePublicProfile {
-  userName: string
-  phone: string
-  displayName: string
-  publicEmail: string
-  bio: string
-  pronouns: string
-  websiteUrl: string
-  avatarUrl: string
-}
+// /** 个人中心「公开资料」表单可编辑快照 */
+// export interface EditablePublicProfile {
+//   userName: string
+//   phone: string
+//   displayName: string
+//   publicEmail: string
+//   bio: string
+//   pronouns: string
+//   websiteUrl: string
+//   avatarUrl: string
+// }

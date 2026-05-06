@@ -72,14 +72,14 @@ export const FEATURE_ITEMS: FeatureItem[] = [
   },
 ]
 
-export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: PublicProfileFormExampleDefaults = {
-  displayName: 'Queue',
-  publicEmail: '',
-  bio: 'Explore the Future,',
-  pronouns: '',
-  websiteUrl: '',
-  avatarUrl: projectImageOne as string,
-}
+// export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: PublicProfileFormExampleDefaults = {
+//   displayName: 'Queue',
+//   publicEmail: '123456@qq.com',
+//   bio: 'Explore the Future,',
+//   pronouns: '',
+//   websiteUrl: '',
+//   avatarUrl: projectImageOne as string,
+// }
 
 export const EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS: ProfileSelectOption[] = [
   { value: '', label: '选择已验证邮箱以展示' },

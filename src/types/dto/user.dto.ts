@@ -27,4 +27,6 @@ export interface UserInfoParams {
     remark?: string;
     rawPhone?: string;
     role: string;
+    avatar: string;  // 头像URL
+
 }
