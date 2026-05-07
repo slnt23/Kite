@@ -31,9 +31,11 @@ import {
 
 // 导入类型定义
 import type {
-  ProfileSettingsIconKey,
-  ProfileSettingsNavItem,
-  ProfileSettingsNavSection,
+  IconKey,
+  // ProfileSettingsNavItem,
+  // ProfileSettingsNavSection,
+    NavSection,
+    NavItem,
 } from '@/types'
 
 /**
@@ -42,7 +44,7 @@ import type {
 const props = withDefaults(
   defineProps<{
     modelValue: string                    // 当前激活的导航项ID
-    sections: ProfileSettingsNavSection[] // 导航区块配置（暂时注释）
+    sections: NavSection[] // 导航区块配置（暂时注释）
     titleLine: string                    // 标题行文本
     subtitleLine: string                 // 副标题文本
     avatarUrl?: string | null            // 头像URL（可选）
@@ -72,7 +74,7 @@ const expandedIds = ref<Record<string, boolean>>({})
  * 图标组件映射表
  * 将图标键名映射到对应的 Element Plus 图标组件
  */
-const iconComponents: Record<ProfileSettingsIconKey, Component> = {
+const iconComponents: Record<IconKey, Component> = {
   user: User,              // 用户图标
   setting: Setting,        // 设置图标
   brush: Brush,            // 画笔图标（外观）
@@ -96,7 +98,7 @@ const iconComponents: Record<ProfileSettingsIconKey, Component> = {
  * @param key - 图标键名
  * @returns 对应的图标组件
  */
-const resolveIcon = (key: ProfileSettingsIconKey): Component => iconComponents[key]
+const resolveIcon = (key: IconKey): Component => iconComponents[key]
 
 /**
  * 计算属性：处理后的头像URL（去除前后空格）

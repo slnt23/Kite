@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY} from "@/constants";
+import {AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY} from "@/constant";
 
 // 创建 axios 实例，配置基础设置
 const request = axios.create({

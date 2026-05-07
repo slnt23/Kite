@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { getCurrentUser, onAuthChange } from '../utils/auth.js'
-import { FRONT_MENU_ITEMS } from '@/constants'
+import { FRONT_MENU_ITEMS } from '@/constant'
 import MenuPanel from '../components/site/MenuPanel.vue'
 import SiteFooter from '../components/site/SiteFooter.vue'
 import LoginDialog from '../components/ui/LoginDialog.vue'

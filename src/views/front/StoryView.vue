@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import GalleryLightbox from '@/components/site/GalleryLightbox.vue'
-import { STORY_GALLERY_ITEMS } from '@/constants'
+import { STORY_GALLERY_ITEMS } from '@/constant'
 
 const activeIndex = ref(0)
 const previewOpen = ref(false)

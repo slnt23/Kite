@@ -1,43 +1,45 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import type { UserInfoParams } from '@/types'
+
+
 import {
   EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS,
   EXAMPLE_PUBLIC_PROFILE_HINTS,
   EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS,
-} from '@/constants'
-import type { EditablePublicProfile } from '@/types'
+} from '@/constant'
 
 const hints = EXAMPLE_PUBLIC_PROFILE_HINTS
 
 const props = defineProps<{
-  profile: EditablePublicProfile
+  profile: UserInfoParams
 }>()
 
 const emit = defineEmits<{
-  save: [profile: EditablePublicProfile]
+  save: [profile: UserInfoParams]
   editAvatar: []
   'email-settings': []
 }>()
 
 const router = useRouter()
 
-const formState = reactive<EditablePublicProfile>({
+const formState = reactive<UserInfoParams>({
   userName: '',
+  nickName: '',
+  email: '',
   phone: '',
-  displayName: '',
-  publicEmail: '',
-  bio: '',
-  pronouns: '',
-  websiteUrl: '',
-  avatarUrl: '',
+  remark: '',
+  rawPhone: '',
+  role: '',
+  avatar: '',
 })
 
 const emailOptionsBase = EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS
 const pronounsOptions = EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS
 
 const emailOptionsResolved = computed(() => {
-  const val = formState.publicEmail
+  const val = formState.email
   const list = [...emailOptionsBase]
   if (val && !list.some((o) => o.value === val)) {
     list.splice(1, 0, { value: val, label: val })
@@ -45,15 +47,11 @@ const emailOptionsResolved = computed(() => {
   return list
 })
 
-const syncFormState = (profile: EditablePublicProfile) => {
+const syncFormState = (profile: UserInfoParams) => {
   formState.userName = profile.userName
   formState.phone = profile.phone
-  formState.displayName = profile.displayName
-  formState.publicEmail = profile.publicEmail
-  formState.bio = profile.bio
-  formState.pronouns = profile.pronouns
-  formState.websiteUrl = profile.websiteUrl
-  formState.avatarUrl = profile.avatarUrl
+  formState.nickName = profile.nickName
+  formState.email = profile.email
 }
 
 watch(
@@ -84,18 +82,18 @@ const goPersonalProfile = () => {
         <h3 class="public-profile__title">公开资料</h3>
         <div class="public-profile__rule" />
       </div>
-      <button type="button" class="public-profile__ghost-btn" @click="goPersonalProfile">
-        前往个人主页
-      </button>
+<!--      <button type="button" class="public-profile__ghost-btn" @click="goPersonalProfile">-->
+<!--        前往个人主页-->
+<!--      </button>-->
     </header>
 
     <div class="public-profile__grid">
       <div class="public-profile__form">
         <div class="field">
-          <label class="field__label" for="pp-display-name">姓名</label>
+          <label class="field__label" for="pp-display-name">昵称</label>
           <input
             id="pp-display-name"
-            v-model="formState.displayName"
+            v-model="formState.nickName"
             type="text"
             class="field__control"
             autocomplete="name"
@@ -105,7 +103,7 @@ const goPersonalProfile = () => {
 
         <div class="field">
           <label class="field__label" for="pp-public-email">公开邮箱</label>
-          <select id="pp-public-email" v-model="formState.publicEmail" class="field__control field__select">
+          <select id="pp-public-email" v-model="formState.email" class="field__control field__select">
             <option v-for="opt in emailOptionsResolved" :key="`${opt.value}-${opt.label}`" :value="opt.value">
               {{ opt.label }}
             </option>
@@ -117,31 +115,31 @@ const goPersonalProfile = () => {
         </div>
 
         <div class="field">
-          <label class="field__label" for="pp-bio">个人简介</label>
+          <label class="field__label" for="pp-bio">备注/个人简介</label>
           <textarea
             id="pp-bio"
-            v-model="formState.bio"
+            v-model="formState.remark"
             class="field__control field__textarea"
             rows="5"
           />
           <p class="field__hint">{{ hints.bio }}</p>
         </div>
 
-        <div class="field">
-          <label class="field__label" for="pp-pronouns">人称代词</label>
-          <select id="pp-pronouns" v-model="formState.pronouns" class="field__control field__select">
-            <option v-for="opt in pronounsOptions" :key="opt.label" :value="opt.value">
-              {{ opt.label }}
-            </option>
-          </select>
-        </div>
+<!--        <div class="field">-->
+<!--          <label class="field__label" for="pp-pronouns">人称代词</label>-->
+<!--          <select id="pp-pronouns" v-model="formState.pronouns" class="field__control field__select">-->
+<!--            <option v-for="opt in pronounsOptions" :key="opt.label" :value="opt.value">-->
+<!--              {{ opt.label }}-->
+<!--            </option>-->
+<!--    type="url"      </select>-->
+<!--        </div>-->
 
         <div class="field">
-          <label class="field__label" for="pp-url">网址</label>
+          <label class="field__label" for="pp-url">手机号</label>
           <input
             id="pp-url"
-            v-model="formState.websiteUrl"
-            type="url"
+            v-model="formState.phone"
+
             class="field__control"
             autocomplete="url"
             placeholder="https://"
@@ -158,11 +156,11 @@ const goPersonalProfile = () => {
       <aside class="public-profile__aside">
         <span class="field__label public-profile__aside-label">头像</span>
         <div class="public-profile__avatar-wrap">
-          <div v-if="formState.avatarUrl" class="public-profile__avatar-ring">
-            <img :src="formState.avatarUrl" alt="" class="public-profile__avatar-img" />
+          <div v-if="formState.avatar" class="public-profile__avatar-ring">
+            <img :src="formState.avatar" alt="默认头像" class="public-profile__avatar-img" />
           </div>
           <div v-else class="public-profile__avatar-ring public-profile__avatar-ring--placeholder">
-            {{ formState.displayName?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
+            {{ formState.nickName?.trim().slice(0, 1) || formState.userName?.trim().slice(0, 1) || '用' }}
           </div>
           <button type="button" class="public-profile__edit-avatar" @click="handleEditAvatar">
             编辑

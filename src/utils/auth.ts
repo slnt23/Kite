@@ -1,6 +1,6 @@
 ﻿
 import type { UserInfoParams } from "@/types";
-import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constants";
+import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY, AUTH_CHANGE_EVENT } from "@/constant";
 
 
 /**

@@ -3,8 +3,8 @@
  * 用户个人中心页面组件
  */
 
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import {computed, onBeforeUnmount, onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
 
 // 导入个人中心各功能区块组件
 import ProfileAccessibilitySection from '@/components/dashboard/ProfileAccessibilitySection.vue' // 辅助功能设置
@@ -18,7 +18,7 @@ import SettingsWorkspaceShell from '@/components/dashboard/SettingsWorkspaceShel
 import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue' // 侧边导航栏
 
 // 导入类型定义
-import type { ProfileSectionId, UserInfoParams } from '@/types'
+import type {ProfileSectionId, UserInfoParams} from '@/types'
 
 // 导入常量配置
 import {
@@ -31,10 +31,10 @@ import {
   PROFILE_NOTIFICATION_CARDS,
   // PROFILE_SECTION_ITEMS,
   PROFILE_SETTINGS_NAV_SECTIONS,
-} from '@/constants'
+} from '@/constant'
 
 // 导入认证工具函数
-import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
+import {getCurrentUser, logout, onAuthChange} from '@/utils/auth.ts'
 
 /**
  * 扩展的用户信息类型，包含个人资料相关字段
@@ -53,7 +53,8 @@ const currentUser = ref<UserInfoParams | null>(getCurrentUser()) // 当前登录
 const activeSectionId = ref<ProfileSectionId>('public') // 当前激活的功能区块ID，默认为公开资料
 
 // 认证状态监听器清理函数
-let removeAuthListener = () => { }
+let removeAuthListener = () => {
+}
 
 /**
  * 计算属性：用户显示名称（优先显示昵称，其次用户名）
@@ -106,7 +107,7 @@ const profileInitial = computed(() => profileName.value.trim().slice(0, 1).toUpp
  * 计算属性：侧边栏头像URL（使用用户头像或默认头像）
  */
 const sidebarAvatarUrl = computed(
-  () => (currentUser.value?.avatar ?? '').trim() || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatar,
+    () => (currentUser.value?.avatar ?? '').trim() || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatar,
 )
 
 /**
@@ -137,22 +138,11 @@ const publicProfile = computed<UserInfoParams>(() => {
   }
 })
 
-
-
-/**
- * 处理用户退出登录
- * 1. 调用登出函数清除认证状态
- * 2. 跳转到首页
- */
 const handleLogout = () => {
   logout()
   router.push('/')
 }
 
-/**
- * 保存公开资料
- * @param payload - 编辑后的公开资料数据
- */
 const handleSavePublicProfile = (payload: UserInfoParams) => {
   // 更新当前用户数据
   currentUser.value = {
@@ -215,13 +205,13 @@ onBeforeUnmount(() => {
  * 将静态卡片配置与动态用户数据结合
  */
 const accountCards = computed(() =>
-  PROFILE_ACCOUNT_CARDS.map((card) => {
-    if (card.label === '当前身份') return { ...card, value: profileRole.value }
-    if (card.label === '登录方式') return { ...card, value: profileLoginMode.value }
-    if (card.label === '最近活动') return { ...card, value: profileLoginAt.value }
-    if (card.label === '主邮箱') return { ...card, value: profileHandle.value }
-    return card
-  }),
+    PROFILE_ACCOUNT_CARDS.map((card) => {
+      if (card.label === '当前身份') return {...card, value: profileRole.value}
+      if (card.label === '登录方式') return {...card, value: profileLoginMode.value}
+      if (card.label === '最近活动') return {...card, value: profileLoginAt.value}
+      if (card.label === '主邮箱') return {...card, value: profileHandle.value}
+      return card
+    }),
 )
 
 // 
@@ -233,8 +223,10 @@ const accountCards = computed(() =>
   <SettingsWorkspaceShell>
     <template #sidebar>
       <SettingsSidebar v-model="activeSectionId" :sections="PROFILE_SETTINGS_NAV_SECTIONS"
-        :title-line="profileTitleLine" :subtitle-line="profileSidebarSubtitle" :avatar-url="sidebarAvatarUrl"
-        :avatar-initial="profileInitial">
+                       :title-line="profileTitleLine" :subtitle-line="profileSidebarSubtitle"
+                       :avatar-url="sidebarAvatarUrl"
+                       :avatar-initial="profileInitial">
+
         <template #footer>
           <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
         </template>
@@ -243,7 +235,6 @@ const accountCards = computed(() =>
 
     <!-- 主内容区域 -->
     <div class="profile-content">
-      <!-- 内容区头部 -->
       <header class="profile-content__header">
         <div>
           <p class="eyebrow-label">个人中心</p>
@@ -253,22 +244,14 @@ const accountCards = computed(() =>
       </header>
 
       <!-- 动态内容区块：根据激活的区块ID显示对应组件 -->
-      <!-- 公开资料区块 -->
       <ProfilePublicProfileSection v-if="activeSectionId === 'public'" :profile="publicProfile"
-        @save="handleSavePublicProfile" @edit-avatar="handleEditAvatar" @email-settings="activeSectionId = 'account'" />
-
-      <!-- 账户信息区块 -->
-      <ProfileAccountSection v-else-if="activeSectionId === 'account'" :cards="accountCards" />
-
-      <!-- 外观设置区块 -->
-      <ProfileAppearanceSection v-else-if="activeSectionId === 'appearance'" :cards="PROFILE_APPEARANCE_CARDS" />
-
-      <!-- 辅助功能区块 -->
+                                   @save="handleSavePublicProfile" @edit-avatar="handleEditAvatar"
+                                   @email-settings="activeSectionId = 'account'"/>
+      <ProfileAccountSection v-else-if="activeSectionId === 'account'" :cards="accountCards"/>
+      <ProfileAppearanceSection v-else-if="activeSectionId === 'appearance'" :cards="PROFILE_APPEARANCE_CARDS"/>
       <ProfileAccessibilitySection v-else-if="activeSectionId === 'accessibility'"
-        :cards="PROFILE_ACCESSIBILITY_CARDS" />
-
-      <!-- 通知设置区块（默认） -->
-      <ProfileNotificationsSection v-else :cards="PROFILE_NOTIFICATION_CARDS" />
+                                   :cards="PROFILE_ACCESSIBILITY_CARDS"/>
+      <ProfileNotificationsSection v-else :cards="PROFILE_NOTIFICATION_CARDS"/>
     </div>
   </SettingsWorkspaceShell>
 </template>

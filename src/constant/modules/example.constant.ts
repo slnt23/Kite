@@ -1,12 +1,12 @@
 import type {
-  AdminDashboardSectionId,
-  AdminDashboardSectionMeta,
+  // AdminDashboardSectionId,
+  // AdminDashboardSectionMeta,
   FeatureItem,
   ProfileCardExample,
   ProfileInfoExample,
-  ProfileSectionItem,
+  // ProfileSectionItem,
   ProfileSelectOption,
-  PublicProfileFormExampleDefaults,
+  // PublicProfileFormExampleDefaults,
   SpotlightItem,
 } from '@/types'
 import projectImageOne from '@/assets/front/pic01.jpg'
@@ -103,38 +103,38 @@ export const EXAMPLE_PUBLIC_PROFILE_HINTS = {
   websiteUrl: '',
 } as const
 
-export const PROFILE_SECTION_ITEMS: ProfileSectionItem[] = [
-  {
-    id: 'public',
-    label: '公开资料',
-    heading: '公开资料',
-    description: '管理个人资料页中展示的身份信息与公开链接。',
-  },
-  {
-    id: 'account',
-    label: '账户',
-    heading: '账户',
-    description: '查看当前账户详情、登录方式与核心联系信息。',
-  },
-  {
-    id: 'appearance',
-    label: '外观',
-    heading: '外观',
-    description: '调整工作区的视觉样式、界面密度与展示偏好。',
-  },
-  {
-    id: 'accessibility',
-    label: '无障碍',
-    heading: '无障碍',
-    description: '配置更易读的文字、更低动效与辅助浏览偏好。',
-  },
-  {
-    id: 'notifications',
-    label: '通知',
-    heading: '通知',
-    description: '管理账户动态、系统更新与 AI 助手相关提醒。',
-  },
-]
+// export const PROFILE_SECTION_ITEMS: ProfileSectionItem[] = [
+//   {
+//     id: 'public',
+//     label: '公开资料',
+//     heading: '公开资料',
+//     description: '管理个人资料页中展示的身份信息与公开链接。',
+//   },
+//   {
+//     id: 'account',
+//     label: '账户',
+//     heading: '账户',
+//     description: '查看当前账户详情、登录方式与核心联系信息。',
+//   },
+//   {
+//     id: 'appearance',
+//     label: '外观',
+//     heading: '外观',
+//     description: '调整工作区的视觉样式、界面密度与展示偏好。',
+//   },
+//   {
+//     id: 'accessibility',
+//     label: '无障碍',
+//     heading: '无障碍',
+//     description: '配置更易读的文字、更低动效与辅助浏览偏好。',
+//   },
+//   {
+//     id: 'notifications',
+//     label: '通知',
+//     heading: '通知',
+//     description: '管理账户动态、系统更新与 AI 助手相关提醒。',
+//   },
+// ]
 
 export const PROFILE_ACCOUNT_CARDS: ProfileInfoExample[] = [
   { label: '当前身份', value: '个人账户' },
@@ -184,24 +184,24 @@ export const PROFILE_NOTIFICATION_CARDS: ProfileCardExample[] = [
   },
 ]
 
-/** 管理后台各 tab 文案（示例，后续接接口） */
-export const ADMIN_DASHBOARD_SECTION_META: Record<AdminDashboardSectionId, AdminDashboardSectionMeta> = {
-  overview: {
-    eyebrow: '管理后台',
-    heading: '控制台总览',
-    description: '这里可接访问统计、模块状态和待办提醒；下方为能力占位，与原先控制台文案一致。',
-  },
-  content: {
-    eyebrow: '管理后台',
-    heading: '内容管理',
-    description: '占位承接文章、价格数据、AI 预设和资源配置；卡片区域用于后续接入列表与编辑器。',
-  },
-  settings: {
-    eyebrow: '管理后台',
-    heading: '系统设置',
-    description: '后续可接权限角色、菜单开关和日志记录；当前展示账户与后台环境说明。',
-  },
-}
+// /** 管理后台各 tab 文案（示例，后续接接口） */
+// export const ADMIN_DASHBOARD_SECTION_META: Record<AdminDashboardSectionId, AdminDashboardSectionMeta> = {
+//   overview: {
+//     eyebrow: '管理后台',
+//     heading: '控制台总览',
+//     description: '这里可接访问统计、模块状态和待办提醒；下方为能力占位，与原先控制台文案一致。',
+//   },
+//   content: {
+//     eyebrow: '管理后台',
+//     heading: '内容管理',
+//     description: '占位承接文章、价格数据、AI 预设和资源配置；卡片区域用于后续接入列表与编辑器。',
+//   },
+//   settings: {
+//     eyebrow: '管理后台',
+//     heading: '系统设置',
+//     description: '后续可接权限角色、菜单开关和日志记录；当前展示账户与后台环境说明。',
+//   },
+// }
 
 export const ADMIN_OVERVIEW_QUICK_CARDS: ProfileCardExample[] = [
   {

@@ -7,13 +7,13 @@ import ProfileAppearanceSection from '@/components/dashboard/ProfileAppearanceSe
 import SettingsSidebar from '@/components/dashboard/SettingsSidebar.vue'
 import {
   ADMIN_DASHBOARD_NAV_SECTIONS,
-  ADMIN_DASHBOARD_SECTION_META,
+  // ADMIN_DASHBOARD_SECTION_META,
   ADMIN_OVERVIEW_FEATURE_CARDS,
   ADMIN_OVERVIEW_QUICK_CARDS,
   ADMIN_SETTINGS_INFO_FALLBACK,
   EXAMPLE_PUBLIC_PROFILE_DEFAULTS,
-} from '@/constants'
-import type { AdminDashboardSectionId, ProfileInfoExample, UserInfoParams } from '@/types'
+} from '@/constant'
+import type { DashboardSectionId, ProfileInfoExample, UserInfoParams } from '@/types'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
 import cardImageOne from '@/assets/admin/editorial-card-01.jpg'
@@ -22,7 +22,7 @@ import cardImageThree from '@/assets/admin/editorial-card-03.jpg'
 
 const router = useRouter()
 const currentUser = ref<UserInfoParams | null>(getCurrentUser())
-const activeSectionId = ref<AdminDashboardSectionId>('overview')
+const activeSectionId = ref<DashboardSectionId>('overview')
 let removeAuthListener = () => {}
 
 const profileName = computed(
@@ -38,14 +38,16 @@ const profileTitleLine = computed(() => {
   return profileName.value
 })
 const profileSidebarSubtitle = '管理员后台'
+
+
 const profileInitial = computed(() => profileName.value.trim().slice(0, 1).toUpperCase() || 'A')
 
 const sidebarAvatarUrl = computed(
   () => (currentUser.value as { avatarUrl?: string } | null)?.avatarUrl?.trim()
-    || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatarUrl,
+    || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatar,
 )
 
-const activeSection = computed(() => ADMIN_DASHBOARD_SECTION_META[activeSectionId.value])
+// const activeSection = computed(() => ADMIN_DASHBOARD_SECTION_META[activeSectionId.value])
 
 const settingsCards = computed<ProfileInfoExample[]>(() => {
   const u = currentUser.value
@@ -97,13 +99,13 @@ onBeforeUnmount(() => {
     </template>
 
     <div class="profile-content">
-      <header class="profile-content__header">
-        <div>
-          <p class="eyebrow-label">{{ activeSection.eyebrow }}</p>
-          <h2>{{ activeSection.heading }}</h2>
-          <p>{{ activeSection.description }}</p>
-        </div>
-      </header>
+<!--      <header class="profile-content__header">-->
+<!--        <div>-->
+<!--          <p class="eyebrow-label">{{ activeSection.eyebrow }}</p>-->
+<!--          <h2>{{ activeSection.heading }}</h2>-->
+<!--          <p>{{ activeSection.description }}</p>-->
+<!--        </div>-->
+<!--      </header>-->
 
       <template v-if="activeSectionId === 'overview'">
         <ProfileAppearanceSection :cards="ADMIN_OVERVIEW_QUICK_CARDS" />

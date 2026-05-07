@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import loginAdminImage from '@/assets/login/login_admin_1.png'
-import loginUserImage from '@/assets/login/login_user_1.png'
+import loginAdminImage from '@/assets/front/login_admin_1.png'
+import loginUserImage from '@/assets/front/login_user_1.png'
 
 
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import {getUserInfoApi, loginApi, registerApi, sendCodeApi} from '@/api/modules'
+import {getUserInfoApi, loginApi, registerApi, sendCodeApi} from '@/api'
 import type { LoginOrRegisterParams } from '@/types'
 import { setToken } from '@/utils/auth'
-import {AUTH_STORAGE_KEY} from "@/constants";
+import {AUTH_STORAGE_KEY} from "@/constant";
 
 // Props
 const props = defineProps({
