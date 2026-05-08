@@ -1,4 +1,4 @@
-import type {IconKey, ProfileSectionId} from "@/types";
+// import type {IconKey, ProfileSectionId} from "@/types";
 
 /**
  * 个人中心内容区区块 id,

@@ -111,7 +111,7 @@ export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
     //     { id: 'code-repos', label: '仓库', icon: 'folder', navigable: false },
     //     { id: 'code-codespaces', label: '开发环境', icon: 'monitor', navigable: false },
     //     {
-    //       id: 'code-models',
+    //       id: 'code-modules',
     //       label: '模型',
     //       icon: 'share',
     //       badge: '预览',

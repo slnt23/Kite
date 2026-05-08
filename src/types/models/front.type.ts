@@ -11,10 +11,10 @@ export interface MenuItem {
 
 
 export interface SpotlightItem {
-    eyebrow: string
+    eyebrow?: string
     title: string
-    description: string
-    image: string
+    description?: string
+    imageUrl: string
     id: number  //是否唯一
     order: number  //排序
     link: string  //链接

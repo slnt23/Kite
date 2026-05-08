@@ -121,7 +121,7 @@ const isExpanded = (id: string) => !!expandedIds.value[id]
  * 切换导航项的展开/收起状态
  * @param item - 导航项对象
  */
-const toggleExpand = (item: ProfileSettingsNavItem) => {
+const toggleExpand = (item: NavItem) => {
   if (!item.expandable) return  // 不可展开的项直接返回
   expandedIds.value = {
     ...expandedIds.value,
@@ -133,7 +133,7 @@ const toggleExpand = (item: ProfileSettingsNavItem) => {
  * 导航项点击事件处理
  * @param item - 被点击的导航项
  */
-const onRowClick = (item: ProfileSettingsNavItem) => {
+const onRowClick = (item: NavItem) => {
   if (item.disabled) return  // 禁用项不响应点击
 
   // 处理可展开项
