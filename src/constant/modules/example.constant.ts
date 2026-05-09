@@ -69,6 +69,17 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
     link: '/growth',
     target: '_self',
   },
+  {
+    id: 3,
+    eyebrow: 'Growth System',
+    title: '从前台展示平滑过渡',
+    description:
+        '现在先完成前台官网',
+    imageUrl: projectImageThree,
+    order: 6,
+    link: '/growth',
+    target: '_self',
+  },
 ]
 
 export const FEATURE_ITEMS: FeatureItem[] = [

@@ -287,7 +287,7 @@ $radius-pill: var(--radius-pill);
 // 头部样式
 .site-header {
   position: fixed;
-  top: var(--site-header-offset);
+  //top: var(--site-header-offset);
   left: 50%;
   z-index: 40;
   width: var(--shell-width);

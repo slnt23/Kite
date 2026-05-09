@@ -28,6 +28,13 @@ export interface FeatureItem {
 }
 
 
+export interface SectionIntroData {
+    eyebrow: string
+    title: string
+    description: string
+}
+
+
 // 用户profile栏，
 // export interface ProfileSettingsNavSection {
 //     title?: string

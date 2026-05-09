@@ -12,8 +12,8 @@
   --border-radius-lg: var(--radius-soft-lg);
 
   /* 全局主题色 */
-  --color-primary: #2f6f94;
-  --color-primary-strong: #204e6a;
+  --color-primary: #409eff;
+  --color-primary-strong: #337ecc;
   --color-accent: #f5f9fc;
   --color-surface: rgba(255, 255, 255, 0.72);
   --color-surface-strong: rgba(244, 248, 252, 0.92);
@@ -27,15 +27,16 @@
 
   --shadow-soft: 0 18px 48px rgba(27, 44, 57, 0.08);
   --shadow-medium: 0 10px 28px rgba(27, 44, 57, 0.1);
-
+  //  gap统一规定
+  //  --gap
   /* 页面内容与导航安全留白 */
-  --page-edge-gap: 100px; // 页面内容与浏览器边缘的最小距离
-  --shell-width: min(13200px, calc(100% - (var(--page-edge-gap) * 1)));
-  --shell-width-mobile: min(1320px, calc(100% - (var(--page-edge-gap) * 2)));
+  --base-site-gap: 10px; // 基础gap，
+  --shell-width: min(13200px, calc(100% - (var(--base-site-gap) * 5)));
+  --shell-width-mobile: min(1320px, calc(100% - (var(--base-site-gap) * 2)));
   --site-header-offset: 0px; // 顶部预留空间（如有固定头部时设置为头部高度）
   --site-header-height: 54px; // 头部高度（如有固定头部时设置为头部实际高度）
-  --chat-nav-gap: 18px;
-  --chat-edge-gap: var(--page-edge-gap);
+  --chat-nav-gap: var(--base-site-gap);
+  --chat-edge-gap: var(--base-site-gap);
 
   --font-family-base: 'Avenir Next', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
   --font-weight-normal: 400;
@@ -58,6 +59,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
+
+
 }
 
 @media (max-width: 760px) {
