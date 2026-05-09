@@ -3,7 +3,7 @@ import request from '../request/index'
 // AI 聊天 API
 export const aiChatApi = (data: any) => {
   return request({
-    url: '/api/ai/chat',
+    url: '/ai/chat',
     method: 'post',
     data
   })
@@ -12,7 +12,7 @@ export const aiChatApi = (data: any) => {
 // AI 建议 API
 export const aiSuggestApi = (data: any) => {
   return request({
-    url: '/api/ai/suggest',
+    url: '/ai/suggest',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export const aiSuggestApi = (data: any) => {
 // AI 分析 API
 export const aiAnalyzeApi = (data: any) => {
   return request({
-    url: '/api/ai/analyze',
+    url: '/ai/analyze',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export const aiAnalyzeApi = (data: any) => {
 // 获取 AI 历史记录 API
 export const getAiHistoryApi = (params: any) => {
   return request({
-    url: '/api/ai/history',
+    url: '/ai/history',
     method: 'get',
     params
   })

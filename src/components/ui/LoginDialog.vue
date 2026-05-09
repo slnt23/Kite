@@ -5,10 +5,10 @@ import loginUserImage from '@/assets/front/login_user.png'
 
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import {getUserInfoApi, loginApi, registerApi, sendCodeApi} from '@/api'
+import { getUserInfoApi, loginApi, registerApi, sendCodeApi } from '@/api'
 import type { LoginOrRegisterParams } from '@/types'
 import { setToken } from '@/utils/auth'
-import {AUTH_STORAGE_KEY} from "@/constant";
+import { AUTH_STORAGE_KEY } from "@/constant";
 
 // Props
 const props = defineProps({
@@ -78,7 +78,7 @@ const submitLoginOrRegister = async (type: 'login' | 'register') => {
     setToken(result.data)
 
     const userInfoResult = await getUserInfoApi()
-    if(userInfoResult.code == 200){
+    if (userInfoResult.code == 200) {
       window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userInfoResult.data))
     }
 

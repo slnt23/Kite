@@ -1,12 +1,13 @@
 import type { UserInfoParams } from '@/types'
 import type { NavSection } from '@/types'
 import type { MenuItem } from '@/types'
-import menuImagePriceQuery from '../../assets/example/pic01.jpg'
-import menuImageStory from '../../assets/example/pic02.jpg'
-import menuImageCapabilities from '../../assets/example/pic03.jpg'
-import menuImageAiChat from '../../assets/example/pic04.jpg'
-import projectImageOne from '@/assets/example/default_avatar.png'
 import type { SectionIntroData } from '@/types'
+import menuImagePriceQuery from '@/assets/front/MENU_PRICE_SEARCH.png'
+import menuImageView from '@/assets/front/MENU_VIEW.png'
+import menuImageAiChat from '@/assets/front/MENU_AI_CHAT.png'
+import menuImageBlog from '@/assets/front/MENU_BLOG.png'
+import projectImageOne from '@/assets/example/default_avatar.png'
+
 
 
 export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
@@ -15,31 +16,15 @@ export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
     email: '1234567890@qq.com',      // 邮箱
     phone: '110',                   // 手机号（可选）
     remark: '默认备注',    // 备注/个人简介
-    rawPhone: '000',                // 原始手机号（可选）
+    rawPhone: '000 000',                // 原始手机号（可选）
     role: '用户',            // 角色
     avatar: projectImageOne as string, // 头像URL
 }
-
-
-// export const PROFILE_SECTION_SIDEBAR_ICON: Record<ProfileSectionId, ProfileSettingsIconKey> = {
-//     public: 'user',
-//     account: 'setting',
-//     appearance: 'brush',
-//     accessibility: 'view',
-//     notifications: 'bell',
-// }
 
 // GitHub 风格设置侧栏：
 // 用户，首组来自 PROFILE_SECTION_ITEMS，其余为展示用分组（可再接路由）
 export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
     {
-        // title: 'Profile',
-        // items: PROFILE_SECTION_ITEMS.map((s) => ({
-        //     id: s.id,
-        //     label: s.label,
-        //     icon: PROFILE_SECTION_SIDEBAR_ICON[s.id],
-        //     navigable: true,
-        // })),
         items: [
 
             {
@@ -90,17 +75,6 @@ export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
             //     icon: 'lock',
             //     navigable: false,
             // },
-            // {id: 'access-sessions', label: '会话', icon: 'monitor', navigable: false},
-            // {id: 'access-ssh', label: 'SSH 与 GPG 密钥', icon: 'key', navigable: false},
-            // {id: 'access-orgs', label: '组织', icon: 'officeBuilding', navigable: false},
-            // {id: 'access-enterprise', label: '企业', icon: 'compass', navigable: false},
-            // {
-            //     id: 'access-moderation',
-            //     label: '审核与风控',
-            //     icon: 'chatWarning',
-            //     expandable: true,
-            //     navigable: false,
-            // },
         ],
     },
     {
@@ -113,48 +87,34 @@ export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
  * 前台菜单选项配置常量
  */
 export const FRONT_MENU_ITEMS: MenuItem[] = [
-    // {
-    //     title: '首页',
-    //     subtitle: '查看全屏滚动总览与模块入口',
-    //     path: '/',
-    //     image: menuImageHome,
-    //     size: 'large',
-    // },
     {
-        title: '价格查询',
-        subtitle: '进入独立查询界面，查看价格与趋势',
+        title: '价格行情',
+        subtitle: '查看最新价格与走势，趋势一览',
         path: '/price-query',
         image: menuImagePriceQuery,
         size: 'large',
     },
     {
-        title: '品牌故事',
-        subtitle: '查看当前项目的设计方向与页面叙事',
+        title: '沿途纪事',
+        subtitle: '每一页，都是一段旅程',
         path: '/story',
-        image: menuImageStory,
+        image: menuImageView,
         size: 'normal',
     },
     {
-        title: '服务能力',
-        subtitle: '浏览前台项目的结构与能力范围',
-        path: '/capabilities',
-        image: menuImageCapabilities,
-        size: 'small',
-    },
-    {
-        title: 'AI聊天',
-        subtitle: '进入聊天界面入口，查看对话交互样式',
+        title: 'AI伴聊',
+        subtitle: ' 聊聊界面，试试手感',
         path: '/ai-ai',
         image: menuImageAiChat,
         size: 'small',
     },
-    // {
-    //     title: '个人博客',
-    //     subtitle: '进入博客界面入口',
-    //     path: '/blog',
-    //     image: menuImageAiChat,
-    //     size: 'small',
-    // },
+    {
+        title: '写点什么(博客)',
+        subtitle: '记录日常与思考',
+        path: '/blog',
+        image: menuImageBlog,
+        size: 'small',
+    },
 ]
 
 

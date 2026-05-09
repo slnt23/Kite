@@ -1,9 +1,8 @@
 ﻿import FrontLayout from '@/layouts/FrontLayout.vue'
-import CapabilitiesView from '@/views/front/CapabilitiesView.vue'
 import AiChatView from '@/views/front/AiChatView.vue'
 import PriceSearchView from '@/views/front/PriceSearchView.vue'
 import UserProfileView from '@/views/front/UserProfileView.vue'
-import StoryView from '@/views/front/StoryView.vue'
+import StoryView from '@/views/front/StoryImageView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
 
@@ -35,25 +34,9 @@ const frontRoutes = [
         },
       },
       {
-        path: 'capabilities',
-        name: 'front-capabilities',
-        component: CapabilitiesView,
-        meta: {
-          // requiresAuth: true,
-        },
-      },
-      {
         path: 'ai-ai',
         name: 'front-ai-ai',
         component: AiChatView,
-        meta: {
-          // requiresAuth: true,
-        },
-      },
-      {
-        path: 'profile',
-        name: 'front-profile',
-        component: UserProfileView,
         meta: {
           // requiresAuth: true,
         },
@@ -67,6 +50,15 @@ const frontRoutes = [
           // requiresAuth: true,
         },
       },
+      {
+        path: 'profile',
+        name: 'front-profile',
+        component: UserProfileView,
+        meta: {
+          // requiresAuth: true,
+        },
+      },
+
     ],
   },
 ]

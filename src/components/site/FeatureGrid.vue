@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import featureCardBack from '@/assets/front/feature_item.jpg'
+import featureCardBack from '@/assets/front/FEATURE_ITEMS.png'
 
 interface FeatureItem {
   icon?: string
