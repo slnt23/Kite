@@ -35,6 +35,63 @@ export interface SectionIntroData {
 }
 
 
+export interface StoryGalleryItem {
+    title: string
+    description: string
+    image: string
+    thumbnail: string
+}
+
+
+
+
+
+
+
+
+
+export interface ProfileSelectOption {
+    value: string
+    label: string
+}
+
+export interface ProfileInfoExample {
+    label: string
+    value: string
+}
+
+export interface ProfileCardExample {
+    title: string
+    description: string
+}
+
+
+
+export interface ModuleGroup {
+    key: string
+    title: string
+    description: string
+    modules: AppModule[]
+}
+
+export interface AppModule {
+    key: string
+    portal: 'front' | 'admin'
+    title: string
+    description: string
+    scope: string
+    nextStep: string
+    status: 'online' | 'planning' | 'building'
+    statusLabel: string
+    group: {
+        key: string
+        title: string
+        description: string
+    }
+}
+
+
+
 // 用户profile栏，
 // export interface ProfileSettingsNavSection {
 //     title?: string

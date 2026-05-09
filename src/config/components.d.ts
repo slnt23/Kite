@@ -11,11 +11,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutSection: typeof import('./../components/blog/AboutSection.vue')['default']
     CapabilityTable: typeof import('./../components/site/CapabilityTable.vue')['default']
     ChatComposer: typeof import('./../components/ai/ChatComposer.vue')['default']
     ChatSidebar: typeof import('./../components/ai/ChatSidebar.vue')['default']
     ChatStream: typeof import('./../components/ai/ChatStream.vue')['default']
     EditorialWorkspace: typeof import('./../components/management/EditorialWorkspace.vue')['default']
+    EducationSection: typeof import('./../components/blog/EducationSection.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
     ElForm: typeof import('element-plus/es')['ElForm']
@@ -34,6 +36,7 @@ declare module 'vue' {
     ModuleCard: typeof import('./../components/management/ModuleCard.vue')['default']
     ModuleGrid: typeof import('./../components/management/ModuleGrid.vue')['default']
     OverviewPanel: typeof import('./../components/management/OverviewPanel.vue')['default']
+    PostsSection: typeof import('./../components/blog/PostsSection.vue')['default']
     PriceResult: typeof import('./../components/price/PriceResult.vue')['default']
     ProfileAccessibilitySection: typeof import('./../components/dashboard/ProfileAccessibilitySection.vue')['default']
     ProfileAccountSection: typeof import('./../components/dashboard/ProfileAccountSection.vue')['default']
@@ -47,6 +50,7 @@ declare module 'vue' {
     SettingsSidebar: typeof import('./../components/dashboard/SettingsSidebar.vue')['default']
     SettingsWorkspaceShell: typeof import('./../components/dashboard/SettingsWorkspaceShell.vue')['default']
     SiteFooter: typeof import('./../components/site/SiteFooter.vue')['default']
+    SkillsSection: typeof import('./../components/blog/SkillsSection.vue')['default']
     SpotlightSection: typeof import('./../components/site/SpotlightSection.vue')['default']
     StoryTimeline: typeof import('./../components/site/StoryTimeline.vue')['default']
   }

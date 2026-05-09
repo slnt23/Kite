@@ -148,6 +148,13 @@ export const FRONT_MENU_ITEMS: MenuItem[] = [
         image: menuImageAiChat,
         size: 'small',
     },
+    // {
+    //     title: '个人博客',
+    //     subtitle: '进入博客界面入口',
+    //     path: '/blog',
+    //     image: menuImageAiChat,
+    //     size: 'small',
+    // },
 ]
 
 
