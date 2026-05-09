@@ -6,6 +6,7 @@
   border-radius: var(--border-radius-md);
 }
 
+// 用于文章标题、章节标题等的醒目标签
 .eyebrow-label {
   margin: 0 0 14px;
   color: #2d4352;
@@ -15,6 +16,7 @@
   text-transform: uppercase;
 }
 
+// 内容堆叠 - 用于组织页面内容的网格布局
 .content-stack {
   display: grid;
   gap: 28px;
@@ -31,6 +33,7 @@
   display: none;
 }
 
+// 主要关闭按钮 - 用于全局模态框、抽屉等的显著关闭按钮
 .ui-close-button {
   display: inline-flex;
   align-items: center;
@@ -89,6 +92,66 @@
   z-index: 2;
 }
 
+// 图标关闭按钮 - 用于模态框、面板等的小型关闭按钮
+.ui-icon-close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &--close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.04);
+    color: #666;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #333;
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 760px) {
+      width: 32px;
+      height: 32px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &--left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+  }
+
+  &--right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+  }
+}
+
+// 首页滚动捕捉 - 适用于需要全屏滚动体验的主页
 body.body-home-scrollsnap,
 html.body-home-scrollsnap {
   scroll-snap-type: y mandatory;

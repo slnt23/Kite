@@ -120,7 +120,11 @@ const closeDialog = () => {
 
 <template>
   <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
-    <button class="ui-close-button ui-close-button--corner" type="button" @click="closeDialog">关闭</button>
+    <!-- <button class="ui-close-button ui-close-button--corner" type="button" @click="closeDialog">关闭</button> -->
+    <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
+      @click="closeDialog">
+      <img src="/src/assets/modules/ICON_CLOSE.svg" alt="关闭" width="20" height="20" />
+    </button>
 
     <div class="dialog-content">
       <!-- 左边：如果 showAdmin 为 true 显示表单，否则显示图片   admin  -->
@@ -133,7 +137,6 @@ const closeDialog = () => {
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
           </div>
-
           <div class="form-body">
             <el-form :model="loginForm">
               <el-form-item prop="mail">
@@ -152,7 +155,6 @@ const closeDialog = () => {
                 @click="submitLoginOrRegister('login')">登录</el-button>
             </el-form>
           </div>
-
         </div>
         <div v-else class="image-panel">
           <img :src="loginUserImage" alt="用户登录背景" />
@@ -169,7 +171,6 @@ const closeDialog = () => {
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
           </div>
-
           <div v-if="activeTab === 'mail'" class="form-body">
             <el-form>
               <el-form-item prop="mail">
@@ -193,7 +194,6 @@ const closeDialog = () => {
               </div>
             </el-form>
           </div>
-
           <div v-else-if="activeTab === 'password'" class="form-body">
             <el-form>
               <el-form-item prop="mail">

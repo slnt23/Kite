@@ -23,14 +23,9 @@ const emit = defineEmits(['close'])
         <section class="menu-panel__sheet glass-panel u-scrollbar-hidden">
           <div class="menu-panel__header">
             <h2 class="menu-panel__title">菜单</h2>
-            <!-- <button class="ui-close-button ui-close-button--corner" type="button" @click="emit('close')">
-              关闭
-            </button> -->
-            <button class="menu-panel__close" type="button" @click="emit('close')">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+            <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
+              @click="emit('close')">
+              <img src="/src/assets/modules/ICON_CLOSE.svg" alt="关闭" width="20" height="20" />
               <span class="visually-hidden">关闭</span>
             </button>
           </div>
@@ -118,45 +113,7 @@ const emit = defineEmits(['close'])
     }
   }
 
-  &__close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.04);
-    color: #666;
-    cursor: pointer;
-    transition: all 0.2s ease;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.08);
-      color: #333;
-      transform: scale(1.02);
-    }
-
-    &:active {
-      transform: scale(0.96);
-    }
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    @media (max-width: 760px) {
-      width: 32px;
-      height: 32px;
-
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
-  }
 
   &__divider {
     height: 1px;
