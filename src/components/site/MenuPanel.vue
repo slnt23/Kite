@@ -22,16 +22,20 @@ const emit = defineEmits(['close'])
       <div v-if="open" class="menu-panel">
         <section class="menu-panel__sheet glass-panel u-scrollbar-hidden">
           <div class="menu-panel__header">
-            <div>
-              <p class="eyebrow-label">Navigate</p>
-
-              <h2>选择你要进入的功能入口</h2>
-            </div>
-
-            <button class="ui-close-button ui-close-button--corner" type="button" @click="emit('close')">
+            <h2 class="menu-panel__title">菜单</h2>
+            <!-- <button class="ui-close-button ui-close-button--corner" type="button" @click="emit('close')">
               关闭
+            </button> -->
+            <button class="menu-panel__close" type="button" @click="emit('close')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+              <span class="visually-hidden">关闭</span>
             </button>
           </div>
+
+          <div class="menu-panel__divider"></div>
 
           <div class="menu-panel__masonry">
             <RouterLink v-for="item in items" :key="item.path" :to="item.path" class="menu-panel__card"
@@ -40,10 +44,7 @@ const emit = defineEmits(['close'])
 
               <div class="menu-panel__card-overlay">
                 <p>{{ item.title }}</p>
-
-                <span>
-                  {{ item.subtitle }}
-                </span>
+                <span>{{ item.subtitle }}</span>
               </div>
             </RouterLink>
           </div>
@@ -57,228 +58,248 @@ const emit = defineEmits(['close'])
 .menu-panel {
   position: fixed;
   inset: 0;
-
   z-index: 80;
-
   background: rgba(10, 18, 28, 0.18);
   backdrop-filter: blur(12px);
+
+  &__sheet {
+    position: relative;
+    width: min(78vw, 1380px);
+    height: 80vh;
+    margin: 10vh auto;
+    overflow-y: auto;
+    border-radius: var(--radius-soft-lg);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    @media (max-width: 960px) {
+      width: min(92vw, 1380px);
+    }
+
+    @media (max-width: 760px) {
+      width: calc(100vw - 32px);
+      height: auto;
+      max-height: 84vh;
+      margin: 8vh auto;
+      border-radius: 28px;
+    }
+  }
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(20px);
+
+    @media (max-width: 760px) {
+      padding: 18px 20px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    @media (max-width: 760px) {
+      font-size: 1.35rem;
+    }
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.04);
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+      color: #333;
+      transform: scale(1.02);
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 760px) {
+      width: 32px;
+      height: 32px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.04) 100%);
+    margin: 0;
+  }
+
+  &__masonry {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 120px;
+    gap: 18px;
+    padding: 24px;
+
+    @media (max-width: 960px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+
+    @media (max-width: 760px) {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 110px;
+      gap: 14px;
+      padding: 20px;
+    }
+  }
+
+  &__card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #f8f8f8;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+    isolation: isolate;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+
+      img {
+        transform: scale(1.05);
+        filter: saturate(1.1) brightness(0.85);
+      }
+    }
+
+    &:active {
+      transform: translateY(-2px);
+    }
+
+    &--large {
+      grid-row: span 4;
+    }
+
+    &--normal {
+      grid-row: span 3;
+    }
+
+    &--small {
+      grid-row: span 2;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.04) brightness(0.82);
+      transition: all 0.5s cubic-bezier(0.2, 0, 0, 1);
+    }
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 16px 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.65) 100%);
+
+    p {
+      margin: 0 0 6px;
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    span {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    @media (max-width: 760px) {
+      padding: 16px 14px 14px;
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+      }
+
+      span {
+        font-size: 0.8rem;
+      }
+    }
+  }
 }
 
-.menu-panel__sheet {
-  position: relative;
-
-  width: min(78vw, 1380px);
-  height: 80vh;
-
-  margin: 10vh auto;
-  padding: 28px;
-
-  overflow-y: auto;
-
-  border-radius: 36px;
-
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(18px);
-}
-
-.menu-panel__header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  gap: 24px;
-
-  margin-bottom: 34px;
-  padding-right: 110px;
-}
-
-.menu-panel__header h2 {
-  margin: 10px 0 0;
-
-  color: var(--color-text-deep);
-
-  font-size: clamp(2rem, 3vw, 3rem);
-  line-height: 1.05;
-  letter-spacing: -0.05em;
-}
-
-.menu-panel__masonry {
-  display: grid;
-
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: 120px;
-
-  gap: 18px;
-}
-
-/* 卡片基础 */
-.menu-panel__card {
-  position: relative;
-
-  overflow: hidden;
-  border-radius: 30px;
-
-  background: #f4f4f4;
-
-  transition:
-    transform 260ms ease,
-    opacity 260ms ease,
-    box-shadow 260ms ease;
-
-  isolation: isolate;
-}
-
-/* hover */
-.menu-panel__card:hover {
-  transform: translateY(-4px);
-
-  box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.08);
-}
-
-/* 大 */
-.menu-panel__card--large {
-  grid-row: span 4;
-}
-
-/* 中 */
-.menu-panel__card--normal {
-  grid-row: span 3;
-}
-
-/* 小 */
-.menu-panel__card--small {
-  grid-row: span 2;
-}
-
-/* 图片 */
-.menu-panel__card img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  filter:
-    saturate(1.04) brightness(0.82);
-
-  transition:
-    transform 700ms ease,
-    filter 300ms ease;
-}
-
-.menu-panel__card:hover img {
-  transform: scale(1.04);
-
-  filter:
-    saturate(1.08) brightness(0.9);
-}
-
-/* 遮罩 */
-.menu-panel__card-overlay {
+// 辅助类
+.visually-hidden {
   position: absolute;
-  inset: 0;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  padding: 24px;
-
-  background:
-    linear-gradient(180deg,
-      rgba(7, 20, 41, 0.04),
-      rgba(7, 20, 41, 0.72));
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-/* 标题 */
-.menu-panel__card-overlay p {
-  margin: 0 0 8px;
+// 动画
+// :global(.menu-panel-enter-active),
+// :global(.menu-panel-leave-active) {
+//   transition: opacity 240ms ease;
+// }
 
-  color: #ffffff;
+// :global(.menu-panel-enter-from),
+// :global(.menu-panel-leave-to) {
+//   opacity: 0;
+// }
 
-  font-size: 1.35rem;
-  font-weight: 700;
-
-  letter-spacing: -0.03em;
-}
-
-/* 描述 */
-.menu-panel__card-overlay span {
-  color: rgba(255, 255, 255, 0.86);
-
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
-/* 动画 */
-:global(.menu-panel-enter-active),
-:global(.menu-panel-leave-active) {
-  transition: opacity 240ms ease;
-}
-
-:global(.menu-panel-enter-from),
-:global(.menu-panel-leave-to) {
-  opacity: 0;
-}
-
-:global(.menu-panel-enter-active .menu-panel__sheet),
+// :global(.menu-panel-enter-active .menu-panel__sheet),
 :global(.menu-panel-leave-active .menu-panel__sheet) {
-  transition:
-    transform 260ms ease,
-    opacity 240ms ease;
+  transition: transform 280ms cubic-bezier(0.2, 0, 0, 1), opacity 240ms ease;
 }
 
 :global(.menu-panel-enter-from .menu-panel__sheet),
 :global(.menu-panel-leave-to .menu-panel__sheet) {
-  transform:
-    translateY(16px) scale(0.975);
-
+  transform: translateY(12px) scale(0.98);
   opacity: 0;
-}
-
-/* 平板 */
-@media (max-width: 960px) {
-  .menu-panel__sheet {
-    width: min(92vw, 1380px);
-  }
-
-  .menu-panel__masonry {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* 手机 */
-@media (max-width: 760px) {
-  .menu-panel__sheet {
-    height: 84vh;
-
-    margin: 8vh auto;
-
-    padding: 22px;
-  }
-
-  .menu-panel__header {
-    flex-direction: column;
-
-    padding-right: 0;
-  }
-
-  .menu-panel__masonry {
-    grid-template-columns: 1fr;
-
-    grid-auto-rows: 110px;
-  }
-
-  .menu-panel__card--large {
-    grid-row: span 4;
-  }
-
-  .menu-panel__card--normal {
-    grid-row: span 3;
-  }
-
-  .menu-panel__card--small {
-    grid-row: span 2;
-  }
 }
 </style>
