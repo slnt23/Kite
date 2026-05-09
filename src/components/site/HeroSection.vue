@@ -1,7 +1,7 @@
 ﻿<script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import heroVideo1 from '@/assets/front/Front_Hero_1.mp4'
-import heroVideo2 from '@/assets/front/Front_Hero_2.mp4'
+// import heroVideo2 from '@/assets/front/Front_Hero_2.mp4'
 
 
 const videos = [heroVideo1]

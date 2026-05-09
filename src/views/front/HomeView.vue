@@ -5,7 +5,7 @@ import FeatureGrid from '../../components/site/FeatureGrid.vue'
 import SectionIntro from '../../components/site/SectionIntro.vue'
 import SpotlightSection from '../../components/site/SpotlightSection.vue'
 import { onMounted, reactive, ref } from "vue";
-import { featureApi, spotlightApi } from "@/api";
+// import { featureApi, spotlightApi } from "@/api";
 import type { SpotlightItem, FeatureItem } from "@/types";
 
 // 后续改为从后端获取信息，
