@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-
-interface SpotlightItem {
-  eyebrow?: string
-  title: string
-  description?: string
-  image: string
-}
+import type { SpotlightItem } from "@/types";
 
 const props = withDefaults(
   defineProps<{
@@ -22,9 +16,9 @@ const normalizedItems = computed(() =>
     ...item,
     meta: item.eyebrow
       ? item.eyebrow
-          .split(/[|/•,，]+/)
-          .map((part) => part.trim())
-          .filter(Boolean)
+        .split(/[|/•,，]+/)
+        .map((part) => part.trim())
+        .filter(Boolean)
       : [],
   })),
 )
@@ -34,22 +28,27 @@ const normalizedItems = computed(() =>
   <section class="spotlight-list">
     <article v-for="item in normalizedItems" :key="item.title" class="spotlight-card">
       <div class="spotlight-card__media">
-        <img class="spotlight-card__image" :src="item.image" :alt="item.title" />
-      </div>
+        <img class="spotlight-card__image" :src="item.imageUrl" :alt="item.title" />
+        <div class="spotlight-card__overlay"></div>
+        <div class="spotlight-card__body">
+          <div class="spotlight-card__text">
+            <p v-if="item.meta.length" class="spotlight-card__meta">
+              {{ item.meta.join(' • ') }}
+            </p>
 
-      <div class="spotlight-card__body">
-        <p v-if="item.meta.length" class="spotlight-card__meta">
-          {{ item.meta.join(' • ') }}
-        </p>
+            <h3 class="spotlight-card__title">
+              <span>{{ item.title }}</span>
+            </h3>
 
-        <h3 class="spotlight-card__title">
-          <span class="spotlight-card__arrow">→</span>
-          <span>{{ item.title }}</span>
-        </h3>
+            <p v-if="item.description" class="spotlight-card__description">
+              {{ item.description }}
+            </p>
+          </div>
 
-        <p v-if="item.description" class="spotlight-card__description">
-          {{ item.description }}
-        </p>
+          <a href="#" class="spotlight-card__link">
+            了解更多 <span class="spotlight-card__arrow">→</span>
+          </a>
+        </div>
       </div>
     </article>
   </section>
@@ -57,91 +56,144 @@ const normalizedItems = computed(() =>
 
 <style scoped lang="scss">
 .spotlight-list {
+  padding: 40px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 36px 38px;
 }
 
 .spotlight-card {
-  display: grid;
-  gap: 18px;
+  position: relative;
+  cursor: pointer;
 }
 
 .spotlight-card__media {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
+  // border-radius: 28px;
   background: #e9ebf8;
+  aspect-ratio: 1 / 1;
+  /* 方形 */
 }
 
 .spotlight-card__image {
-  display: block;
   width: 100%;
-  aspect-ratio: 1.44;
+  height: 100%;
   object-fit: cover;
-  transition:
-    transform 320ms ease,
-    filter 320ms ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.5s ease, filter 0.5s ease;
 }
 
-.spotlight-card:hover .spotlight-card__image {
-  transform: scale(1.02);
-  filter: saturate(1.03);
+.spotlight-card__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .spotlight-card__body {
-  display: grid;
-  gap: 8px;
+  position: absolute;
+  bottom: 24px;
+  /* 默认距底部 30px */
+  left: 24px;
+  // right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #fff;
+}
+
+.spotlight-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
 }
 
 .spotlight-card__meta {
   margin: 0;
-  color: #232632;
-  font-size: 0.96rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .spotlight-card__title {
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
   margin: 0;
-  color: #06070d;
-  font-size: clamp(2.1rem, 3.4vw, 4.2rem);
-  line-height: 0.95;
-  font-weight: 400;
-  letter-spacing: -0.05em;
-}
-
-.spotlight-card__arrow {
-  flex: none;
-  transform: translateY(-0.06em);
-  font-size: 0.95em;
-  line-height: 1;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .spotlight-card__description {
-  max-width: 52ch;
-  margin: 2px 0 0;
-  color: rgba(35, 38, 50, 0.68);
-  font-size: 0.98rem;
-  line-height: 1.65;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
 }
 
+.spotlight-card__link {
+  display: inline-flex;
+  align-items: center;
+  // gap: 8px;
+  // margin-top: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.spotlight-card__arrow {
+  transition: transform 0.2s ease;
+}
+
+.spotlight-card:hover .spotlight-card__arrow {
+  transform: translateX(4px);
+}
+
+.spotlight-card:hover .spotlight-card__image {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+
+.spotlight-card:hover .spotlight-card__overlay {
+  opacity: 1;
+}
+
+/* 悬浮时文字整体上浮，刚好露出 “了解更多” */
+.spotlight-card:hover .spotlight-card__text {
+  transform: translateY(-40px);
+}
+
+.spotlight-card:hover .spotlight-card__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 响应式 */
 @media (max-width: 1100px) {
   .spotlight-list {
     gap: 28px 24px;
   }
 
-  .spotlight-card__media {
-    border-radius: 24px;
+  .spotlight-card__body {
+    left: 20px;
+    right: 20px;
   }
 
   .spotlight-card__title {
-    gap: 14px;
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: 1.6rem;
   }
 }
 
@@ -151,25 +203,18 @@ const normalizedItems = computed(() =>
     gap: 24px;
   }
 
-  .spotlight-card {
-    gap: 14px;
-  }
-
-  .spotlight-card__media {
-    border-radius: 20px;
-  }
-
-  .spotlight-card__meta {
-    font-size: 0.84rem;
+  .spotlight-card__body {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
   }
 
   .spotlight-card__title {
-    gap: 12px;
-    font-size: clamp(1.7rem, 8vw, 2.5rem);
+    font-size: 1.4rem;
   }
 
   .spotlight-card__description {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
 }
 </style>

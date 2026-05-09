@@ -16,9 +16,9 @@ import {
 import type { DashboardSectionId, ProfileInfoExample, UserInfoParams } from '@/types'
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
-import cardImageOne from '@/assets/admin/editorial-card-01.jpg'
-import cardImageTwo from '@/assets/admin/editorial-card-02.jpg'
-import cardImageThree from '@/assets/admin/editorial-card-03.jpg'
+import cardImageOne from '@/assets/example/editorial-card-01.jpg'
+import cardImageTwo from '@/assets/example/editorial-card-02.jpg'
+import cardImageThree from '@/assets/example/editorial-card-03.jpg'
 
 const router = useRouter()
 const currentUser = ref<UserInfoParams | null>(getCurrentUser())

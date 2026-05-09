@@ -228,7 +228,7 @@ onBeforeUnmount(() => {
     }">
       <RouterLink class="site-brand" to="/" @click="closeMenu">
         <strong>
-          <img class="site-brand__logo" src="../assets/front/brand_home_header.png" alt="主页" />
+          <img class="site-brand__logo" src="../assets/example/brand_home_header.png" alt="主页" />
         </strong>
       </RouterLink>
 
@@ -287,7 +287,7 @@ $radius-pill: var(--radius-pill);
 // 头部样式
 .site-header {
   position: fixed;
-  top: var(--site-header-offset);
+  //top: var(--site-header-offset);
   left: 50%;
   z-index: 40;
   width: var(--shell-width);

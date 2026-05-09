@@ -5,6 +5,7 @@ import PriceSearchView from '@/views/front/PriceSearchView.vue'
 import UserProfileView from '@/views/front/UserProfileView.vue'
 import StoryView from '@/views/front/StoryView.vue'
 import HomeView from '@/views/front/HomeView.vue'
+import BlogView from '@/views/front/BlogView.vue'
 
 
 const frontRoutes = [
@@ -22,7 +23,7 @@ const frontRoutes = [
         name: 'front-price-query',
         component: PriceSearchView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -30,7 +31,7 @@ const frontRoutes = [
         name: 'front-story',
         component: StoryView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -38,7 +39,7 @@ const frontRoutes = [
         name: 'front-capabilities',
         component: CapabilitiesView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -46,7 +47,7 @@ const frontRoutes = [
         name: 'front-ai-ai',
         component: AiChatView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -54,6 +55,15 @@ const frontRoutes = [
         name: 'front-profile',
         component: UserProfileView,
         meta: {
+          // requiresAuth: true,
+        },
+      },
+      {
+        path: 'blog',
+        name: 'front-blog',
+        component: BlogView,
+        meta: {
+          // 这个是任何人都可看的博客列表页，里面有一些公开的博客文章，用户可以点击进入查看详情
           // requiresAuth: true,
         },
       },

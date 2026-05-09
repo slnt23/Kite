@@ -9,18 +9,18 @@ import type {
   // PublicProfileFormExampleDefaults,
   SpotlightItem,
 } from '@/types'
-import projectImageOne from '@/assets/front/pic01.jpg'
-import projectImageTwo from '@/assets/front/pic02.jpg'
-import projectImageThree from '@/assets/front/pic03.jpg'
+import projectImageOne from '@/assets/example/pic01.jpg'
+import projectImageTwo from '@/assets/example/pic02.jpg'
+import projectImageThree from '@/assets/example/pic03.jpg'
 
 export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
   {
     id: 1,
     eyebrow: 'Brand System',
-    title: '个人品牌与内容表达同时在线',
+    title: '个人品牌与',
     description:
-      '保留模板里强叙事的首屏和分段式内容节奏，把它转成更适合个人站点的品牌展示、内容输出与项目入口。',
-    image: projectImageOne,
+      '保留模板里强叙事的首屏',
+    imageUrl: projectImageOne,
     order: 1,
     link: '/brand',
     target: '_self',
@@ -28,10 +28,10 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
   {
     id: 2,
     eyebrow: 'Project Layer',
-    title: '每个兴趣项目都能自然接入',
+    title: '每个兴趣项目',
     description:
-      '站点会持续扩展新的兴趣模块，所以首页不只负责展示，也要承担导航与聚合能力，让访问者快速理解你的主线。',
-    image: projectImageTwo,
+      '站点会持续扩展新的兴趣模块。',
+    imageUrl: projectImageTwo,
     order: 2,
     link: '/projects',
     target: '_self',
@@ -39,11 +39,44 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
   {
     id: 3,
     eyebrow: 'Growth System',
-    title: '从前台展示平滑过渡到后续后台运营',
+    title: '从前台展示平滑过渡',
     description:
-      '现在先完成前台官网，后面接入管理后台时，可以继续沿用内容、项目和模块的整体结构，不需要推翻重做。',
-    image: projectImageThree,
+      '现在先完成前台官网',
+    imageUrl: projectImageThree,
     order: 3,
+    link: '/growth',
+    target: '_self',
+  },
+  {
+    id: 3,
+    eyebrow: 'Growth System',
+    title: '从前台展示平滑过渡',
+    description:
+      '现在先完成前台官网',
+    imageUrl: projectImageThree,
+    order: 4,
+    link: '/growth',
+    target: '_self',
+  },
+  {
+    id: 3,
+    eyebrow: 'Growth System',
+    title: '从前台展示平滑过渡',
+    description:
+      '现在先完成前台官网',
+    imageUrl: projectImageThree,
+    order: 5,
+    link: '/growth',
+    target: '_self',
+  },
+  {
+    id: 3,
+    eyebrow: 'Growth System',
+    title: '从前台展示平滑过渡',
+    description:
+        '现在先完成前台官网',
+    imageUrl: projectImageThree,
+    order: 6,
     link: '/growth',
     target: '_self',
   },

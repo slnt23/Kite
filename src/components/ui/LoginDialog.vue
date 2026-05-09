@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import loginAdminImage from '@/assets/front/login_admin_1.png'
-import loginUserImage from '@/assets/front/login_user_1.png'
+import loginAdminImage from '@/assets/front/login_admin.png'
+import loginUserImage from '@/assets/front/login_user.png'
 
 
 import { ref, computed, reactive } from 'vue'

@@ -1,11 +1,12 @@
-import type {UserInfoParams} from '@/types'
-import type {NavSection} from '@/types'
-import type {MenuItem} from '@/types'
-import menuImagePriceQuery from '../../assets/front/pic01.jpg'
-import menuImageStory from '../../assets/front/pic02.jpg'
-import menuImageCapabilities from '../../assets/front/pic03.jpg'
-import menuImageAiChat from '../../assets/front/pic04.jpg'
-import projectImageOne from '@/assets/front/default_avatar.png'
+import type { UserInfoParams } from '@/types'
+import type { NavSection } from '@/types'
+import type { MenuItem } from '@/types'
+import menuImagePriceQuery from '../../assets/example/pic01.jpg'
+import menuImageStory from '../../assets/example/pic02.jpg'
+import menuImageCapabilities from '../../assets/example/pic03.jpg'
+import menuImageAiChat from '../../assets/example/pic04.jpg'
+import projectImageOne from '@/assets/example/default_avatar.png'
+import type { SectionIntroData } from '@/types'
 
 
 export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
@@ -105,21 +106,6 @@ export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
     {
         // 用来与退出登陆分隔
     }
-    // {
-    //   title: '代码、规划与自动化',
-    //   items: [
-    //     { id: 'code-repos', label: '仓库', icon: 'folder', navigable: false },
-    //     { id: 'code-codespaces', label: '开发环境', icon: 'monitor', navigable: false },
-    //     {
-    //       id: 'code-models',
-    //       label: '模型',
-    //       icon: 'share',
-    //       badge: '预览',
-    //       navigable: false,
-    //     },
-    //     { id: 'code-packages', label: '软件包', icon: 'box', navigable: false },
-    //   ],
-    // },
 ]
 
 
@@ -139,23 +125,48 @@ export const FRONT_MENU_ITEMS: MenuItem[] = [
         subtitle: '进入独立查询界面，查看价格与趋势',
         path: '/price-query',
         image: menuImagePriceQuery,
+        size: 'large',
     },
     {
         title: '品牌故事',
         subtitle: '查看当前项目的设计方向与页面叙事',
         path: '/story',
         image: menuImageStory,
+        size: 'normal',
     },
     {
         title: '服务能力',
         subtitle: '浏览前台项目的结构与能力范围',
         path: '/capabilities',
         image: menuImageCapabilities,
+        size: 'small',
     },
     {
         title: 'AI聊天',
         subtitle: '进入聊天界面入口，查看对话交互样式',
         path: '/ai-ai',
         image: menuImageAiChat,
+        size: 'small',
+    },
+    // {
+    //     title: '个人博客',
+    //     subtitle: '进入博客界面入口',
+    //     path: '/blog',
+    //     image: menuImageAiChat,
+    //     size: 'small',
+    // },
+]
+
+
+export const HOME_SECTION_INTROS: SectionIntroData[] = [
+    {
+        eyebrow: '内容精选',
+        title: 'Curated Highlights',
+        description: '值得浏览的内容与最新呈现',
+    },
+    {
+        eyebrow: '探索发现',
+        title: 'Creative Discoveries',
+        description: '围绕兴趣、创作与体验的核心内容集合',
     },
 ]
