@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 
 import { SPOTLIGHT_ITEMS, FEATURE_ITEMS } from '@/constant'
-import bannerImage from '@/assets/front/banner.jpg'
+import bannerImage from '@/assets/example/banner.jpg'
 import FeatureGrid from '../../components/site/FeatureGrid.vue'
 import SectionIntro from '../../components/site/SectionIntro.vue'
 import SpotlightSection from '../../components/site/SpotlightSection.vue'

@@ -228,7 +228,7 @@ onBeforeUnmount(() => {
     }">
       <RouterLink class="site-brand" to="/" @click="closeMenu">
         <strong>
-          <img class="site-brand__logo" src="../assets/front/brand_home_header.png" alt="主页" />
+          <img class="site-brand__logo" src="../assets/example/brand_home_header.png" alt="主页" />
         </strong>
       </RouterLink>
 

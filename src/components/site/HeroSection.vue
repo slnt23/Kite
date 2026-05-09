@@ -2,9 +2,9 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import heroVideo1 from '@/assets/front/Front_Hero_1.mp4'
 import heroVideo2 from '@/assets/front/Front_Hero_2.mp4'
-import heroVideo3 from '@/assets/front/Hero_3.mp4'
 
-const videos = [heroVideo1, heroVideo2]
+
+const videos = [heroVideo1]
 const currentIndex = ref(0)
 const heroRef = ref(null)
 const isMuted = ref(true)

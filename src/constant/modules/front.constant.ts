@@ -1,11 +1,11 @@
 import type {UserInfoParams} from '@/types'
 import type {NavSection} from '@/types'
 import type {MenuItem} from '@/types'
-import menuImagePriceQuery from '../../assets/front/pic01.jpg'
-import menuImageStory from '../../assets/front/pic02.jpg'
-import menuImageCapabilities from '../../assets/front/pic03.jpg'
-import menuImageAiChat from '../../assets/front/pic04.jpg'
-import projectImageOne from '@/assets/front/default_avatar.png'
+import menuImagePriceQuery from '../../assets/example/pic01.jpg'
+import menuImageStory from '../../assets/example/pic02.jpg'
+import menuImageCapabilities from '../../assets/example/pic03.jpg'
+import menuImageAiChat from '../../assets/example/pic04.jpg'
+import projectImageOne from '@/assets/example/default_avatar.png'
 
 
 export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {

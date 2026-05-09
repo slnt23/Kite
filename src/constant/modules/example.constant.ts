@@ -9,9 +9,9 @@ import type {
   // PublicProfileFormExampleDefaults,
   SpotlightItem,
 } from '@/types'
-import projectImageOne from '@/assets/front/pic01.jpg'
-import projectImageTwo from '@/assets/front/pic02.jpg'
-import projectImageThree from '@/assets/front/pic03.jpg'
+import projectImageOne from '@/assets/example/pic01.jpg'
+import projectImageTwo from '@/assets/example/pic02.jpg'
+import projectImageThree from '@/assets/example/pic03.jpg'
 
 export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
   {
