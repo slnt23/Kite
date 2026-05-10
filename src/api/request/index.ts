@@ -1,10 +1,10 @@
 import axios from 'axios'
-import {AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY} from "@/constant";
+import { AUTH_STORAGE_KEY, TOKEN_STORAGE_KEY } from "@/constant";
 
 // 创建 axios 实例，配置基础设置
 const request = axios.create({
     baseURL: '/api', // API 基础 URL，所有请求都会以此为前缀
-    timeout: 10000, 
+    timeout: 10000,
     headers: {
         'Content-Type': 'application/json' // 默认请求头，指定内容类型为 JSON
     }
@@ -23,9 +23,11 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use(
     response => {
         const res = response.data
+
         if (res.code !== 200) {
             return Promise.reject(new Error(res.message || 'Error'))
         }
+
         return res
     },
     error => Promise.reject(error)

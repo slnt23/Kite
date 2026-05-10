@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import featureCardBack from '@/assets/front/FEATURE_ITEMS.png'
-
-interface FeatureItem {
-  icon?: string
-  title: string
-  description: string
-}
+import type { FeatureItem } from '@/types'
 
 const props = withDefaults(
   defineProps<{

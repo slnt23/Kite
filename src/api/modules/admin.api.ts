@@ -1,5 +1,5 @@
 // spotlight.api.ts
-// import axios from 'axios';
+
 import request from '../request';
 import type { SpotlightItem, FeatureItem } from '@/types';
 import type { Result } from '@/types';
@@ -11,25 +11,25 @@ export const spotlightApi = {
     /**
      * 获取全部焦点项目（按 order 升序）
      */
-    list: () => {
-        return request.get<Result<SpotlightItem[]>>(SPOTLIGHT_BASE_URL);
+    list(): Promise<Result<SpotlightItem[]>> {
+        return request.get('/admin/spotlight');
     },
 
-    getById: (id: number) => {
-        return request.get<Result<SpotlightItem>>(`${SPOTLIGHT_BASE_URL}/${id}`);
+    getById(id: number): Promise<Result<SpotlightItem>> {
+        return request.get(`${SPOTLIGHT_BASE_URL}/${id}`)
     },
 
-    create: (data: SpotlightItem) => {
-        return request.post<Result<number>>(SPOTLIGHT_BASE_URL, data);
+    create(data: SpotlightItem): Promise<Result<number>> {
+        return request.post(SPOTLIGHT_BASE_URL, data)
     },
 
-    update: (id: number, data: SpotlightItem) => {
-        const payload = { ...data, id };
-        return request.put<Result<boolean>>(`${SPOTLIGHT_BASE_URL}/${id}`, payload);
+    update(id: number, data: SpotlightItem): Promise<Result<boolean>> {
+        const payload = { ...data, id }
+        return request.put(`${SPOTLIGHT_BASE_URL}/${id}`, payload)
     },
 
-    deleteById: (id: number) => {
-        return request.delete<Result<boolean>>(`${SPOTLIGHT_BASE_URL}/${id}`);
+    deleteById(id: number): Promise<Result<boolean>> {
+        return request.delete(`${SPOTLIGHT_BASE_URL}/${id}`)
     }
 };
 
@@ -41,24 +41,24 @@ export const featureApi = {
      * 获取全部产品特性（按 sort_order 升序排列）
      * 说明：后端当前只返回前四个
      */
-    list: () => {
-        return request.get<Result<FeatureItem[]>>(FEATURE_BASE_URL);
+    list(): Promise<Result<FeatureItem[]>> {
+        return request.get(FEATURE_BASE_URL);
     },
 
-    getById: (id: number) => {
-        return request.get<Result<FeatureItem>>(`${FEATURE_BASE_URL}/${id}`);
+    getById(id: number): Promise<Result<FeatureItem>> {
+        return request.get(`${FEATURE_BASE_URL}/${id}`)
     },
 
-    create: (data: FeatureItem) => {
-        return request.post<Result<number>>(FEATURE_BASE_URL, data);
+    create(data: FeatureItem): Promise<Result<number>> {
+        return request.post(FEATURE_BASE_URL, data)
     },
 
-    update: (id: number, data: FeatureItem) => {
-        const payload = { ...data, id };   // 确保 id 一致
-        return request.put<Result<boolean>>(`${FEATURE_BASE_URL}/${id}`, payload);
+    update(id: number, data: FeatureItem): Promise<Result<boolean>> {
+        const payload = { ...data, id }
+        return request.put(`${FEATURE_BASE_URL}/${id}`, payload)
     },
 
-    deleteById: (id: number) => {
-        return request.delete<Result<boolean>>(`${FEATURE_BASE_URL}/${id}`);
+    deleteById(id: number): Promise<Result<boolean>> {
+        return request.delete(`${FEATURE_BASE_URL}/${id}`)
     }
 };

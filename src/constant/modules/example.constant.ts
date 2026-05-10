@@ -128,28 +128,28 @@ export const SPOTLIGHT_ITEMS: SpotlightItem[] = [
   },
 ]
 
-export const FEATURE_ITEMS: FeatureItem[] = [
-  {
-    icon: '01',
-    title: '全屏首屏叙事',
-    description: '首页首屏改成全屏背景图，核心文案绝对居中，第一眼就建立网站气质。',
-  },
-  {
-    icon: '02',
-    title: '天蓝渐变系统',
-    description: '主色改成天蓝、雾白和通透高光，让视觉从深海蓝切换到更轻盈的呼吸感。',
-  },
-  {
-    icon: '03',
-    title: '滚动状态切换',
-    description: '首屏顶部保留右侧操作，向下滑动后再收口为左站名右操作的紧凑导航。',
-  },
-  {
-    icon: '04',
-    title: '宫格菜单入口',
-    description: '点击 MENU 打开响应式瀑布流图片宫格，直接跳转到品牌故事、服务能力等子页面。',
-  },
-]
+// export const FEATURE_ITEMS: FeatureItem[] = [
+//   {
+//     icon: '01',
+//     title: '一眼入魂',
+//     description: '首页首屏用一张大图镇场，一句话稳稳放在正中间，什么多余都没有，就是让你“哇”。',
+//   },
+//   {
+//     icon: '02',
+//     title: '天空色号',
+//     description: '配色换成天蓝、雾白、高光感，不再是深海压抑风，而是初夏下午三点的轻松。',
+//   },
+//   {
+//     icon: '03',
+//     title: '『滑一下，乖一点』',
+//     description: '刚进来时菜单在右边酷酷的，往下滑它就悄悄缩到左边，不挡视野，懂事。',
+//   },
+//   {
+//     icon: '04',
+//     title: '『点 MENU 像拆盒』',
+//     description: '打开菜单是一排可可爱爱的图片格子，点进去就能逛到各种有趣的小角落。',
+//   },
+// ]
 
 
 export const EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS: ProfileSelectOption[] = [

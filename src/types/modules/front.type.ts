@@ -22,10 +22,22 @@ export interface SpotlightItem {
 }
 
 export interface FeatureItem {
-    icon: string
-    title: string
-    description: string
+    /** 图标标识（必填），示例：'01'、'🔥'、'star' */
+    icon?: string;
+
+    /** 标题（必填），建议7字以内 */
+    title: string;
+
+    /** 描述文案（必填），建议50字以内 */
+    description: string;
+
+    /** 排序序号（必填），数值越小越靠前 */
+    sortOrder?: number;
+
+    /** 数据主键，新增时不传，修改时必传 */
+    id?: number;
 }
+
 
 
 export interface SectionIntroData {
@@ -41,13 +53,6 @@ export interface StoryGalleryItem {
     image: string
     thumbnail: string
 }
-
-
-
-
-
-
-
 
 
 export interface ProfileSelectOption {
