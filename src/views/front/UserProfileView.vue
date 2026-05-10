@@ -36,15 +36,6 @@ import {
 // 导入认证工具函数
 import { getCurrentUser, logout, onAuthChange } from '@/utils/auth.ts'
 
-/**
- * 扩展的用户信息类型，包含个人资料相关字段
- */
-// type ProfileUser = UserInfoParams & {
-//   avatarUrl?: string // 头像URL
-//   pronouns?: string // 人称代词
-//   websiteUrl?: string // 个人网站
-// }
-
 // 路由实例，用于页面导航
 const router = useRouter()
 
@@ -66,18 +57,16 @@ const profileName = computed(() => currentUser.value?.nickName || currentUser.va
  */
 const profileHandle = computed(() => currentUser.value?.email || 'guest@kite.local')
 
-/**
- * 计算属性：侧边栏标题行显示逻辑
- * 显示规则：昵称(用户名) > 昵称 > (用户名) > 默认名称(guest)
- */
+// 侧边栏标题行显示逻辑,显示规则：昵称(用户名) > 昵称 > (用户名) > 默认名称(guest)
 const profileTitleLine = computed(() => {
   const u = currentUser.value
-  const nick = (u?.nickName || '').trim()
-  const un = (u?.userName || '').trim()
-  if (nick && un) return `${nick} (${un})` // 同时有昵称和用户名
-  if (nick) return nick // 只有昵称
-  if (un) return `(${un})` // 只有用户名
-  return `${profileName.value} (guest)` // 访客模式
+  const truncate = (str: string) => str.length > 4 ? str.slice(0, 4) + '...' : str
+  const nick = truncate((u?.nickName || '').trim())
+  const un = truncate((u?.userName || '').trim())
+  if (nick && un) return `${nick} (${un})`
+  if (nick) return nick
+  if (un) return `(${un})`
+  return `${profileName.value} (guest)`
 })
 
 // 侧边栏副标题
@@ -86,17 +75,17 @@ const profileSidebarSubtitle = '你的个人账户'
 /**
  * 计算属性：用户角色/备注信息
  */
-const profileRole = computed(() => currentUser.value?.remark || '个人账户')
+const profileRole = computed(() => currentUser.value?.remark || '备注信息')
 
 /**
  * 计算属性：登录方式显示
  */
-const profileLoginMode = computed(() => currentUser.value?.phone || '邮箱验证')
+const profileLoginMode = computed(() => currentUser.value?.phone || '当前手机号')
 
 /**
  * 计算属性：最近活动时间或登录记录
  */
-const profileLoginAt = computed(() => currentUser.value?.rawPhone || '未记录')
+const profileLoginAt = computed(() => currentUser.value?.rawPhone || '上一手机号')
 
 /**
  * 计算属性：用户名称首字母（用于头像占位符）
@@ -107,7 +96,7 @@ const profileInitial = computed(() => profileName.value.trim().slice(0, 1).toUpp
  * 计算属性：侧边栏头像URL（使用用户头像或默认头像）
  */
 const sidebarAvatarUrl = computed(
-  () => (currentUser.value?.avatar ?? '').trim() || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatar,
+  () => (currentUser.value?.avatarUrl ?? '').trim() || EXAMPLE_PUBLIC_PROFILE_DEFAULTS.avatarUrl,
 )
 
 /**
@@ -134,7 +123,7 @@ const publicProfile = computed<UserInfoParams>(() => {
     remark: (u?.remark ?? '').trim() || examplePublic.remark,
     rawPhone: u?.rawPhone ?? examplePublic.rawPhone,
     role: u?.role ?? examplePublic.role,
-    avatar: (u?.avatar ?? '').trim() || examplePublic.avatar,
+    avatarUrl: (u?.avatarUrl ?? '').trim() || examplePublic.avatarUrl,
   }
 })
 
@@ -160,7 +149,7 @@ const handleSavePublicProfile = (payload: UserInfoParams) => {
     email: payload.email,
     phone: payload.phone,
     remark: payload.remark,
-    avatar: payload.avatar,
+    avatarUrl: payload.avatarUrl,
   } as UserInfoParams
 
   // 在浏览器环境中持久化数据并通知其他组件
@@ -213,19 +202,16 @@ const accountCards = computed(() =>
     return card
   }),
 )
-
-// 
-
 </script>
 
 <template>
   <!-- 个人中心整体布局容器 -->
   <SettingsWorkspaceShell>
     <template #sidebar>
+      <!-- 侧边栏 -->
       <SettingsSidebar v-model="activeSectionId" :sections="PROFILE_SETTINGS_NAV_SECTIONS"
         :title-line="profileTitleLine" :subtitle-line="profileSidebarSubtitle" :avatar-url="sidebarAvatarUrl"
         :avatar-initial="profileInitial">
-
         <template #footer>
           <button type="button" class="profile-logout" @click="handleLogout">退出登录</button>
         </template>
@@ -235,10 +221,15 @@ const accountCards = computed(() =>
     <!-- 主内容区域 -->
     <div class="profile-content">
       <header class="profile-content__header">
-        <div>
-          <p class="eyebrow-label">个人中心</p>
-          <!-- <h2>{{ activeSection.heading }}</h2> -->
-          <!-- <p>{{ activeSection.description }}</p> -->
+        <div class="profile-content__header-main">
+          <div>
+            <p class="eyebrow-label">个人中心</p>
+          </div>
+          <div class="profile-content__meta">
+            <span>已登录</span>
+            <span class="dot"></span>
+            <span>资料已同步</span>
+          </div>
         </div>
       </header>
 
@@ -255,9 +246,6 @@ const accountCards = computed(() =>
 </template>
 
 <style scoped lang="scss">
-/**
- * 退出登录按钮样式
- */
 .profile-logout {
   width: 100%;
   padding: 8px 12px;
@@ -268,54 +256,39 @@ const accountCards = computed(() =>
   font-size: 0.875rem;
   font-weight: 500;
   color: #cf222e;
-  /* 红色强调色，表示危险操作 */
   text-align: left;
   cursor: pointer;
 
-  /* 悬停效果 */
   &:hover {
     background: #ffebe9;
-    /* 浅红色背景 */
   }
 }
 
-/**
- * 主内容区域布局
- */
 .profile-content {
   display: grid;
   gap: 22px;
-  /* 区块间距 */
   min-width: 0;
-  /* 防止内容溢出 */
 }
 
-/**
- * 内容区头部样式
- */
-.profile-content__header {
-  padding: 8px 4px 0;
-  background: transparent;
+.profile-content__header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/**
- * 内容区主标题样式
- */
-.profile-content__header h2 {
-  margin: 4px 0 10px;
-  font-size: 2rem;
-  color: var(--color-text);
-  /* 使用CSS变量确保主题一致性 */
+.profile-content__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 13px;
+  color: #909399;
 }
 
-/**
- * 内容区描述文字样式
- */
-.profile-content__header p:last-child {
-  margin: 0;
-  color: var(--color-text-soft);
-  /* 较浅的文字颜色 */
-  max-width: 720px;
-  /* 限制最大宽度，提高可读性 */
+.profile-content__meta .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #c0c4cc;
 }
 </style>

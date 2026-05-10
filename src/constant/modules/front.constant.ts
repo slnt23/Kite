@@ -18,63 +18,24 @@ export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
     remark: '默认备注',    // 备注/个人简介
     rawPhone: '000 000',                // 原始手机号（可选）
     role: '用户',            // 角色
-    avatar: projectImageOne as string, // 头像URL
+    avatarUrl: projectImageOne as string, // 头像URL
 }
 
-// GitHub 风格设置侧栏：
-// 用户，首组来自 PROFILE_SECTION_ITEMS，其余为展示用分组（可再接路由）
+// GitHub 风格设置侧栏：用户，
 export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
     {
         items: [
-
-            {
-                id: 'public',
-                label: '公开资料',
-                icon: 'user',
-                navigable: true,
-            },
-            {
-                id: 'account',
-                label: '账户',
-                icon: 'setting',
-                navigable: true,
-            },
-            {
-                id: 'appearance',
-                label: '外观',
-                icon: 'brush',
-                navigable: true,
-            },
-            {
-                id: 'accessibility',
-                label: '无障碍',
-                icon: 'view',
-                navigable: true,
-            },
-            {
-                id: 'notifications',
-                label: '通知',
-                icon: 'bell',
-                navigable: true,
-            },]
+            { id: 'public', label: '公开资料', icon: 'user', navigable: true, },
+            { id: 'account', label: '账户', icon: 'setting', navigable: true, },
+            // { id: 'appearance', label: '外观', icon: 'brush', navigable: true, },
+            // { id: 'accessibility', label: '无障碍', icon: 'view', navigable: true, },
+            // { id: 'notifications', label: '通知', icon: 'bell', navigable: true, },
+        ]
     },
     {
         title: '访问',
         items: [
-            {
-                id: 'access-billing',
-                label: '账单与许可',
-                icon: 'creditCard',
-                expandable: true,
-                navigable: false,
-            },
-            // {id: 'access-emails', label: '邮箱', icon: 'message', navigable: false},
-            // {
-            //     id: 'access-password',
-            //     label: '密码与身份验证',
-            //     icon: 'lock',
-            //     navigable: false,
-            // },
+            { id: 'access-billing', label: '账单与许可', icon: 'creditCard', expandable: true, navigable: false, },
         ],
     },
     {
@@ -83,9 +44,7 @@ export const PROFILE_SETTINGS_NAV_SECTIONS: NavSection[] = [
 ]
 
 
-/**
- * 前台菜单选项配置常量
- */
+// 每个菜单项包含标题、副标题、路径、图片和大小信息
 export const FRONT_MENU_ITEMS: MenuItem[] = [
     {
         title: '价格行情',
@@ -117,7 +76,7 @@ export const FRONT_MENU_ITEMS: MenuItem[] = [
     },
 ]
 
-
+// 首页内容区的介绍数据，每个对象包含眉头、标题和描述
 export const HOME_SECTION_INTROS: SectionIntroData[] = [
     {
         eyebrow: '内容精选',

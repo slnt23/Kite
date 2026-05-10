@@ -233,9 +233,6 @@ onBeforeUnmount(() => {
       </RouterLink>
 
       <div class="site-header__actions">
-        <!-- <button class="site-header__button site-header__music-toggle" @click="openMusic"> -->
-        <!-- 后续可以追加背景音乐按钮 -->
-        <!-- </button> -->
         <button class="site-header__button site-header__button--menu" type="button" @click="toggleMenu">
           LET'S MENU
         </button>

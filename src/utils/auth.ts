@@ -34,8 +34,13 @@ export const logout = (): void => {
     window.localStorage.removeItem(AUTH_STORAGE_KEY)
     window.localStorage.removeItem(TOKEN_STORAGE_KEY)
   }
-  // 可选：调用后端登出API
-  // logoutApi().catch(console.error)
+  // logoutApi().catch(console.error) // 可选：调用后端登出API
+}
+
+// 设置当前用户信息到localStorage，并触发认证状态变化事件
+export const setCurrentUser = (userData: UserInfoParams): void => {
+  window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userData))
+  window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: userData }))// 触发认证状态变化事件
 }
 
 // 获取当前用户信息，
@@ -52,19 +57,7 @@ export const getCurrentUser = (): UserInfoParams | null => {
   }
 }
 
-
-
-
-
-
-
-
-
-/**
- * 注册认证状态变化监听器,用于在主页来监听认证状态变化（如登录/登出）并更新UI
- * @param callback 当认证状态变化时调用的回调函数
- * @returns 取消监听的函数
- */
+// 注册认证状态变化监听器,用于在主页来监听认证状态变化（如登录/登出）并更新UI
 export const onAuthChange = (callback: (user: UserInfoParams | null) => void): (() => void) => {
   if (!isClient() || typeof callback !== 'function') {
     return () => { } // 返回空函数

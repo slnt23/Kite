@@ -1,14 +1,8 @@
 <script setup lang="ts">
-/**
- * 设置侧边栏组件
- * 功能：显示用户信息、导航菜单和底部操作按钮
- * 支持多级导航、图标显示和展开/收起功能
- */
 
 import type { Component } from 'vue'
 import { computed, ref } from 'vue'
 
-// 导入 Element Plus 图标组件
 import {
   ArrowDown,
   Bell,
@@ -30,13 +24,7 @@ import {
 } from '@element-plus/icons-vue'
 
 // 导入类型定义
-import type {
-  IconKey,
-  // ProfileSettingsNavItem,
-  // ProfileSettingsNavSection,
-    NavSection,
-    NavItem,
-} from '@/types'
+import type { IconKey, NavSection, NavItem } from '@/types'
 
 /**
  * 组件属性定义
@@ -44,7 +32,7 @@ import type {
 const props = withDefaults(
   defineProps<{
     modelValue: string                    // 当前激活的导航项ID
-    sections: NavSection[] // 导航区块配置（暂时注释）
+    sections: NavSection[]                // 导航区块配置（暂时注释）
     titleLine: string                    // 标题行文本
     subtitleLine: string                 // 副标题文本
     avatarUrl?: string | null            // 头像URL（可选）

@@ -5,10 +5,11 @@ import loginUserImage from '@/assets/front/login_user.png'
 
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUserInfoApi, loginApi, registerApi, sendCodeApi } from '@/api'
-import type { LoginOrRegisterParams } from '@/types'
-import { setToken } from '@/utils/auth'
+import { getUserInfoApi, loginMailApi, loginPasswordApi, registerApi, sendCodeApi } from '@/api'
+import { setCurrentUser, setToken } from '@/utils/auth'
 import { AUTH_STORAGE_KEY } from "@/constant";
+import { ElMessage } from 'element-plus'
+import type { LoginOrRegisterParams, SendCodeParams } from '@/types'
 
 // Props
 const props = defineProps({
@@ -20,14 +21,11 @@ const props = defineProps({
 // Emits
 const emit = defineEmits(['update:modelValue'])
 const showAdmin = ref(false)
-const password = ref('')
 const submitting = ref(false)
-const errorMessage = ref('')
 const router = useRouter()
 const activeTab = ref('mail')
 
-
-// 管理员登录表单
+// 登录表单
 const loginForm = reactive<LoginOrRegisterParams>({
   email: '',
   password: '',
@@ -35,11 +33,6 @@ const loginForm = reactive<LoginOrRegisterParams>({
   role: ''
 })
 
-const codeForm = reactive({
-  email: ''
-})
-
-// 计算属性
 const visible = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)
@@ -48,23 +41,20 @@ const visible = computed({
 // 切换登录模式
 const toggleMode = () => {
   showAdmin.value = !showAdmin.value
-  password.value = ''
-  errorMessage.value = ''
 }
 
 // 提交登录或注册
 const submitLoginOrRegister = async (type: 'login' | 'register') => {
   submitting.value = true
-  errorMessage.value = ''
 
   // 构建提交数据
   const submitData = {
     email: loginForm.email,
     ...(activeTab.value === 'mail' ? { code: loginForm.code } : { password: loginForm.password }),
-    role: showAdmin.value ? 'admin' : 'user' //这里用1或者0来指角色，后续用英文，这样歧义太大
+    role: showAdmin.value ? 'ADMIN' : 'USER'
   }
 
-  const result = type === 'login' ? await loginApi(submitData) : await registerApi(submitData)
+  const result = type === 'login' ? await (activeTab.value === 'mail' ? loginMailApi : loginPasswordApi)(submitData) : await registerApi(submitData)
 
   if (result.code == 200) {
     submitting.value = false
@@ -76,51 +66,48 @@ const submitLoginOrRegister = async (type: 'login' | 'register') => {
 
     //保存token，后续需要在请求头中携带token进行认证
     setToken(result.data)
-
     const userInfoResult = await getUserInfoApi()
-    if (userInfoResult.code == 200) {
-      window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userInfoResult.data))
-    }
 
+    if (userInfoResult.code == 200) {
+      setCurrentUser(userInfoResult.data)
+    }
     await router.push('/')
   } else {
-    errorMessage.value = result.message || '登录失败，请重试'
+    ElMessage.error(result.message || '登录失败，请重试')
     submitting.value = false
   }
 }
 
 const sendCode = async () => {
-  if (!codeForm.email) {
-    errorMessage.value = '请输入邮箱地址'
+  if (!loginForm.email) {
+    ElMessage.error('请输入邮箱地址')
     return
   }
 
   submitting.value = true
-  errorMessage.value = ''
 
-  const result = await sendCodeApi(codeForm)
+  const sendCodeData = <SendCodeParams>{
+    email: loginForm.email,
+  }
+  const result = await sendCodeApi(sendCodeData)
 
   if (result.code == 200) {
     submitting.value = false
-    errorMessage.value = '验证码已发送，请检查邮箱'
+    ElMessage.success('验证码已发送，请检查邮箱')
   } else {
-    errorMessage.value = result.message || '发送验证码失败，请重试'
+    ElMessage.error(result.message || '发送验证码失败，请重试')
     submitting.value = false
   }
 }
 
-// 关闭弹窗
 const closeDialog = () => {
   visible.value = false
   showAdmin.value = false
-  password.value = ''
-  errorMessage.value = ''
 }
 </script>
 
 <template>
   <el-dialog v-model="visible" width="1000px" :show-close="false" @close="closeDialog" class="login-dialog">
-    <!-- <button class="ui-close-button ui-close-button--corner" type="button" @click="closeDialog">关闭</button> -->
     <button class="ui-icon-close-button ui-icon-close-button--close ui-icon-close-button--right" type="button"
       @click="closeDialog">
       <img src="/src/assets/modules/ICON_CLOSE.svg" alt="关闭" width="20" height="20" />
@@ -141,7 +128,7 @@ const closeDialog = () => {
             <el-form :model="loginForm">
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input v-model="codeForm.email" placeholder="请输入邮箱地址" clearable></el-input>
+                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable></el-input>
                   <el-button v-if="activeTab === 'mail'" @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
@@ -152,7 +139,8 @@ const closeDialog = () => {
                 <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
               </el-form-item>
               <el-button class="form-button" type="primary" :loading="submitting"
-                @click="submitLoginOrRegister('login')">登录</el-button>
+                @click="submitLoginOrRegister('login')">登录
+              </el-button>
             </el-form>
           </div>
         </div>
@@ -175,14 +163,13 @@ const closeDialog = () => {
             <el-form>
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input v-model="codeForm.email" placeholder="请输入邮箱地址" clearable class="email-input" />
+                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable class="email-input" />
                   <el-button @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="password" type="text" show-password clearable placeholder="请输入验证码" />
+                <el-input v-model="loginForm.code" type="text" show-password clearable placeholder="请输入验证码" />
               </el-form-item>
-              <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
               <div class="form-button-group">
                 <el-button type="primary" @click="submitLoginOrRegister('register')" class="form-button">
                   注册
@@ -197,13 +184,11 @@ const closeDialog = () => {
           <div v-else-if="activeTab === 'password'" class="form-body">
             <el-form>
               <el-form-item prop="mail">
-                <el-input placeholder="请输入邮箱地址" clearable />
+                <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable />
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="password" type="password" show-password clearable placeholder="请输入密码" />
+                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
               </el-form-item>
-
-              <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
               <div class="form-button-group">
                 <el-button type="primary" :loading="submitting" @click="submitLoginOrRegister('login')"
                   class="form-button">登录</el-button>

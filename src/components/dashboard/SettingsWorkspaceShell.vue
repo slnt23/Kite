@@ -22,6 +22,7 @@
 .settings-workspace {
   min-height: 100vh;
   background: #ffffff;
+  width: var(--shell-width);
 }
 
 .settings-workspace__shell {

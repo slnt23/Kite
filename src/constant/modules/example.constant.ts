@@ -157,22 +157,22 @@ export const EXAMPLE_PUBLIC_PROFILE_EMAIL_OPTIONS: ProfileSelectOption[] = [
   { value: 'verified@kite.local', label: 'verified@kite.local' },
 ]
 
-export const EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS: ProfileSelectOption[] = [
-  { value: '', label: '不指定' },
-  { value: 'he/him', label: 'He/him' },
-  { value: 'she/her', label: 'She/her' },
-  { value: 'they/them', label: 'They/them' },
-]
+// export const EXAMPLE_PUBLIC_PROFILE_PRONOUNS_OPTIONS: ProfileSelectOption[] = [
+//   { value: '', label: '不指定' },
+//   { value: 'he/him', label: 'He/him' },
+//   { value: 'she/her', label: 'She/her' },
+//   { value: 'they/them', label: 'They/them' },
+// ]
 
-export const EXAMPLE_PUBLIC_PROFILE_HINTS = {
-  displayName:
-    '你的姓名可能会显示在站点中你参与协作或被提及的位置，可随时修改或清空。',
-  publicEmail:
-    '你已将邮箱设为私密。要调整展示方式，请到「邮箱设置」中取消勾选「对外隐藏邮箱」。',
-  bio: '可以 @ 其他用户或组织，生成指向对方的链接。',
-  pronouns: '',
-  websiteUrl: '',
-} as const
+// export const EXAMPLE_PUBLIC_PROFILE_HINTS = {
+//   displayName:
+//     '你的姓名可能会显示在站点中你参与协作或被提及的位置，可随时修改或清空。',
+//   publicEmail:
+//     '你已将邮箱设为私密。要调整展示方式，请到「邮箱设置」中取消勾选「对外隐藏邮箱」。',
+//   bio: '可以 @ 其他用户或组织，生成指向对方的链接。',
+//   pronouns: '',
+//   websiteUrl: '',
+// } as const
 
 // export const PROFILE_SECTION_ITEMS: ProfileSectionItem[] = [
 //   {
