@@ -7,7 +7,7 @@ import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUserInfoApi, loginMailApi, loginPasswordApi, registerApi, sendCodeApi } from '@/api'
 import { setCurrentUser, setToken } from '@/utils/auth'
-import { AUTH_STORAGE_KEY } from "@/constant";
+// import { AUTH_STORAGE_KEY } from "@/constant";
 import { ElMessage } from 'element-plus'
 import type { LoginOrRegisterParams, SendCodeParams } from '@/types'
 
@@ -119,7 +119,7 @@ const closeDialog = () => {
         :style="{ width: showAdmin ? '60%' : '40%' }">
         <div v-if="showAdmin" class="form-panel">
           <div class="form-header">
-            <el-tabs v-model="activeTab" class="tabs">
+            <el-tabs v-model="activeTab">
               <el-tab-pane label="邮箱登录" name="mail"></el-tab-pane>
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
@@ -154,7 +154,7 @@ const closeDialog = () => {
         :style="{ width: showAdmin ? '40%' : '60%' }">
         <div v-if="!showAdmin" class="form-panel">
           <div class="form-header">
-            <el-tabs v-model="activeTab" class="tabs">
+            <el-tabs v-model="activeTab">
               <el-tab-pane label="邮箱注册/登录" name="mail"></el-tab-pane>
               <el-tab-pane label="密码登录" name="password"></el-tab-pane>
             </el-tabs>
@@ -215,9 +215,12 @@ const closeDialog = () => {
   overflow: hidden;
   padding: 50px;
 
+  // Element Plus 对话框内容区样式已提取到 src/style/_element-plus.scss
+  /*
   :deep(.el-dialog__body) {
     padding: 0 !important;
   }
+  */
 
   >.ui-close-button {
     position: absolute;
@@ -259,6 +262,8 @@ const closeDialog = () => {
           padding: 40px;
           text-align: center;
 
+          // Element Plus Tabs 样式已提取到 src/style/_element-plus.scss
+          /*
           .tabs {
             :deep(.el-tabs__nav) {
               border: none;
@@ -306,6 +311,7 @@ const closeDialog = () => {
               display: none !important;
             }
           }
+          */
         }
 
         .form-body {
@@ -313,6 +319,8 @@ const closeDialog = () => {
           text-align: center;
           font-size: 16px;
 
+          // Element Plus 组件大小样式已提取到 src/style/_element-plus.scss
+          /*
           :deep(.el-form-item__label) {
             font-size: 16px;
             font-weight: 500;
@@ -329,6 +337,7 @@ const closeDialog = () => {
             font-size: 16px;
             border-radius: var(--radius-ui);
           }
+          */
 
           .email-input-group {
             display: flex;

@@ -26,6 +26,7 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElTab: typeof import('element-plus/es')['ElTab']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     FeatureGrid: typeof import('./../components/site/FeatureGrid.vue')['default']
