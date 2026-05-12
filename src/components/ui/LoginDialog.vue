@@ -215,13 +215,6 @@ const closeDialog = () => {
   overflow: hidden;
   padding: 50px;
 
-  // Element Plus 对话框内容区样式已提取到 src/style/_element-plus.scss
-  /*
-  :deep(.el-dialog__body) {
-    padding: 0 !important;
-  }
-  */
-
   >.ui-close-button {
     position: absolute;
     top: 20px;
@@ -261,83 +254,12 @@ const closeDialog = () => {
         .form-header {
           padding: 40px;
           text-align: center;
-
-          // Element Plus Tabs 样式已提取到 src/style/_element-plus.scss
-          /*
-          .tabs {
-            :deep(.el-tabs__nav) {
-              border: none;
-              background: transparent;
-              margin: 0 auto;
-            }
-
-            :deep(.el-tabs__nav-wrap),
-            :deep(.el-tabs__nav-scroll) {
-              display: flex;
-              justify-content: center;
-            }
-
-            :deep(.el-tabs__item) {
-              padding: 0 32px 16px;
-              font-size: 18px;
-              color: #303133;
-              background: transparent;
-              border: none;
-              position: relative;
-              transition: color 0.3s;
-
-              &:not(:last-child)::after {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 1px;
-                height: 18px;
-                background-color: #dcdfe6;
-              }
-
-              &.is-active {
-                color: #409eff;
-                font-weight: 500;
-              }
-
-              &:hover {
-                color: #409eff;
-              }
-            }
-
-            :deep(.el-tabs__active-bar) {
-              display: none !important;
-            }
-          }
-          */
         }
 
         .form-body {
           padding: 5px 40px;
           text-align: center;
           font-size: 16px;
-
-          // Element Plus 组件大小样式已提取到 src/style/_element-plus.scss
-          /*
-          :deep(.el-form-item__label) {
-            font-size: 16px;
-            font-weight: 500;
-          }
-
-          :deep(.el-input__inner) {
-            height: 44px;
-            font-size: 16px;
-            border-radius: var(--radius-ui);
-          }
-
-          :deep(.el-button) {
-            height: 44px;
-            font-size: 16px;
-            border-radius: var(--radius-ui);
-          }
-          */
 
           .email-input-group {
             display: flex;

@@ -267,7 +267,7 @@ $radius-pill: var(--radius-pill);
 // 基础布局
 .site-shell {
   position: relative;
-  width: var(--shell-width);
+  // width: var(--shell-width);
   margin: 0 auto;
 
   &--chat {

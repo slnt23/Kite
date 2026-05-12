@@ -6,6 +6,8 @@ import StoryView from '@/views/front/StoryImageView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
 
+import PriceResult from '@/components/price/PriceResult.vue'
+
 
 const frontRoutes = [
   {
@@ -22,7 +24,7 @@ const frontRoutes = [
         name: 'front-price-query',
         component: PriceSearchView,
         meta: {
-          requiresAuth: true,
+          // requiresAuth: true,
         },
       },
       {
@@ -44,7 +46,7 @@ const frontRoutes = [
       {
         path: 'blog',
         name: 'front-blog',
-        component: BlogView,
+        component: PriceResult,
         meta: {
           // 这个是任何人都可看的博客列表页，里面有一些公开的博客文章，用户可以点击进入查看详情
           // requiresAuth: true,
