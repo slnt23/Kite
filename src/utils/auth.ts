@@ -33,6 +33,7 @@ export const logout = (): void => {
   if (isClient()) {
     window.localStorage.removeItem(AUTH_STORAGE_KEY)
     window.localStorage.removeItem(TOKEN_STORAGE_KEY)
+    window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: null }))// 触发认证状态变化事件
   }
   // logoutApi().catch(console.error) // 可选：调用后端登出API
 }

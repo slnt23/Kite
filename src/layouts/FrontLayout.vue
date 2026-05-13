@@ -103,7 +103,7 @@ const closeMenu = () => {
 }
 
 const handleKeydown = (event) => {
-  if (event.shiftKey && !event.repeat && event.key.toLowerCase() === 'h') {
+  if (event.shiftKey && !event.repeat && event.key.toLowerCase() === 'q') {
     hideHeader()
     lastShiftPressAt = 0
     return

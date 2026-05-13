@@ -54,18 +54,11 @@
 // Element Plus 组件样式
 .el-button,
 .el-input__wrapper,
-.el-textarea__inner,
-.el-tabs__nav,
-.el-select__wrapper,
-.el-card {
+.el-tabs__nav {
   border-radius: var(--el-border-radius-base);
 }
 
-.el-dialog,
-.el-message-box,
-.el-popover.el-popper,
-.el-tooltip__popper,
-.el-dropdown__popper .el-dropdown-menu {
+.el-dialog {
   border-radius: var(--el-border-radius-round);
   box-shadow: var(--el-box-shadow-medium);
 }
@@ -91,17 +84,6 @@
   }
 }
 
-.el-button-group .el-button {
-  border-radius: 0;
-
-  &:first-child {
-    border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
-  }
-
-  &:last-child {
-    border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
-  }
-}
 
 // Element Plus 表单组件
 .el-form-item {
@@ -135,57 +117,7 @@ body.el-popup-parent--hidden {
   padding-right: 0 !important;
 }
 
-// 二、卡片类
-.el-card {
-  border-radius: var(--el-border-radius-round);
-  box-shadow: var(--el-box-shadow);
-  border: 1px solid var(--el-border-color-light);
-}
 
-// Element Plus 表格样式
-.el-table {
-  border-radius: var(--el-border-radius-round);
-  box-shadow: var(--el-box-shadow);
-  overflow: hidden;
-  border: 1px solid var(--el-border-color-light);
-}
-
-.el-table th {
-  background-color: var(--el-bg-color-overlay);
-  font-weight: 500;
-}
-
-// 三、展示类
-// 徽标/角标
-.el-badge__content {
-  border-radius: var(--el-border-radius-circle);
-}
-
-// 标签
-.el-tag {
-  border-radius: var(--el-border-radius-base);
-  border: 1px solid var(--el-border-color-light);
-}
-
-// 进度条
-.el-progress-bar__outer {
-  background-color: var(--el-fill-color);
-  border-radius: var(--el-border-radius-circle);
-}
-
-.el-progress-bar__inner {
-  border-radius: var(--el-border-radius-circle);
-}
-
-// 分割线
-.el-divider {
-  background: var(--el-border-color);
-}
-
-// 占位符（骨架屏）
-.el-skeleton {
-  background-color: var(--el-fill-color);
-}
 
 // Element Plus 消息提示
 .el-message {
@@ -194,107 +126,6 @@ body.el-popup-parent--hidden {
   border: 1px solid var(--el-border-color-light);
 }
 
-// Element Plus 加载状态
-.el-loading-mask {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-.el-loading-spinner .path {
-  stroke: var(--el-color-primary);
-}
-
-// Element Plus 分页器
-.el-pagination {
-  justify-content: center;
-  margin-top: var(--spacing-xl);
-}
-
-// 四、导航类
-// 侧边菜单
-.el-menu {
-  background-color: var(--el-bg-color);
-  border: none;
-}
-
-.el-menu-item {
-  border-radius: var(--el-border-radius-base);
-  margin: 4px 8px;
-
-  &:hover {
-    background-color: var(--el-fill-color);
-  }
-}
-
-.el-menu-item.is-active {
-  background-color: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
-}
-
-// 标签页（Tab）- 纯文字竖线分隔样式
-// .el-tabs {
-
-//   // 移除容器背景和边框
-//   .el-tabs__header {
-//     background: none;
-//     padding: 0;
-//     border: none;
-//     border-radius: 0;
-//     margin-bottom: 0;
-//   }
-
-//   // 移除导航容器样式
-//   .el-tabs__nav {
-//     border: none;
-//     background: none;
-//   }
-
-//   // 选项卡项 - 纯文字样式
-//   .el-tabs__item {
-//     position: relative;
-//     font-weight: normal;
-//     border-radius: 0;
-//     background: none;
-//     border: none;
-//     padding: 0 16px;
-//     color: #909399;
-//     transition: color 0.2s ease;
-
-//     // 添加竖线分隔（除了第一个）
-//     &::before {
-//       content: '|';
-//       position: absolute;
-//       left: 0;
-//       color: #dcdfe6;
-//     }
-
-//     // 第一个选项不显示竖线
-//     &:first-child {
-//       padding-left: 0;
-
-//       &::before {
-//         display: none;
-//       }
-//     }
-
-//     // 悬浮态：文字变蓝
-//     &:hover {
-//       color: #409eff;
-//       background: none;
-//     }
-
-//     // 激活态：文字变蓝加粗
-//     &.is-active {
-//       color: #409eff;
-//       font-weight: 500;
-//       background: none;
-//     }
-//   }
-
-//   // 移除激活项下划线
-//   .el-tabs__active-bar {
-//     display: none;
-//   }
-// }
 
 // 标签页（Tab）- 纯文字竖线分隔样式
 .el-tabs {
@@ -381,92 +212,6 @@ body.el-popup-parent--hidden {
   }
 }
 
-// 步骤条
-.el-step__title {
-  font-weight: 500;
-}
-
-.el-step__icon {
-  border-radius: var(--el-border-radius-circle);
-
-  &.is-active {
-    background: var(--el-color-primary);
-    box-shadow: var(--el-box-shadow-light);
-  }
-}
-
-.el-step__line {
-  background: var(--el-border-color);
-}
-
-// 五、反馈类
-// 提示气泡（Tooltip）
-.el-tooltip__popper {
-  border-radius: var(--el-border-radius-base);
-  box-shadow: var(--el-box-shadow-medium);
-  border: 1px solid var(--el-border-color-light);
-}
-
-// 六、布局类
-// 面板
-.el-collapse-item__header {
-  border-radius: var(--el-border-radius-base);
-  background-color: var(--el-bg-color);
-  border-bottom: 1px solid var(--el-border-color-light);
-}
-
-.el-collapse-item__content {
-  background-color: var(--el-bg-color);
-  border-bottom: 1px solid var(--el-border-color-light);
-}
-
-// 七、输入类
-// 开关（Toggle/Switch）
-.el-switch__core {
-  border-radius: var(--el-border-radius-circle);
-  border: 1px solid var(--el-border-color);
-  background-color: var(--el-fill-color);
-
-  &::after {
-    border-radius: var(--el-border-radius-circle);
-    background: #fff;
-    box-shadow: var(--el-box-shadow-light);
-  }
-}
-
-.el-switch.is-checked {
-  .el-switch__core {
-    background: var(--el-color-primary);
-    border-color: var(--el-color-primary);
-  }
-}
-
-// 滑动输入条（Slider）
-.el-slider__track {
-  background-color: var(--el-fill-color);
-  border-radius: var(--el-border-radius-circle);
-}
-
-.el-slider__bar {
-  background: var(--el-color-primary);
-  border-radius: var(--el-border-radius-circle);
-}
-
-.el-slider__thumb {
-  border-radius: var(--el-border-radius-circle);
-  background: #fff;
-  border: 2px solid var(--el-color-primary);
-  box-shadow: var(--el-box-shadow-light);
-
-  &:hover {
-    transform: scale(1.1);
-  }
-}
-
-// Element Plus 图标样式
-.el-icon {
-  font-size: inherit;
-}
 
 // Element Plus 响应式适配
 @media (max-width: 760px) {
@@ -475,13 +220,6 @@ body.el-popup-parent--hidden {
     margin: 5vh auto !important;
   }
 
-  .el-message-box {
-    width: 90% !important;
-  }
-
-  .el-table {
-    font-size: 0.9rem;
-  }
 }
 
 // ========== 登录对话框特有的 Element Plus 样式 ==========
@@ -541,23 +279,4 @@ body.el-popup-parent--hidden {
     }
   }
 
-  // 表单相关样式（控制组件大小）- 已移至 LoginDialog.vue
-  // .form-body {
-  //   .el-form-item__label {
-  //     font-size: 16px;
-  //     font-weight: 500;
-  //   }
-  //
-  //   .el-input__inner {
-  //     height: 44px;
-  //     font-size: 16px;
-  //     border-radius: var(--radius-ui);
-  //   }
-  //
-  //   .el-button {
-  //     height: 44px;
-  //     font-size: 16px;
-  //     border-radius: var(--radius-ui);
-  //   }
-  // }
 }

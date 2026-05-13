@@ -179,18 +179,29 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
+// Design System Variables - from DESIGN.md
+$runway-black: #000000;
+$dark-surface: #1a1a1a;
+$pure-white: #ffffff;
+$cool-slate: #767d88;
+$mid-slate: #7d848e;
+$border-dark: #27272a;
+
 $hero-text-color: rgba(255, 255, 255, 0.95);
 $hero-overlay-color: rgba(10, 23, 35, 0.48);
 $hero-glow-color: rgba(255, 255, 255, 0.22);
 
 .home-hero {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   overflow: hidden;
+  background-color: $runway-black;
 
   &__video {
     position: absolute;
@@ -245,34 +256,39 @@ $hero-glow-color: rgba(255, 255, 255, 0.22);
 
   h1 {
     margin: 0;
-    font-size: clamp(3.4rem, 8vw, 7rem);
-    line-height: 0.98;
-    letter-spacing: 0.11em;
+    font-size: clamp(3rem, 8vw, 3.75rem);
+    line-height: 1.0;
+    letter-spacing: -1.2px;
+    font-weight: 400;
   }
 
   h2 {
     max-width: 22ch;
     margin: 22px auto 0;
-    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
-    line-height: 1.24;
-    font-weight: 500;
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    line-height: 1.0;
+    letter-spacing: -0.9px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.9);
   }
 
   &__summary {
     max-width: 64ch;
     margin: 30px auto 0;
-    color: rgba(255, 255, 255, 0.9);
+    color: $cool-slate;
     font-size: 1rem;
+    line-height: 1.4;
+    letter-spacing: -0.16px;
   }
 
   &__controls {
     position: absolute;
-    bottom: 90px;
+    bottom: 78px;
     left: 50%;
     z-index: 1;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     transform: translateX(-50%);
   }
 
@@ -306,20 +322,15 @@ $hero-glow-color: rgba(255, 255, 255, 0.22);
     width: 44px;
     height: 44px;
     border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: $pure-white;
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(8px);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.35);
-      transform: scale(1.1);
-    }
-
-    &:active {
-      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     svg {

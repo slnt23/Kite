@@ -47,19 +47,28 @@ import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons
 </script>
 
 <style scoped lang="scss">
+// Design System Variables - from DESIGN.md
+$runway-black: #000000;
+$dark-surface: #1a1a1a;
+$pure-white: #ffffff;
+$cool-slate: #767d88;
+$mid-slate: #7d848e;
+$footer-gray: #999999;
+$border-dark: #27272a;
+
 .site-footer {
-  margin-top: 40px;
-  padding: 60px 0 30px;
+  margin-top: 78px;
+  padding: 64px 0 48px;
   text-align: center;
-  background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  background: $runway-black;
+  border-top: 1px solid $border-dark;
 }
 
 .footer-divider {
   border: none;
   height: 1px;
-  background: var(--color-border);
-  margin: 0 auto 30px auto;
+  background: $border-dark;
+  margin: 0 auto 48px auto;
   width: 80%;
 }
 
@@ -75,18 +84,19 @@ import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons
 
 .footer-title {
   margin: 0;
-  color: var(--color-text-deep);
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 1.4;
+  color: $pure-white;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.9px;
 }
 
 .footer-links {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0px;
-  margin-bottom: 20px;
+  gap: 32px;
+  margin-bottom: 32px;
   flex-wrap: wrap;
 }
 
@@ -94,50 +104,51 @@ import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-text);
+  color: $cool-slate;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
   padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 4px;
+  transition: color 0.3s ease;
 
   &:hover {
-    color: var(--color-primary);
-    background: var(--color-bg-light);
-    transform: translateY(-1px);
+    color: $pure-white;
   }
 }
 
 .link-icon {
   font-size: 16px;
-  color: var(--color-primary);
+  color: $cool-slate;
 }
 
 .footer-bottom {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   flex-wrap: wrap;
-  color: #686d79;
+  color: $footer-gray;
 }
 
 .footer-info {
-  font-size: 12px;
-  color: var(--color-muted-light);
-  line-height: 1.4;
+  font-size: 11px;
+  color: $footer-gray;
+  line-height: 1.3;
 }
 
 .divider {
-  color: var(--color-border);
-  font-size: 12px;
+  color: $border-dark;
+  font-size: 11px;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .site-footer {
-    margin-top: 30px;
-    padding: 30px 0 15px;
+    margin-top: 48px;
+    padding: 48px 0 32px;
   }
 
   .footer-content {
@@ -145,12 +156,12 @@ import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons
   }
 
   .footer-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 
   .footer-links {
-    gap: 20px;
-    margin-bottom: 16px;
+    gap: 24px;
+    margin-bottom: 24px;
   }
 
   .footer-link {
