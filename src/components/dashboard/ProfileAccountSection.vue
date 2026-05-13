@@ -46,6 +46,17 @@ const handleUpdateEmail = () => {
       </div>
       <p class="field-hint">更新后将用于登录和接收通知邮件</p>
     </ElFormItem>
+
+    <!-- 更新密码 -->
+    <ElFormItem label="密码" class="form-field">
+      <div class="input-group">
+        <ElInput v-model="email" type="email" placeholder="请输入新密码" class="custom-input" />
+        <ElButton type="primary" class="update-btn" @click="handleUpdateEmail">
+          更新
+        </ElButton>
+      </div>
+      <p class="field-hint">更新后将用于登录，</p>
+    </ElFormItem>
   </ElForm>
 </template>
 
@@ -58,8 +69,9 @@ const handleUpdateEmail = () => {
   :deep(.el-form-item__label) {
     font-size: 14px;
     font-weight: 500;
-    color: #1f2328;
-    padding-bottom: 6px;
+    color: #171717;
+    padding-bottom: 8px;
+    line-height: 20px;
   }
 }
 
@@ -72,37 +84,39 @@ const handleUpdateEmail = () => {
 
 .custom-input {
   flex: 1;
-  --el-input-bg-color: #f6f8fa;
-  --el-input-border-color: #d0d7de;
+  --el-input-bg-color: #ffffff;
+  --el-input-border-color: #ebebeb;
   --el-input-border-radius: 6px;
   --el-input-height: 40px;
 
   &:focus {
-    --el-input-border-color: #0969da;
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+    --el-input-border-color: #171717;
+    box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
   }
 }
 
 .update-btn {
-  padding: 8px 20px;
+  padding: 0 12px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   height: 40px;
   white-space: nowrap;
-  background-color: #1a7f37;
-  border-color: #1a7f37;
+  background-color: #171717;
+  border-color: #171717;
+  border-radius: 100px;
 
   &:hover {
-    background-color: #116329;
-    border-color: #116329;
+    background-color: #171717;
+    border-color: #171717;
+    opacity: 0.9;
   }
 }
 
 .field-hint {
-  margin: 6px 0 0 0;
-  font-size: 13px;
-  color: #656d76;
-  line-height: 1.5;
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  color: #888888;
+  line-height: 16px;
 }
 
 /* 整体表单间距 */

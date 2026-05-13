@@ -21,7 +21,7 @@
 <style scoped lang="scss">
 .settings-workspace {
   min-height: 100vh;
-  background: #ffffff;
+  background: #fafafa;
   width: var(--shell-width);
 }
 
@@ -29,7 +29,7 @@
   min-height: 100%;
   display: grid;
   grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
-  gap: 28px 36px;
+  gap: 24px 32px;
   align-items: start;
 }
 
@@ -55,23 +55,27 @@
 .settings-workspace__main {
   min-width: 0;
   background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
 }
 
 @media (max-width: 1120px) {
   .settings-workspace__shell {
     grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
-    gap: 22px 28px;
+    gap: 16px 24px;
   }
 }
 
 @media (max-width: 760px) {
   .settings-workspace__shell {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 16px;
   }
 
   .settings-workspace {
     padding-top: calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap));
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 </style>

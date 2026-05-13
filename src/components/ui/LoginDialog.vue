@@ -128,15 +128,17 @@ const closeDialog = () => {
             <el-form :model="loginForm">
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable></el-input>
+                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable
+                    class="el-input__inner"></el-input>
                   <el-button v-if="activeTab === 'mail'" @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="code" v-if="activeTab === 'mail'">
-                <el-input v-model="loginForm.code" clearable placeholder="请输入验证码" />
+                <el-input v-model="loginForm.code" clearable placeholder="请输入验证码" class="el-input__inner" />
               </el-form-item>
               <el-form-item prop="password" v-else>
-                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
+                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码"
+                  class="el-input__inner" />
               </el-form-item>
               <el-button class="form-button" type="primary" :loading="submitting"
                 @click="submitLoginOrRegister('login')">登录
@@ -163,12 +165,13 @@ const closeDialog = () => {
             <el-form>
               <el-form-item prop="mail">
                 <div class="email-input-group">
-                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable class="email-input" />
+                  <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable class="el-input__inner" />
                   <el-button @click="sendCode">发送验证码</el-button>
                 </div>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="loginForm.code" type="text" show-password clearable placeholder="请输入验证码" />
+                <el-input v-model="loginForm.code" type="text" show-password clearable placeholder="请输入验证码"
+                  class="el-input__inner" />
               </el-form-item>
               <div class="form-button-group">
                 <el-button type="primary" @click="submitLoginOrRegister('register')" class="form-button">
@@ -184,10 +187,11 @@ const closeDialog = () => {
           <div v-else-if="activeTab === 'password'" class="form-body">
             <el-form>
               <el-form-item prop="mail">
-                <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable />
+                <el-input v-model="loginForm.email" placeholder="请输入邮箱地址" clearable class="el-input__inner" />
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码" />
+                <el-input v-model="loginForm.password" type="password" show-password clearable placeholder="请输入密码"
+                  class="el-input__inner" />
               </el-form-item>
               <div class="form-button-group">
                 <el-button type="primary" :loading="submitting" @click="submitLoginOrRegister('login')"
@@ -294,6 +298,23 @@ const closeDialog = () => {
           .el-input {
             width: 100%;
           }
+
+          .el-form-item__label {
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+
+        .el-input__inner {
+          height: 44px;
+          font-size: 16px;
+          border-radius: var(--radius-ui);
+        }
+
+        .el-button {
+          height: 44px;
+          font-size: 16px;
+          border-radius: var(--radius-ui);
         }
 
         .error-message {

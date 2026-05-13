@@ -22,20 +22,24 @@ defineProps<{
 }
 
 .profile-card {
-  padding: 20px 22px;
-  border-radius: 22px;
-  background: rgba(15, 23, 42, 0.05);
+  padding: 24px;
+  border-radius: 8px;
+  background: #fafafa;
+  border: 1px solid #ebebeb;
 }
 
 .profile-card h3 {
-  margin: 0 0 10px;
-  color: var(--color-text);
-  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: #171717;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
 }
 
 .profile-card p {
   margin: 0;
-  color: var(--color-text-soft);
-  line-height: 1.7;
+  color: #4d4d4d;
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>

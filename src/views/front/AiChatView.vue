@@ -176,60 +176,85 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .chat-page {
   height: 100vh;
-  padding:
-    // calc(var(--site-header-offset) + var(--site-header-height) + var(--ai-nav-gap))
-    var(--chat-edge-gap) var(--chat-edge-gap);
+  padding: var(--chat-edge-gap);
   overflow: hidden;
+  background-color: #faf9f5;
+  /* {colors.canvas} */
 }
 
 .chat-workspace {
   height: 100%;
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  border: 1px solid #e5e5e5;
-  border-radius: var(--border-radius-md);
+  border: 1px solid #e6dfd8;
+  /* {colors.hairline} */
+  border-radius: 12px;
+  /* {rounded.lg} */
   overflow: hidden;
   background: #ffffff;
-  box-shadow: var(--shadow-soft);
 }
 
 .chat-workspace__main {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 0;
+  border-left: 1px solid #e6dfd8;
+  /* {colors.hairline} */
 }
 
 .chat-workspace__title {
   padding: 14px 18px;
-  border-bottom: 1px solid #ececec;
-  color: #141414;
-  font-weight: 600;
+  border-bottom: 1px solid #e6dfd8;
+  /* {colors.hairline} */
+  color: #141413;
+  /* {colors.ink} */
+  font-family: 'StyreneB', 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .chat-workspace__messages {
   min-height: 0;
   overflow: auto;
-  padding: 20px 22px;
+  padding: 24px;
+  /* {spacing.lg} */
+  background-color: #faf9f5;
+  /* {colors.canvas} */
 }
 
 .chat-workspace__composer {
-  padding: 12px 16px 14px;
-  border-top: 1px solid #ececec;
+  padding: 16px;
+  /* {spacing.md} */
+  border-top: 1px solid #e6dfd8;
+  /* {colors.hairline} */
+  background-color: #ffffff;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1024px) {
   .chat-workspace {
-    grid-template-columns: 1fr;
+    grid-template-columns: 220px minmax(0, 1fr);
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
+  .chat-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-workspace__main {
+    border-left: none;
+    border-top: 1px solid #e6dfd8;
+    /* {colors.hairline} */
+  }
+
   .chat-page {
     padding-top: calc(var(--site-header-offset) + var(--site-header-height) + var(--chat-nav-gap));
   }
 
   .chat-workspace__messages {
-    padding: 14px;
+    padding: 16px;
+    /* {spacing.md} */
   }
 }
 </style>

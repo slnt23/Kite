@@ -11,13 +11,13 @@ import projectImageOne from '@/assets/example/default_avatar.png'
 
 
 export const EXAMPLE_PUBLIC_PROFILE_DEFAULTS: UserInfoParams = {
-    userName: '默认用户',           // 用户名（小写）
-    nickName: '默认昵称',           // 昵称/显示名
-    email: '1234567890@qq.com',      // 邮箱
-    phone: '110',                   // 手机号（可选）
-    remark: '默认备注',    // 备注/个人简介
-    rawPhone: '000 000',                // 原始手机号（可选）
-    role: '用户',            // 角色
+    userName: '默认用户A',           // 用户名（小写）
+    nickName: '默认昵称A',           // 昵称/显示名
+    email: '123@qq.comA',      // 邮箱
+    phone: '110A',                   // 手机号（可选）
+    remark: '默认备注A',    // 备注/个人简介
+    rawPhone: '000 000A',                // 原始手机号（可选）
+    role: 'UserA',            // 角色
     avatarUrl: projectImageOne as string, // 头像URL
 }
 

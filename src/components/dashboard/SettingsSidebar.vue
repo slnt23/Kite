@@ -205,29 +205,21 @@ const onRowClick = (item: NavItem) => {
  * 侧边栏容器样式
  */
 .ps-sidebar {
-  --ps-border: #d8dee4;
-  /* 边框颜色 */
-  --ps-muted: #656d76;
-  /* 次要文字颜色 */
-  --ps-text: #1f2328;
-  /* 主要文字颜色 */
-  --ps-active-bg: #eaeef2;
-  /* 激活项背景色 */
-  --ps-active-bar: #0969da;
-  /* 激活项指示条颜色 */
-  --ps-row-hover: #e8eaed;
-  /* 悬停背景色 */
+  --ps-border: #ebebeb;
+  --ps-muted: #888888;
+  --ps-text: #171717;
+  --ps-active-bg: #fafafa;
+  --ps-active-bar: #171717;
+  --ps-row-hover: #f5f5f5;
 
   box-sizing: border-box;
   width: 100%;
   max-width: 320px;
-  /* 最大宽度限制 */
   min-width: 0;
-  /* 防止内容溢出 */
   padding: 16px 0 20px;
   background: #ffffff;
   border: 1px solid var(--ps-border);
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 /**
@@ -268,10 +260,10 @@ const onRowClick = (item: NavItem) => {
 .ps-sidebar__avatar--text {
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #1f7ae0 0%, #79b8ff 100%);
+  background: linear-gradient(135deg, #007cf0 0%, #00dfd8 100%);
   color: #fff;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /**
@@ -286,21 +278,21 @@ const onRowClick = (item: NavItem) => {
  * 标题行样式
  */
 .ps-sidebar__title-line {
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
   color: var(--ps-text);
   word-break: break-word;
-  /* 长文本自动换行 */
+  letter-spacing: -0.28px;
 }
 
 /**
  * 副标题样式
  */
 .ps-sidebar__subtitle {
-  margin-top: 2px;
-  font-size: 0.75rem;
-  line-height: 1.35;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 16px;
   color: var(--ps-muted);
 }
 
@@ -326,12 +318,11 @@ const onRowClick = (item: NavItem) => {
 .ps-sidebar__section-title {
   margin: 0 8px 6px;
   padding: 0 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
   text-transform: uppercase;
-  /* 文本大写 */
   color: var(--ps-muted);
 }
 
@@ -363,15 +354,14 @@ const onRowClick = (item: NavItem) => {
   border-radius: 6px;
   background: transparent;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
   color: var(--ps-text);
   text-align: left;
   cursor: pointer;
   transition: background-color 0.12s ease;
 
-  /* 悬停效果 */
   &:hover:not(:disabled) {
     background: var(--ps-row-hover);
   }
@@ -404,9 +394,8 @@ const onRowClick = (item: NavItem) => {
  */
 .ps-sidebar__item--active {
   background: var(--ps-active-bg);
-  font-weight: 600;
+  font-weight: 500;
 
-  /* 激活时显示指示条 */
   .ps-sidebar__item-border {
     background: var(--ps-active-bar);
   }
@@ -441,14 +430,14 @@ const onRowClick = (item: NavItem) => {
  */
 .ps-sidebar__badge {
   flex-shrink: 0;
-  padding: 1px 7px;
+  padding: 0 8px;
   border-radius: 999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: #1a7f37;
-  background: #dafbe1;
-  border: 1px solid rgba(26, 127, 55, 0.2);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #4d4d4d;
+  background: #fafafa;
+  border: none;
 }
 
 /**

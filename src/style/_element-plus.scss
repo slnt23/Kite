@@ -541,23 +541,23 @@ body.el-popup-parent--hidden {
     }
   }
 
-  // 表单相关样式（控制组件大小）
-  .form-body {
-    .el-form-item__label {
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .el-input__inner {
-      height: 44px;
-      font-size: 16px;
-      border-radius: var(--radius-ui);
-    }
-
-    .el-button {
-      height: 44px;
-      font-size: 16px;
-      border-radius: var(--radius-ui);
-    }
-  }
+  // 表单相关样式（控制组件大小）- 已移至 LoginDialog.vue
+  // .form-body {
+  //   .el-form-item__label {
+  //     font-size: 16px;
+  //     font-weight: 500;
+  //   }
+  //
+  //   .el-input__inner {
+  //     height: 44px;
+  //     font-size: 16px;
+  //     border-radius: var(--radius-ui);
+  //   }
+  //
+  //   .el-button {
+  //     height: 44px;
+  //     font-size: 16px;
+  //     border-radius: var(--radius-ui);
+  //   }
+  // }
 }

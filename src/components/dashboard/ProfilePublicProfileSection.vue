@@ -176,12 +176,12 @@ const goPersonalProfile = () => {
 
 <style scoped lang="scss">
 .public-profile {
-  --pp-border: #d0d7de;
-  --pp-bg: #f6f8fa;
-  --pp-hint: #656d76;
-  --pp-green: #1a7f37;
-  --pp-green-hover: #116329;
-  --pp-link: #0969da;
+  --pp-border: #ebebeb;
+  --pp-bg: #fafafa;
+  --pp-hint: #888888;
+  --pp-primary: #171717;
+  --pp-primary-hover: #171717;
+  --pp-link: #0070f3;
 
   min-width: 0;
 }
@@ -195,11 +195,12 @@ const goPersonalProfile = () => {
 }
 
 .public-profile__title {
-  margin: 0 0 10px;
-  font-size: 1.5rem;
+  margin: 0 0 8px;
+  font-size: 24px;
   font-weight: 600;
-  line-height: 1.25;
-  color: var(--color-text, #1f2328);
+  line-height: 32px;
+  color: #171717;
+  letter-spacing: -0.96px;
 }
 
 .public-profile__rule {
@@ -211,16 +212,17 @@ const goPersonalProfile = () => {
 .public-profile__ghost-btn {
   flex-shrink: 0;
   margin-top: 2px;
-  padding: 5px 14px;
-  font-size: 0.875rem;
+  padding: 0 12px;
+  font-size: 14px;
   font-weight: 500;
-  line-height: 1.25;
-  color: var(--color-text, #24292f);
+  line-height: 20px;
+  color: #171717;
   background: #ffffff;
   border: 1px solid var(--pp-border);
-  border-radius: 6px;
+  border-radius: 100px;
   cursor: pointer;
   white-space: nowrap;
+  height: 28px;
 
   &:hover {
     background: var(--pp-bg);
@@ -230,41 +232,43 @@ const goPersonalProfile = () => {
 .public-profile__grid {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-  gap: 32px 40px;
+  gap: 32px;
   align-items: start;
 }
 
 .public-profile__form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
   min-width: 0;
 }
 
 .field__label {
   display: block;
-  margin-bottom: 6px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text, #1f2328);
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #171717;
+  line-height: 20px;
 }
 
 .field__control {
   display: block;
   width: 100%;
   box-sizing: border-box;
-  padding: 5px 12px;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: var(--color-text, #24292f);
-  background: var(--pp-bg);
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #171717;
+  background: #ffffff;
   border: 1px solid var(--pp-border);
   border-radius: 6px;
   outline: none;
+  height: 40px;
 
   &:focus {
-    border-color: #0969da;
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
+    border-color: #171717;
+    box-shadow: 0 0 0 3px rgba(23, 23, 23, 0.1);
   }
 }
 
@@ -272,6 +276,8 @@ const goPersonalProfile = () => {
   min-height: 120px;
   resize: vertical;
   font-family: inherit;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .field__select {
@@ -283,9 +289,9 @@ const goPersonalProfile = () => {
 }
 
 .field__hint {
-  margin: 6px 0 0;
-  font-size: 0.75rem;
-  line-height: 1.5;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 16px;
   color: var(--pp-hint);
 }
 
@@ -298,10 +304,11 @@ const goPersonalProfile = () => {
   font-size: inherit;
   color: var(--pp-link);
   cursor: pointer;
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 
   &:hover {
-    text-decoration: underline;
+    color: #0761d1;
   }
 }
 
@@ -310,19 +317,19 @@ const goPersonalProfile = () => {
 }
 
 .public-profile__submit {
-  padding: 5px 16px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.25;
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
   color: #ffffff;
-  background: var(--pp-green);
-  border: 1px solid rgba(27, 31, 36, 0.15);
-  border-radius: 6px;
+  background: var(--pp-primary);
+  border: none;
+  border-radius: 100px;
   cursor: pointer;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  height: 32px;
 
   &:hover {
-    background: var(--pp-green-hover);
+    opacity: 0.9;
   }
 }
 
@@ -360,7 +367,7 @@ const goPersonalProfile = () => {
   font-size: 4.5rem;
   font-weight: 600;
   color: #ffffff;
-  background: linear-gradient(135deg, #1f7ae0 0%, #79b8ff 100%);
+  background: linear-gradient(135deg, #007cf0 0%, #00dfd8 100%);
   border: none;
 }
 
@@ -373,20 +380,21 @@ const goPersonalProfile = () => {
 
 .public-profile__edit-avatar {
   position: absolute;
-  left: 10px;
-  bottom: 10px;
+  left: 8px;
+  bottom: 8px;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text, #24292f);
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #171717;
   background: #ffffff;
   border: 1px solid var(--pp-border);
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(27, 31, 36, 0.08);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background: var(--pp-bg);
