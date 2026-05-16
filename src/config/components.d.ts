@@ -15,6 +15,7 @@ declare module 'vue' {
     ChatComposer: typeof import('./../components/ai/ChatComposer.vue')['default']
     ChatSidebar: typeof import('./../components/ai/ChatSidebar.vue')['default']
     ChatStream: typeof import('./../components/ai/ChatStream.vue')['default']
+    CTASection: typeof import('./../components/site/CTASection.vue')['default']
     EducationSection: typeof import('./../components/blog/EducationSection.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -43,7 +44,7 @@ declare module 'vue' {
     FeatureGrid: typeof import('./../components/site/FeatureGrid.vue')['default']
     GalleryLightbox: typeof import('./../components/site/GalleryLightbox.vue')['default']
     HeroSection: typeof import('./../components/site/HeroSection.vue')['default']
-    LoginDialog: typeof import('./../components/ui/LoginDialog.vue')['default']
+    LoginDialog: typeof import('./../components/site/LoginDialog.vue')['default']
     MenuPanel: typeof import('./../components/site/MenuPanel.vue')['default']
     PostsSection: typeof import('./../components/blog/PostsSection.vue')['default']
     PriceLatest: typeof import('./../components/price/PriceLatest.vue')['default']
@@ -66,6 +67,7 @@ declare module 'vue' {
     SiteFooter: typeof import('./../components/site/SiteFooter.vue')['default']
     SkillsSection: typeof import('./../components/blog/SkillsSection.vue')['default']
     SpotlightSection: typeof import('./../components/site/SpotlightSection.vue')['default']
+    StatsSection: typeof import('./../components/site/StatsSection.vue')['default']
     StoryTimeline: typeof import('./../components/site/StoryTimeline.vue')['default']
   }
 }

@@ -5,7 +5,7 @@ import { getCurrentUser, onAuthChange } from '../utils/auth.js'
 import { FRONT_MENU_ITEMS } from '@/constant'
 import MenuPanel from '../components/site/MenuPanel.vue'
 import SiteFooter from '../components/site/SiteFooter.vue'
-import LoginDialog from '../components/ui/LoginDialog.vue'
+import LoginDialog from '../components/site/LoginDialog.vue'
 
 
 const route = useRoute()

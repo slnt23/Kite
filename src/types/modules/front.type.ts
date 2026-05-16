@@ -49,6 +49,13 @@ export interface SectionIntroData {
     description: string
 }
 
+export interface StatItem {
+    value: number
+    label: string
+    prefix?: string
+    suffix?: string
+}
+
 
 export interface StoryGalleryItem {
     title: string

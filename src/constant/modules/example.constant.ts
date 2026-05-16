@@ -8,6 +8,7 @@ import type {
   ProfileSelectOption,
   // PublicProfileFormExampleDefaults,
   SpotlightItem,
+  StatItem,
 } from '@/types'
 import projectImageOne from '@/assets/example/pic01.jpg'
 import projectImageTwo from '@/assets/example/pic02.jpg'
@@ -312,4 +313,12 @@ export const ADMIN_SETTINGS_INFO_FALLBACK: ProfileInfoExample[] = [
   { label: '当前角色', value: '未登录' },
   { label: '管理模式', value: '管理员后台界面已独立于前台导航显示。' },
   { label: '退出方式', value: '侧栏底部可退出登录并返回登录页。' },
+]
+
+// ─── 首页统计区示例数据 ───
+export const EXAMPLE_HOME_STATS: StatItem[] = [
+  { value: 1280, suffix: '+', label: '数据条目覆盖' },
+  { value: 36, label: '监测区域' },
+  { value: 98, suffix: '%', label: '数据准确率' },
+  { value: 12, suffix: 'K', label: '活跃用户' },
 ]

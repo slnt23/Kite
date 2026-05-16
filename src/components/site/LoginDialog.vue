@@ -6,7 +6,7 @@ import loginUserImage from '@/assets/front/login_user.png'
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { getUserInfoApi, loginMailApi, loginPasswordApi, registerApi, sendCodeApi } from '@/api'
-import { setCurrentUser, setToken } from '@/utils/auth'
+import { setCurrentUser, setToken } from '@/utils/auth.ts'
 // import { AUTH_STORAGE_KEY } from "@/constant";
 import { ElMessage } from 'element-plus'
 import type { LoginOrRegisterParams, SendCodeParams } from '@/types'

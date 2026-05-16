@@ -1,14 +1,16 @@
 ﻿<script setup lang="ts">
 
-import { HOME_SECTION_INTROS } from '@/constant'
+import { FRONT_MENU_ITEMS, HOME_SECTION_INTROS } from '@/constant'
+import { EXAMPLE_HOME_STATS } from '@/constant'
 import FeatureGrid from '@/components/site/FeatureGrid.vue'
 import SectionIntro from '@/components/site/SectionIntro.vue'
 import SpotlightSection from '@/components/site/SpotlightSection.vue'
-import { onMounted, reactive, ref } from "vue";
+import StatsSection from '@/components/site/StatsSection.vue'
+import CTASection from '@/components/site/CTASection.vue'
+import { onMounted, ref } from "vue";
 import { featureApi, spotlightApi } from "@/api";
 import type { SpotlightItem, FeatureItem } from "@/types";
 
-// 后续改为从后端获取信息，
 const spotlightItems = ref<SpotlightItem[]>([])
 const featureItems = ref<FeatureItem[]>([])
 
@@ -37,7 +39,6 @@ const fetchData = async () => {
   }
 }
 
-// 页面加载完成，就请求数据
 onMounted(() => {
   fetchData()
 })
@@ -50,6 +51,8 @@ onMounted(() => {
       <HeroSection />
     </section>
 
+    <StatsSection :items="EXAMPLE_HOME_STATS" />
+
     <section class="content-section content-stack">
       <SectionIntro v-bind="HOME_SECTION_INTROS[0]" />
       <SpotlightSection :items="spotlightItems" />
@@ -58,6 +61,11 @@ onMounted(() => {
     <section class="content-section content-stack">
       <SectionIntro v-bind="HOME_SECTION_INTROS[1]" />
       <FeatureGrid :items="featureItems" />
+    </section>
+
+    <section class="content-section content-stack">
+      <SectionIntro v-bind="HOME_SECTION_INTROS[2]" />
+      <CTASection :items="FRONT_MENU_ITEMS" />
     </section>
   </div>
 </template>

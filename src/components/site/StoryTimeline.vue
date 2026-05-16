@@ -1,4 +1,4 @@
-﻿<script setup>
+﻿<!-- <script setup>
 defineProps({
   items: {
     type: Array,
@@ -59,4 +59,4 @@ defineProps({
     gap: 10px;
   }
 }
-</style>
+</style> -->

@@ -2,7 +2,7 @@
 import AiChatView from '@/views/front/AiChatView.vue'
 import PriceSearchView from '@/views/front/PriceSearchView.vue'
 import UserProfileView from '@/views/front/UserProfileView.vue'
-import StoryView from '@/views/front/StoryImageView.vue'
+import ImageVideoView from '@/views/front/ImageVideoView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
 
@@ -32,7 +32,7 @@ const frontRoutes = [
       {
         path: 'story',
         name: 'front-story',
-        component: StoryView,
+        component: ImageVideoView,
         meta: {
           // requiresAuth: true,
         },

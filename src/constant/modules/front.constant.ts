@@ -88,4 +88,9 @@ export const HOME_SECTION_INTROS: SectionIntroData[] = [
         title: 'Creative Discoveries',
         description: '围绕兴趣、创作与体验的核心内容集合',
     },
+    {
+        eyebrow: '了解更多',
+        title: 'Explore More',
+        description: '进入各个功能模块，发现更多有趣的内容与服务',
+    },
 ]
