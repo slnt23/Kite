@@ -1,37 +1,44 @@
 import request from '../request/index'
+import type { ChatRequestDTO, ConversationVO, CreateConversationDTO, MessageVO } from '@/types'
 
-// AI 聊天 API
-export const aiChatApi = (data: any) => {
-  return request({
+/** 发送聊天消息 */
+export const sendChatApi = (data: ChatRequestDTO) => {
+  return request<string>({
     url: '/ai/chat',
     method: 'post',
-    data
+    data,
   })
 }
 
-// AI 建议 API
-export const aiSuggestApi = (data: any) => {
-  return request({
-    url: '/ai/suggest',
+/** 新建会话 */
+export const createConversationApi = (data?: CreateConversationDTO) => {
+  return request<string>({
+    url: '/ai/conversation',
     method: 'post',
-    data
+    data,
   })
 }
 
-// AI 分析 API
-export const aiAnalyzeApi = (data: any) => {
-  return request({
-    url: '/ai/analyze',
-    method: 'post',
-    data
-  })
-}
-
-// 获取 AI 历史记录 API
-export const getAiHistoryApi = (params: any) => {
-  return request({
-    url: '/ai/history',
+/** 获取会话历史列表 */
+export const listConversationsApi = () => {
+  return request<ConversationVO[]>({
+    url: '/ai/conversation/list',
     method: 'get',
-    params
+  })
+}
+
+/** 获取会话的历史消息 */
+export const getMessagesApi = (conversationId: string) => {
+  return request<MessageVO[]>({
+    url: `/ai/conversation/${conversationId}/messages`,
+    method: 'get',
+  })
+}
+
+/** 删除会话 */
+export const deleteConversationApi = (conversationId: string) => {
+  return request<void>({
+    url: `/ai/conversation/${conversationId}`,
+    method: 'delete',
   })
 }
