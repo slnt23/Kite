@@ -6,9 +6,7 @@ const props = withDefaults(
   defineProps<{
     items?: StatItem[]
   }>(),
-  {
-    items: () => [],
-  },
+  { items: () => [] },
 )
 
 const sectionRef = ref<HTMLElement | null>(null)
@@ -17,10 +15,7 @@ const displayValues = ref<number[]>(props.items.map(() => 0))
 
 let observer: IntersectionObserver | null = null
 
-const formatValue = (index: number) => {
-  const raw = displayValues.value[index] ?? 0
-  return Math.floor(raw).toLocaleString()
-}
+const formatValue = (index: number) => Math.floor(displayValues.value[index] ?? 0).toLocaleString()
 
 const animateValues = () => {
   if (triggered.value) return
@@ -28,37 +23,27 @@ const animateValues = () => {
 
   const duration = 1200
   const startTime = performance.now()
-  const starts = props.items.map(() => 0)
   const targets = props.items.map((item) => item.value)
 
   const tick = (now: number) => {
     const elapsed = now - startTime
     const progress = Math.min(elapsed / duration, 1)
     const eased = 1 - Math.pow(1 - progress, 3)
-
-    displayValues.value = starts.map((s, i) => s + (targets[i] - s) * eased)
-    if (progress < 1) {
-      requestAnimationFrame(tick)
-    }
+    displayValues.value = targets.map((t, i) => Math.round(t * eased))
+    if (progress < 1) requestAnimationFrame(tick)
   }
-
   requestAnimationFrame(tick)
 }
 
 onMounted(() => {
   observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry?.isIntersecting) animateValues()
-    },
+    ([entry]) => { if (entry?.isIntersecting) animateValues() },
     { threshold: 0.3 },
   )
-
   if (sectionRef.value) observer.observe(sectionRef.value)
 })
 
-onBeforeUnmount(() => {
-  observer?.disconnect()
-})
+onBeforeUnmount(() => observer?.disconnect())
 </script>
 
 <template>
@@ -78,19 +63,18 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .stats-section {
-  padding: 48px 0 56px;
+  padding: var(--vercel-section-pad) 0;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  background: #fafbfc;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
+  background: var(--vercel-canvas-soft);
+  border-top: 1px solid var(--vercel-hairline);
 }
 
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
-  max-width: 960px;
+  max-width: 1020px;
   margin: 0 auto;
   padding: 0 40px;
 }
@@ -103,25 +87,25 @@ onBeforeUnmount(() => {
   text-align: center;
 
   &__number {
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
     font-size: clamp(2rem, 3.2vw, 2.8rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: #1a1a1a;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    color: var(--vercel-ink);
     line-height: 1;
   }
 
   &__label {
-    font-size: 0.84rem;
+    font-size: 0.8rem;
     font-weight: 500;
-    color: #767d88;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    color: var(--vercel-mute);
+    letter-spacing: -0.02em;
   }
 }
 
 @media (max-width: 760px) {
   .stats-section {
-    padding: 40px 0 44px;
+    padding: 48px 0;
   }
 
   .stats-row {

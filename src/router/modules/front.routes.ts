@@ -1,14 +1,10 @@
 ﻿import FrontLayout from '@/layouts/FrontLayout.vue'
 import AiChatView from '@/views/front/AiChatView.vue'
-import PriceSearchView from '@/views/front/PriceSearchView.vue'
+import PriceMainView from '@/views/front/PriceMainView.vue'
 import UserProfileView from '@/views/front/UserProfileView.vue'
 import ImageVideoView from '@/views/front/ImageVideoView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
-
-// import PriceResult from '@/components/price/PriceResult.vue'
-import PriceNavigator from '@/components/price/PriceNavigator.vue'
-import PriceMainView from '@/views/front/PriceMainView.vue'
 
 
 const frontRoutes = [
@@ -24,7 +20,7 @@ const frontRoutes = [
       {
         path: 'price-query',
         name: 'front-price-query',
-        component: PriceSearchView,
+        component: PriceMainView,
         meta: {
           // requiresAuth: true,
         },
@@ -48,10 +44,8 @@ const frontRoutes = [
       {
         path: 'blog',
         name: 'front-blog',
-        component: PriceMainView,
+        component: BlogView,
         meta: {
-          // 当前暂时作为调试页，后续会改成博客列表页
-          // 这个是任何人都可看的博客列表页，里面有一些公开的博客文章，用户可以点击进入查看详情
           // requiresAuth: true,
         },
       },

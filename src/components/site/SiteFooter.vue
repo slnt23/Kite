@@ -1,41 +1,28 @@
-﻿<template>
+<template>
   <footer class="site-footer">
-    <!-- 横线分割 -->
-    <hr class="footer-divider">
-
-    <!-- 主要内容区域 -->
     <div class="footer-content">
-      <!-- 最上方：标题 -->
       <div class="footer-header">
         <h3 class="footer-title">Adventure is worthwhile.</h3>
       </div>
 
-      <!-- 第二行：链接带图标 -->
       <div class="footer-links">
         <a href="https://space.bilibili.com/1237791199?spm_id_from=333.1007.0.0" class="footer-link">
-          <el-icon class="link-icon">
-            <VideoCamera />
-          </el-icon>
+          <el-icon class="link-icon"><VideoCamera /></el-icon>
           BiliBili
         </a>
         <a href="https://github.com/" target="_blank" rel="noreferrer" class="footer-link">
-          <el-icon class="link-icon">
-            <Star />
-          </el-icon>
+          <el-icon class="link-icon"><Star /></el-icon>
           GitHub
         </a>
         <a href="https://www.behance.net/" target="_blank" rel="noreferrer" class="footer-link">
-          <el-icon class="link-icon">
-            <CoffeeCup />
-          </el-icon>
+          <el-icon class="link-icon"><CoffeeCup /></el-icon>
           占位
         </a>
       </div>
 
-      <!-- 第三行：底部信息，用竖线分割 -->
       <div class="footer-bottom">
         <span class="footer-info">邮箱：relax271828@petalmail.com</span>
-        <span class="divider">|</span>
+        <span class="footer-divider">|</span>
         <span class="footer-info">设计人：Kite Studio</span>
       </div>
     </div>
@@ -43,52 +30,36 @@
 </template>
 
 <script setup>
-import { CoffeeCup, Message, Star, VideoCamera, View } from '@element-plus/icons-vue'
+import { CoffeeCup, Star, VideoCamera } from '@element-plus/icons-vue'
 </script>
 
 <style scoped lang="scss">
-// Design System Variables - from DESIGN.md
-$runway-black: #000000;
-$dark-surface: #1a1a1a;
-$pure-white: #ffffff;
-$cool-slate: #767d88;
-$mid-slate: #7d848e;
-$footer-gray: #999999;
-$border-dark: #27272a;
-
 .site-footer {
-  margin-top: 78px;
-  padding: 64px 0 48px;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: var(--vercel-section-pad) 0 48px;
   text-align: center;
-  background: $runway-black;
-  border-top: 1px solid $border-dark;
-}
-
-.footer-divider {
-  border: none;
-  height: 1px;
-  background: $border-dark;
-  margin: 0 auto 48px auto;
-  width: 80%;
+  background: var(--vercel-ink);
 }
 
 .footer-content {
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 .footer-header {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .footer-title {
   margin: 0;
-  color: $pure-white;
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 1.0;
-  letter-spacing: -0.9px;
+  color: var(--vercel-on-primary);
+  font-family: 'Inter', 'Geist', system-ui, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.05em;
 }
 
 .footer-links {
@@ -104,24 +75,22 @@ $border-dark: #27272a;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: $cool-slate;
+  color: var(--vercel-mute);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  letter-spacing: 0.35px;
-  text-transform: uppercase;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: color 0.3s ease;
+  letter-spacing: -0.02em;
+  padding: 6px 10px;
+  border-radius: var(--vercel-rounded-sm);
+  transition: color 0.15s ease;
 
   &:hover {
-    color: $pure-white;
+    color: var(--vercel-on-primary);
   }
 }
 
 .link-icon {
   font-size: 16px;
-  color: $cool-slate;
 }
 
 .footer-bottom {
@@ -130,24 +99,21 @@ $border-dark: #27272a;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  color: $footer-gray;
 }
 
 .footer-info {
-  font-size: 11px;
-  color: $footer-gray;
-  line-height: 1.3;
+  font-size: 12px;
+  color: var(--vercel-mute);
+  line-height: 1.4;
 }
 
-.divider {
-  color: $border-dark;
-  font-size: 11px;
+.footer-divider {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 12px;
 }
 
-/* 响应式设计 */
 @media (max-width: 768px) {
   .site-footer {
-    margin-top: 48px;
     padding: 48px 0 32px;
   }
 
@@ -156,25 +122,16 @@ $border-dark: #27272a;
   }
 
   .footer-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .footer-links {
-    gap: 24px;
+    gap: 20px;
     margin-bottom: 24px;
-  }
-
-  .footer-link {
-    font-size: 13px;
-    padding: 6px 10px;
   }
 
   .footer-bottom {
     gap: 12px;
-  }
-
-  .footer-info {
-    font-size: 11px;
   }
 }
 
@@ -189,7 +146,7 @@ $border-dark: #27272a;
     gap: 8px;
   }
 
-  .divider {
+  .footer-divider {
     display: none;
   }
 }

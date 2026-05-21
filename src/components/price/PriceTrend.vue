@@ -1,169 +1,139 @@
 <template>
-    <div class="price-trend">
-        <h2>价格趋势</h2>
-        <div class="chart-container">
-            <div class="chart-header">
-                <el-select v-model="selectedCommodity" placeholder="选择商品">
-                    <el-option v-for="item in commodities" :key="item.value" :label="item.label" :value="item.value" />
-                </el-select>
-                <el-select v-model="timeRange" placeholder="时间范围">
-                    <el-option label="近7天" value="7d" />
-                    <el-option label="近30天" value="30d" />
-                    <el-option label="近90天" value="90d" />
-                </el-select>
-            </div>
-            <div class="chart-area">
-                <div class="y-axis">
-                    <span v-for="(label, index) in yAxisLabels" :key="index">{{ label }}</span>
-                </div>
-                <div class="chart-content">
-                    <svg class="trend-chart" viewBox="0 0 800 300" preserveAspectRatio="none">
-                        <defs>
-                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="rgba(144, 185, 255, 0.3)" />
-                                <stop offset="100%" stop-color="rgba(144, 185, 255, 0)" />
-                            </linearGradient>
-                        </defs>
-                        <path :d="areaPath" fill="url(#chartGradient)" />
-                        <path :d="linePath" fill="none" stroke="#409EFF" stroke-width="2" />
-                        <circle v-for="(point, index) in chartPoints" :key="index" :cx="point.x" :cy="point.y" r="4"
-                            fill="#409EFF" class="chart-point" />
-                    </svg>
-                    <div class="x-axis">
-                        <span v-for="(label, index) in xAxisLabels" :key="index">{{ label }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="price-trend">
+    <div class="trend-controls">
+      <el-select v-model="query.itemId" placeholder="选择物品" clearable size="default">
+        <el-option v-for="item in PRICE_ITEM_OPTIONS" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select v-model="query.granularity" placeholder="时间粒度" size="default">
+        <el-option label="按小时" value="HOUR" />
+        <el-option label="按天" value="DAY" />
+        <el-option label="按周" value="WEEK" />
+        <el-option label="按月" value="MONTH" />
+      </el-select>
+      <el-date-picker
+        v-model="dateRange"
+        type="datetimerange"
+        range-separator="至"
+        start-placeholder="开始时间"
+        end-placeholder="结束时间"
+        value-format="YYYY-MM-DDTHH:mm:ss"
+        size="default"
+      />
+      <el-button type="primary" :loading="loading" @click="fetchTrend" size="default">查询</el-button>
     </div>
+
+    <div class="trend-card">
+      <v-chart :option="chartOption" :autoresize="true" class="trend-chart" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { priceApi } from '@/api/modules/price.api'
+import { EXAMPLE_PRICE_TREND_LIST, PRICE_ITEM_OPTIONS } from '@/constant'
+import type { PriceTrendVO, PriceTrendQueryDTO } from '@/types/modules/price.type'
 
-const selectedCommodity = ref('pig')
-const timeRange = ref('7d')
+const loading = ref(false)
+const trendData = ref<PriceTrendVO[]>(EXAMPLE_PRICE_TREND_LIST)
+const dateRange = ref<[string, string] | null>(null)
 
-const commodities = [
-    { label: '生猪', value: 'pig' },
-    { label: '玉米', value: 'corn' },
-    { label: '豆粕', value: 'soybean' },
-]
+const query = ref<Omit<PriceTrendQueryDTO, 'startTime' | 'endTime'>>({
+  itemId: undefined,
+  granularity: 'DAY',
+})
 
-const generateMockData = () => {
-    const data: number[] = []
-    const days = parseInt(timeRange.value)
-    let basePrice = 15
-
-    for (let i = 0; i < days; i++) {
-        const variation = (Math.random() - 0.5) * 2
-        basePrice = Math.max(10, Math.min(20, basePrice + variation))
-        data.push(basePrice)
-    }
-    return data
+async function fetchTrend() {
+  if (!dateRange.value) return
+  loading.value = true
+  try {
+    const res = await priceApi.getTrend({
+      ...query.value,
+      startTime: dateRange.value[0],
+      endTime: dateRange.value[1],
+    })
+    trendData.value = res.data ?? []
+  } finally { loading.value = false }
 }
 
-const chartData = computed(() => generateMockData())
+const chartOption = computed(() => {
+  const seriesList = trendData.value.map((vo) => ({
+    name: `${vo.item.itemName} · ${vo.locationName}`,
+    type: 'line' as const,
+    smooth: true,
+    symbol: 'circle', symbolSize: 4,
+    data: vo.trend.map((p) => [p.time, Number(p.price)]),
+    markLine: {
+      silent: true,
+      data: [{ type: 'average' as const, name: '均价' }],
+      lineStyle: { type: 'dashed' as const, color: '#a1a1a1' },
+      label: { formatter: '均价 {c}' },
+    },
+    markPoint: {
+      data: [
+        { type: 'max' as const, name: '最高' },
+        { type: 'min' as const, name: '最低' },
+      ],
+    },
+  }))
 
-const yAxisLabels = computed(() => {
-    const data = chartData.value
-    const min = Math.floor(Math.min(...data)) - 1
-    const max = Math.ceil(Math.max(...data)) + 1
-    const step = (max - min) / 4
-    return Array.from({ length: 5 }, (_, i) => (max - i * step).toFixed(1))
-})
-
-const xAxisLabels = computed(() => {
-    const days = parseInt(timeRange.value)
-    const step = Math.floor(days / 6)
-    return Array.from({ length: 7 }, (_, i) => `${days - i * step}天前`)
-})
-
-const chartPoints = computed(() => {
-    const data = chartData.value
-    const min = Math.min(...data)
-    const max = Math.max(...data)
-    const range = max - min || 1
-
-    return data.map((value, index) => ({
-        x: (index / (data.length - 1)) * 800,
-        y: 300 - ((value - min) / range) * 280 - 10,
-    }))
-})
-
-const linePath = computed(() => {
-    const points = chartPoints.value
-    return points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
-})
-
-const areaPath = computed(() => {
-    const points = chartPoints.value
-    const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
-    return `${line} L 800 300 L 0 300 Z`
+  return {
+    tooltip: {
+      trigger: 'axis' as const,
+      formatter: (params: any[]) =>
+        params.map((p) => `${p.marker} ${p.seriesName}<br/>时间: ${p.axisValue}<br/>价格: ¥${Number(p.value[1]).toFixed(2)}`).join('<br/>'),
+    },
+    legend: { top: 0, type: 'scroll' as const, textStyle: { color: '#4d4d4d' } },
+    grid: { left: 55, right: 25, top: 40, bottom: 60 },
+    xAxis: {
+      type: 'time' as const, name: '时间',
+      axisLabel: { formatter: '{yyyy}-{MM}-{dd}\n{HH}:{mm}', color: '#888888' },
+    },
+    yAxis: {
+      type: 'value' as const, name: '价格 (¥)',
+      axisLabel: { formatter: '¥{value}', color: '#888888' },
+    },
+    dataZoom: [
+      { type: 'slider' as const, bottom: 20, height: 24 },
+      { type: 'inside' as const },
+    ],
+    toolbox: { feature: { saveAsImage: { title: '保存' } }, right: 10 },
+    series: seriesList,
+  }
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .price-trend {
-    padding: 20px;
+  padding: 32px;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #303133;
+.trend-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  .el-select,
+  .el-date-picker { width: 190px; }
 }
 
-.chart-container {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.chart-header {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.chart-area {
-    display: flex;
-    height: 350px;
-}
-
-.y-axis {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-right: 10px;
-    font-size: 12px;
-    color: #909399;
-}
-
-.chart-content {
-    flex: 1;
-    position: relative;
+.trend-card {
+  background: var(--vercel-canvas);
+  border: 1px solid var(--vercel-hairline);
+  border-radius: var(--vercel-rounded-lg);
+  padding: 20px;
+  box-shadow: var(--vercel-shadow-card);
 }
 
 .trend-chart {
-    width: 100%;
-    height: 300px;
+  width: 100%;
+  height: 440px;
 }
 
-.chart-point {
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.trend-chart:hover .chart-point {
-    opacity: 1;
-}
-
-.x-axis {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 10px;
-    font-size: 12px;
-    color: #909399;
+@media (max-width: 760px) {
+  .price-trend { padding: 20px; }
+  .trend-chart { height: 340px; }
 }
 </style>

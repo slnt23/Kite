@@ -71,10 +71,15 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-// 基础布局
 .front-page {
   display: grid;
-  gap: 42px;
-  background: #ffffff;
+  gap: var(--vercel-section-gap);
+  background: var(--vercel-canvas-soft);
+}
+
+@media (max-width: 760px) {
+  .front-page {
+    gap: 48px;
+  }
 }
 </style>

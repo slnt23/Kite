@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx vue-tsc *)",
+      "Bash(sed -i '133d' src/components/site/HeroSection.vue)",
+      "Bash(sed -i \"s/&__overlay,//; s/&__glow {/&__overlay {/\" src/components/site/HeroSection.vue)",
+      "Bash(sed -n '130,135p' src/components/site/HeroSection.vue)",
+      "Bash(sed -n '222,234p' src/components/site/HeroSection.vue)",
+      "Bash(npx vite *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)",
+      "Bash(cp -r \"D:/IT/HTML/Dev/Kite/src/app/modules/\"* \"D:/IT/HTML/Dev/Kite/src/config/modules/\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(cp \"D:/IT/HTML/Dev/Kite/src/app/modules/admin/\"*.ts \"D:/IT/HTML/Dev/Kite/src/config/modules/admin/\")",
+      "Bash(cp \"D:/IT/HTML/Dev/Kite/src/app/modules/front/\"*.ts \"D:/IT/HTML/Dev/Kite/src/config/modules/front/\")"
+    ]
+  }
+}

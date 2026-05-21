@@ -2,12 +2,8 @@
 import type { MenuItem } from '@/types'
 
 withDefaults(
-  defineProps<{
-    items?: MenuItem[]
-  }>(),
-  {
-    items: () => [],
-  },
+  defineProps<{ items?: MenuItem[] }>(),
+  { items: () => [] },
 )
 </script>
 
@@ -38,26 +34,17 @@ withDefaults(
 </template>
 
 <style scoped lang="scss">
-$runway-black: #000000;
-$border-dark: #27272a;
-$pure-white: #ffffff;
-$cool-slate: #767d88;
-
 .cta-section {
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding: 72px 0 80px;
-  background: $runway-black;
+  padding: 0 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .cta-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
-  gap: 18px;
-  max-width: 1020px;
-  margin: 0 auto;
-  padding: 0 40px;
+  gap: 20px;
 }
 
 .cta-card {
@@ -67,23 +54,25 @@ $cool-slate: #767d88;
   justify-content: flex-end;
   min-height: 240px;
   padding: 28px 30px;
-  border-radius: 18px;
+  border-radius: var(--vercel-rounded-md);
   overflow: hidden;
   text-decoration: none;
   cursor: pointer;
   isolation: isolate;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  background: var(--vercel-canvas);
+  border: 1px solid var(--vercel-hairline);
+  box-shadow: var(--vercel-shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.12) inset,
+      0px 1px 1px rgba(0,0,0,0.03),
+      0px 4px 8px rgba(0,0,0,0.06);
 
     .cta-card__bg img {
-      transform: scale(1.06);
-    }
-
-    .cta-card__overlay {
-      opacity: 0.75;
+      transform: scale(1.04);
     }
 
     .cta-card__arrow {
@@ -92,13 +81,8 @@ $cool-slate: #767d88;
     }
   }
 
-  &--large {
-    min-height: 300px;
-  }
-
-  &--small {
-    min-height: 200px;
-  }
+  &--large { min-height: 300px; }
+  &--small { min-height: 200px; }
 }
 
 .cta-card__bg {
@@ -110,15 +94,14 @@ $cool-slate: #767d88;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.55s ease;
+    transition: transform 0.4s ease;
   }
 }
 
 .cta-card__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent 52%);
-  transition: opacity 0.35s ease;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent 50%);
 }
 
 .cta-card__body {
@@ -128,72 +111,67 @@ $cool-slate: #767d88;
 
 .cta-card__title {
   margin: 0 0 6px;
-  color: $pure-white;
-  font-size: 1.4rem;
+  color: #ffffff;
+  font-family: 'Inter', 'Geist', system-ui, sans-serif;
+  font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
 .cta-card__subtitle {
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 400;
   line-height: 1.35;
 }
 
 .cta-card__arrow {
   position: absolute;
-  right: 26px;
-  bottom: 26px;
+  right: 24px;
+  bottom: 24px;
   z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  color: $pure-white;
-  font-size: 1.1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--vercel-rounded-pill);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1rem;
   opacity: 0;
-  transform: translateX(-8px);
-  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 @media (max-width: 760px) {
   .cta-section {
-    padding: 48px 0 56px;
+    padding: 0 16px;
   }
 
   .cta-grid {
     grid-template-columns: 1fr;
     gap: 14px;
-    padding: 0 20px;
   }
 
   .cta-card {
     min-height: 180px;
     padding: 22px 20px;
-    border-radius: 14px;
+    border-radius: var(--vercel-rounded-sm);
 
-    &--large {
-      min-height: 220px;
-    }
-
-    &--small {
-      min-height: 160px;
-    }
+    &--large { min-height: 220px; }
+    &--small { min-height: 160px; }
   }
 
   .cta-card__title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .cta-card__arrow {
-    right: 20px;
-    bottom: 20px;
+    right: 18px;
+    bottom: 18px;
   }
 }
 </style>

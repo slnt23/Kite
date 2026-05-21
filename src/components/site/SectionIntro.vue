@@ -1,17 +1,8 @@
-﻿<script setup>
+<script setup>
 defineProps({
-  eyebrow: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
+  eyebrow: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
 })
 </script>
 
@@ -19,18 +10,10 @@ defineProps({
   <header class="section-intro">
     <div class="section-intro__eyebrow">
       <span class="section-intro__line" />
-      <p class="eyebrow-label">
-        {{ eyebrow }}
-      </p>
+      <p class="eyebrow-label">{{ eyebrow }}</p>
     </div>
-
-    <h2 class="section-intro__title">
-      {{ title }}
-    </h2>
-
-    <p class="section-intro__body">
-      {{ description }}
-    </p>
+    <h2 class="section-intro__title">{{ title }}</h2>
+    <p class="section-intro__body">{{ description }}</p>
   </header>
 </template>
 
@@ -39,10 +22,8 @@ defineProps({
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: min(720px, 100%);
   margin: 0 auto;
-
   text-align: center;
 
   &__eyebrow {
@@ -54,49 +35,47 @@ defineProps({
     .section-intro__line {
       width: 28px;
       height: 1px;
-      background: var(--color-border);
-      opacity: 0.7;
+      background: var(--vercel-hairline-strong);
+      opacity: 0.5;
     }
 
     .eyebrow-label {
       margin: 0;
-      color: var(--color-muted);
+      color: var(--vercel-mute);
+      font-family: 'Inter', 'Geist', system-ui, sans-serif;
       font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.16em;
+      font-weight: 500;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      opacity: 0.88;
     }
   }
 
   &__title {
     margin: 0;
-    color: var(--color-text-deep);
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 700; // 建议改为 700，更标准
-    line-height: 1;
-    letter-spacing: -0.055em;
+    color: var(--vercel-ink);
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.04em;
   }
 
   &__body {
     margin: 18px 0 0;
     max-width: 460px;
-    color: var(--color-muted-deep);
-    font-size: 0.98rem;
-    line-height: 1.8;
+    color: var(--vercel-body);
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
-  /* ==================== 响应式 ==================== */
   @media (max-width: 768px) {
-    margin-bottom: 36px;
-
     &__title {
-      font-size: 2.4rem;
+      font-size: 2rem;
     }
 
     &__body {
       max-width: 92%;
-      line-height: 1.7;
+      line-height: 1.6;
     }
   }
 }

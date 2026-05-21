@@ -1,122 +1,64 @@
-﻿<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { appMeta } from '@/config/app.config'
 import heroVideo1 from '@/assets/front/Front_Hero_1.mp4'
-// import heroVideo2 from '@/assets/front/Front_Hero_2.mp4'
-
+import poster404 from '@/assets/status/404.png'
 
 const videos = [heroVideo1]
 const currentIndex = ref(0)
-const heroRef = ref(null)
+const heroRef = ref<HTMLElement | null>(null)
 const isMuted = ref(true)
 let touchStartX = 0
 let touchEndX = 0
 
-const handleTouchStart = (e) => {
-  touchStartX = e.changedTouches[0].screenX
-}
-
-const handleTouchEnd = (e) => {
-  touchEndX = e.changedTouches[0].screenX
-  handleSwipe()
-}
-
-const handleMouseDown = (e) => {
-  touchStartX = e.screenX
-}
-
-const handleMouseUp = (e) => {
-  touchEndX = e.screenX
-  handleSwipe()
-}
+const handleTouchStart = (e: TouchEvent) => { touchStartX = e.changedTouches[0].screenX }
+const handleTouchEnd = (e: TouchEvent) => { touchEndX = e.changedTouches[0].screenX; handleSwipe() }
+const handleMouseDown = (e: MouseEvent) => { touchStartX = e.screenX }
+const handleMouseUp = (e: MouseEvent) => { touchEndX = e.screenX; handleSwipe() }
 
 const handleSwipe = () => {
-  const swipeThreshold = 50
+  if (videos.length <= 1) return
   const diff = touchStartX - touchEndX
-
-  if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      prevVideo()
-    } else {
-      nextVideo()
-    }
-  }
+  if (Math.abs(diff) > 50) diff > 0 ? prevVideo() : nextVideo()
 }
 
-const nextVideo = () => {
-  currentIndex.value = (currentIndex.value + 1) % videos.length
-}
-
-const prevVideo = () => {
-  currentIndex.value = (currentIndex.value - 1 + videos.length) % videos.length
-}
+const nextVideo = () => { currentIndex.value = (currentIndex.value + 1) % videos.length }
+const prevVideo = () => { currentIndex.value = (currentIndex.value - 1 + videos.length) % videos.length }
 
 const toggleMute = () => {
   isMuted.value = !isMuted.value
-  const activeVideo = document.querySelector('.home-hero__video--active')
-  if (activeVideo) {
-    activeVideo.muted = isMuted.value
-  }
+  const v = document.querySelector('.home-hero__video--active') as HTMLVideoElement | null
+  if (v) v.muted = isMuted.value
 }
 
-const scrollDown = () => {
-  window.scrollTo({
-    top: window.innerHeight,
-    behavior: 'smooth'
-  })
-}
-
-const pauseAllVideos = () => {
-  const videoElements = document.querySelectorAll('.home-hero__video')
-  videoElements.forEach(video => {
-    video.pause()
-  })
-}
-
+const scrollDown = () => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+const pauseAllVideos = () => document.querySelectorAll('.home-hero__video').forEach((v) => (v as HTMLVideoElement).pause())
 const playCurrentVideo = () => {
-  const activeVideo = document.querySelector('.home-hero__video--active')
-  if (activeVideo) {
-    activeVideo.play().catch(err => {
-      console.log('视频播放失败:', err)
-    })
-  }
+  const v = document.querySelector('.home-hero__video--active') as HTMLVideoElement | null
+  v?.play().catch(() => {})
 }
 
 const handleScroll = () => {
-  const heroSection = heroRef.value
-  if (!heroSection) return
-
-  const rect = heroSection.getBoundingClientRect()
-  const isVisible = rect.top < window.innerHeight && rect.bottom > 0
-
-  if (!isVisible) {
-    pauseAllVideos()
-  } else {
-    playCurrentVideo()
-  }
+  if (!heroRef.value) return
+  const rect = heroRef.value.getBoundingClientRect()
+  const visible = rect.top < window.innerHeight && rect.bottom > 0
+  visible ? playCurrentVideo() : pauseAllVideos()
 }
 
 onMounted(() => {
-  const hero = heroRef.value
-  if (hero) {
-    hero.addEventListener('touchstart', handleTouchStart)
-    hero.addEventListener('touchend', handleTouchEnd)
-    hero.addEventListener('mousedown', handleMouseDown)
-    hero.addEventListener('mouseup', handleMouseUp)
-  }
-
+  heroRef.value?.addEventListener('touchstart', handleTouchStart)
+  heroRef.value?.addEventListener('touchend', handleTouchEnd)
+  heroRef.value?.addEventListener('mousedown', handleMouseDown)
+  heroRef.value?.addEventListener('mouseup', handleMouseUp)
   window.addEventListener('scroll', handleScroll)
   handleScroll()
 })
 
 onUnmounted(() => {
-  const hero = heroRef.value
-  if (hero) {
-    hero.removeEventListener('touchstart', handleTouchStart)
-    hero.removeEventListener('touchend', handleTouchEnd)
-    hero.removeEventListener('mousedown', handleMouseDown)
-    hero.removeEventListener('mouseup', handleMouseUp)
-  }
-
+  heroRef.value?.removeEventListener('touchstart', handleTouchStart)
+  heroRef.value?.removeEventListener('touchend', handleTouchEnd)
+  heroRef.value?.removeEventListener('mousedown', handleMouseDown)
+  heroRef.value?.removeEventListener('mouseup', handleMouseUp)
   window.removeEventListener('scroll', handleScroll)
   pauseAllVideos()
 })
@@ -124,72 +66,82 @@ onUnmounted(() => {
 
 <template>
   <section class="home-hero" ref="heroRef">
-    <video v-for="(video, index) in videos" :key="index" class="home-hero__video"
-      :class="{ 'home-hero__video--active': index === currentIndex }" autoplay loop muted playsinline>
-      <source :src="video" type="video/mp4">
+    <video
+      v-for="(video, index) in videos"
+      :key="index"
+      class="home-hero__video"
+      :class="{ 'home-hero__video--active': index === currentIndex }"
+      :poster="poster404"
+      autoplay loop muted playsinline
+    >
+      <source :src="video" type="video/mp4" />
     </video>
 
     <div class="home-hero__overlay" />
-    <div class="home-hero__glow" />
+    <div class="home-hero__gradient" />
 
-    <div class="home-hero__controls">
-      <button class="home-hero__button home-hero__button--mute" @click="toggleMute"
-        :aria-label="isMuted ? '取消静音' : '静音'">
-        <svg v-if="isMuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <line x1="23" y1="9" x2="17" y2="15"></line>
-          <line x1="17" y1="9" x2="23" y2="15"></line>
-        </svg>
-        <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-        </svg>
-      </button>
-
-      <button class="home-hero__button home-hero__button--prev" @click="prevVideo" aria-label="上一个视频">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
-
-      <div class="home-hero__indicators">
-        <span v-for="(_, index) in videos" :key="index" class="home-hero__indicator"
-          :class="{ 'home-hero__indicator--active': index === currentIndex }" @click="currentIndex = index" />
-      </div>
-
-      <button class="home-hero__button home-hero__button--next" @click="nextVideo" aria-label="下一个视频">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-
-      <button class="home-hero__button home-hero__button--down" @click="scrollDown" aria-label="向下滚动">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6 9 12 15 18 9"></polyline>
+    <div class="home-hero__content">
+      <p class="home-hero__eyebrow">{{ appMeta.hero.eyebrow }}</p>
+      <h1 class="home-hero__headline">{{ appMeta.hero.headline }}</h1>
+      <p class="home-hero__subtitle">{{ appMeta.hero.subtitle }}</p>
+      <button class="home-hero__cta" @click="scrollDown">
+        {{ appMeta.hero.cta }}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
     </div>
 
-    <!-- <div class="home-hero__scroll">
-      <span />
-      <small>向下滑动</small>
-    </div> -->
+    <div class="home-hero__controls">
+      <button class="home-hero__button" @click="toggleMute" :aria-label="isMuted ? '取消静音' : '静音'">
+        <svg v-if="isMuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+          <line x1="23" y1="9" x2="17" y2="15" />
+          <line x1="17" y1="9" x2="23" y2="15" />
+        </svg>
+        <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+        </svg>
+      </button>
+
+      <template v-if="videos.length > 1">
+        <button class="home-hero__button" @click="prevVideo" aria-label="上一个视频">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <div class="home-hero__indicators">
+          <span
+            v-for="(_, index) in videos"
+            :key="index"
+            class="home-hero__indicator"
+            :class="{ 'home-hero__indicator--active': index === currentIndex }"
+            @click="currentIndex = index"
+          />
+        </div>
+
+        <button class="home-hero__button" @click="nextVideo" aria-label="下一个视频">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </template>
+
+      <button class="home-hero__button" @click="scrollDown" aria-label="向下滚动">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
-// Design System Variables - from DESIGN.md
 $runway-black: #000000;
-$dark-surface: #1a1a1a;
 $pure-white: #ffffff;
-$cool-slate: #767d88;
-$mid-slate: #7d848e;
-$border-dark: #27272a;
-
-$hero-text-color: rgba(255, 255, 255, 0.95);
-$hero-overlay-color: rgba(10, 23, 35, 0.48);
-$hero-glow-color: rgba(255, 255, 255, 0.22);
+$hero-overlay-color: rgba(10, 23, 35, 0.45);
 
 .home-hero {
   position: relative;
@@ -213,167 +165,158 @@ $hero-glow-color: rgba(255, 255, 255, 0.22);
     transition: opacity 0.5s ease;
     pointer-events: none;
 
-    &--active {
-      opacity: 1;
-    }
-  }
-
-  &__overlay,
-  &__glow {
-    position: absolute;
-    inset: 0;
+    &--active { opacity: 1; }
   }
 
   &__overlay {
-    background: linear-gradient(180deg, $hero-overlay-color, rgba(10, 23, 35, 0.62)),
-      radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 46%);
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, $hero-overlay-color, rgba(10, 23, 35, 0.65));
+    z-index: 1;
   }
 
-  &__glow {
-    background: radial-gradient(circle at top, $hero-glow-color, transparent 34%);
+  &__gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.38;
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 20%, rgba(0, 124, 240, 0.35), transparent 55%),
+      radial-gradient(ellipse 60% 70% at 70% 40%, rgba(121, 40, 202, 0.28), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 50% 70%, rgba(255, 0, 128, 0.22), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, rgba(249, 203, 40, 0.18), transparent 50%);
+    pointer-events: none;
   }
 
+  // ========== 文字内容 ==========
   &__content {
     position: relative;
-    z-index: 1;
-    width: min(1080px, calc(100% - 120px));
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    max-width: 720px;
+    padding: 0 24px;
+  }
 
-    >p:first-child {
-      margin: 0 0 16px;
-      color: $hero-text-color;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
+  &__eyebrow {
+    margin: 0 0 16px;
+    font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &__headline {
+    margin: 0 0 20px;
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.05em;
+    color: $pure-white;
+  }
+
+  &__subtitle {
+    margin: 0 0 36px;
+    max-width: 520px;
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--vercel-rounded-pill);
+    background: $pure-white;
+    color: var(--vercel-ink);
+    font-family: 'Inter', 'Geist', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
+
+    svg { flex-shrink: 0; }
   }
 
-  h1,
-  h2 {
-    color: #ffffff;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: clamp(3rem, 8vw, 3.75rem);
-    line-height: 1.0;
-    letter-spacing: -1.2px;
-    font-weight: 400;
-  }
-
-  h2 {
-    max-width: 22ch;
-    margin: 22px auto 0;
-    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-    line-height: 1.0;
-    letter-spacing: -0.9px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  &__summary {
-    max-width: 64ch;
-    margin: 30px auto 0;
-    color: $cool-slate;
-    font-size: 1rem;
-    line-height: 1.4;
-    letter-spacing: -0.16px;
-  }
-
+  // ========== 底部控件 ==========
   &__controls {
     position: absolute;
-    bottom: 78px;
+    bottom: 40px;
     left: 50%;
-    z-index: 1;
+    z-index: 3;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     transform: translateX(-50%);
   }
 
   &__indicators {
     display: flex;
-    gap: 12px;
+    gap: 10px;
   }
 
   &__indicator {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 
     &--active {
       background: rgba(255, 255, 255, 0.9);
-      transform: scale(1.2);
+      transform: scale(1.25);
     }
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.7);
-    }
+    &:hover { background: rgba(255, 255, 255, 0.6); }
   }
 
   &__button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border: none;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--vercel-rounded-sm);
+    background: rgba(255, 255, 255, 0.08);
     color: $pure-white;
     cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
+    transition: background 0.2s ease;
 
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
+    &:hover { background: rgba(255, 255, 255, 0.18); }
 
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  &__scroll {
-    position: absolute;
-    bottom: 34px;
-    left: 50%;
-    z-index: 1;
-    display: grid;
-    justify-items: center;
-    gap: 10px;
-    transform: translateX(-50%);
-
-    span {
-      width: 1px;
-      height: 62px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
-    }
-
-    small {
-      color: rgba(248, 253, 255, 0.93);
-      letter-spacing: 0.2em;
-    }
+    svg { width: 18px; height: 18px; }
   }
 }
 
 @media (max-width: 760px) {
   .home-hero {
-    &__content {
-      width: min(100% - 28px, 980px);
+    &__headline {
+      font-size: clamp(2rem, 10vw, 2.8rem);
     }
 
-    h1 {
-      font-size: clamp(3rem, 17vw, 4.8rem);
+    &__subtitle {
+      font-size: 1rem;
     }
 
-    h2 {
-      font-size: clamp(1.3rem, 7vw, 2.1rem);
+    &__controls {
+      bottom: 28px;
     }
   }
 }

@@ -1,156 +1,120 @@
 <template>
-    <div class="price-region">
-        <h2>地区对比</h2>
-        <div class="region-cards">
-            <div v-for="region in regionData" :key="region.name" class="region-card">
-                <div class="region-header">
-                    <el-icon>
-                        <Location />
-                    </el-icon>
-                    <span>{{ region.name }}</span>
-                </div>
-                <div class="region-prices">
-                    <div v-for="item in region.prices" :key="item.commodity" class="price-item">
-                        <span class="commodity">{{ item.commodity }}</span>
-                        <span class="price">¥{{ item.price.toFixed(2) }}/{{ item.unit }}</span>
-                    </div>
-                </div>
-                <div class="region-trend" :class="region.trend > 0 ? 'up' : 'down'">
-                    <el-icon>{{ region.trend > 0 ? Location : Location }}</el-icon>
-                    <span>{{ region.trend > 0 ? '+' : '' }}{{ region.trend }}%</span>
-                </div>
-            </div>
-        </div>
+  <div class="price-region">
+    <div class="region-controls">
+      <el-select v-model="query.itemId" placeholder="选择物品" clearable size="default">
+        <el-option v-for="item in PRICE_ITEM_OPTIONS" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+        <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
+      </el-select>
+      <el-date-picker
+        v-model="targetTime"
+        type="datetime" placeholder="对比时间点"
+        value-format="YYYY-MM-DDTHH:mm:ss" size="default"
+      />
+      <el-button type="primary" :loading="loading" @click="fetchCompare" size="default">查询</el-button>
     </div>
+
+    <div class="region-card">
+      <v-chart :option="chartOption" :autoresize="true" class="region-chart" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { Location, } from '@element-plus/icons-vue'
+import { ref, computed } from 'vue'
+import { priceApi } from '@/api/modules/price.api'
+import { EXAMPLE_PRICE_COMPARE, PRICE_ITEM_OPTIONS, PRICE_LOCATION_OPTIONS } from '@/constant'
+import type { PriceCompareVO } from '@/types/modules/price.type'
 
-interface PriceItem {
-    commodity: string
-    price: number
-    unit: string
+const loading = ref(false)
+const compareData = ref<PriceCompareVO>(EXAMPLE_PRICE_COMPARE)
+const query = ref({ itemId: undefined as number | undefined, locationId: undefined as number | undefined })
+const targetTime = ref<string | null>(null)
+
+async function fetchCompare() {
+  loading.value = true
+  try {
+    const res = await priceApi.compareLocation({
+      itemId: query.value.itemId,
+      locationId: query.value.locationId,
+      targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
+    })
+    compareData.value = res.data
+  } finally { loading.value = false }
 }
 
-interface Region {
-    name: string
-    prices: PriceItem[]
-    trend: number
-}
+const chartOption = computed(() => {
+  const list = [...compareData.value.compareList].sort((a, b) => Number(b.price) - Number(a.price))
+  const sources = list.map((s) => `${s.sourceName} (Lv${s.reliabilityLevel})`)
+  const prices = list.map((s) => Number(s.price))
+  const confidences = list.map((s) => s.confidence)
 
-const regionData = ref<Region[]>([
-    {
-        name: '华北地区',
-        prices: [
-            { commodity: '生猪', price: 16.20, unit: '公斤' },
-            { commodity: '玉米', price: 2.90, unit: '公斤' },
-            { commodity: '豆粕', price: 3.25, unit: '公斤' },
-        ],
-        trend: 1.5,
+  return {
+    title: {
+      text: `${compareData.value.item.itemName} · ${compareData.value.locationName}`,
+      subtext: '各来源价格对比',
+      left: 'center',
+      textStyle: { color: '#171717' },
     },
-    {
-        name: '华东地区',
-        prices: [
-            { commodity: '生猪', price: 15.80, unit: '公斤' },
-            { commodity: '玉米', price: 2.85, unit: '公斤' },
-            { commodity: '豆粕', price: 3.20, unit: '公斤' },
-        ],
-        trend: -0.8,
+    tooltip: {
+      trigger: 'axis' as const,
+      axisPointer: { type: 'shadow' as const },
+      formatter: (params: any[]) => {
+        const i = params[0].dataIndex
+        return `${sources[i]}<br/>价格: ¥${prices[i].toFixed(2)}<br/>可信度: ${confidences[i]}%`
+      },
     },
-    {
-        name: '华南地区',
-        prices: [
-            { commodity: '生猪', price: 16.50, unit: '公斤' },
-            { commodity: '玉米', price: 3.00, unit: '公斤' },
-            { commodity: '豆粕', price: 3.30, unit: '公斤' },
-        ],
-        trend: 2.3,
-    },
-    {
-        name: '西南地区',
-        prices: [
-            { commodity: '生猪', price: 15.50, unit: '公斤' },
-            { commodity: '玉米', price: 2.75, unit: '公斤' },
-            { commodity: '豆粕', price: 3.15, unit: '公斤' },
-        ],
-        trend: -1.2,
-    },
-])
+    grid: { left: 155, right: 55, top: 60, bottom: 30 },
+    xAxis: { type: 'value' as const, name: '价格 (¥)', axisLabel: { formatter: '¥{value}', color: '#888888' } },
+    yAxis: { type: 'category' as const, data: sources },
+    series: [{
+      name: '价格', type: 'bar' as const,
+      data: prices.map((price, i) => ({
+        value: price,
+        itemStyle: {
+          color: confidences[i] >= 90 ? '#30d158' : confidences[i] >= 80 ? '#f5a623' : '#ee0000',
+          borderRadius: [0, 4, 4, 0],
+        },
+      })),
+      label: { show: true, position: 'right' as const, formatter: (p: any) => `¥${Number(p.value).toFixed(2)}` },
+    }],
+    toolbox: { feature: { saveAsImage: { title: '保存' } }, right: 10 },
+  }
+})
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .price-region {
-    padding: 20px;
+  padding: 32px;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #303133;
-}
+.region-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
 
-.region-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+  .el-select,
+  .el-date-picker { width: 180px; }
 }
 
 .region-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: var(--vercel-canvas);
+  border: 1px solid var(--vercel-hairline);
+  border-radius: var(--vercel-rounded-lg);
+  padding: 20px;
+  box-shadow: var(--vercel-shadow-card);
 }
 
-.region-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #303133;
+.region-chart {
+  width: 100%;
+  height: 440px;
 }
 
-.region-prices {
-    margin-bottom: 15px;
-}
-
-.price-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #f5f7fa;
-}
-
-.price-item:last-child {
-    border-bottom: none;
-}
-
-.commodity {
-    color: #606266;
-}
-
-.price {
-    font-weight: 600;
-    color: #303133;
-}
-
-.region-trend {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.region-trend.up {
-    color: #f56c6c;
-}
-
-.region-trend.down {
-    color: #67c23a;
+@media (max-width: 760px) {
+  .price-region { padding: 20px; }
+  .region-chart { height: 340px; }
 }
 </style>

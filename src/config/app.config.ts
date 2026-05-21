@@ -9,6 +9,12 @@ export const appMeta = {
     '模块注册式扩展，避免后期功能变多后难维护',
     '共享组件、数据服务、权限入口逐步沉淀',
   ],
+  hero: {
+    eyebrow: 'Kite Studio',
+    headline: '面向长期扩展的个人网站架构',
+    subtitle: '个人品牌展示、内容发布、实验项目与后台管理，统一在一个 Vue 骨架中渐进生长。',
+    cta: '探索更多',
+  },
 }
 
 export const portalOptions = [
