@@ -38,6 +38,10 @@ coverage/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/snippets/
 .idea
 .DS_Store
 *.suo
@@ -65,4 +69,4 @@ Desktop.ini
 # Example directories
 EXAMPLE/
 .trae/
-tsconfig.tsbuildinfo
+*.tsbuildinfo
