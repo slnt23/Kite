@@ -3,78 +3,28 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import ChatSidebar from '@/components/ai/ChatSidebar.vue'
 import ChatStream from '@/components/ai/ChatStream.vue'
 import ChatComposer from '@/components/ai/ChatComposer.vue'
-
-interface Message {
-  id: string
-  role: 'user' | 'assistant'
-  content: string
-  timestamp: Date
-}
-
-interface Conversation {
-  id: string
-  title: string
-  preview: string
-  timestamp: Date
-}
+import {
+  type AiMessage,
+  type AiConversation,
+  AI_MOCK_CONVERSATIONS,
+  AI_MOCK_MESSAGE_MAP,
+  AI_NEW_CONVERSATION_WELCOME,
+  buildMockReply,
+} from '@/constant'
 
 const inputValue = ref('')
 const isTyping = ref(false)
 const activeConversationId = ref('1')
 
-const conversations = ref<Conversation[]>([
-  {
-    id: '1',
-    title: 'AI 助手介绍',
-    preview: '你好！我是 AI 助手，很高兴为您服务...',
-    timestamp: new Date(Date.now() - 3600000),
-  },
-  {
-    id: '2',
-    title: '编程问题咨询',
-    preview: '关于 Vue 组件拆分和样式复用...',
-    timestamp: new Date(Date.now() - 7200000),
-  },
-  {
-    id: '3',
-    title: '报价沟通优化',
-    preview: '把价格查询结果转换成客户可读摘要...',
-    timestamp: new Date(Date.now() - 86400000),
-  },
-])
+const conversations = ref<AiConversation[]>([...AI_MOCK_CONVERSATIONS])
 
-const messageMap = ref<Record<string, Message[]>>({
-  '1': [
-    {
-      id: '1-a',
-      role: 'assistant',
-      content: '你好！我是 AI 助手，很高兴为您服务。请问有什么可以帮助您的吗？',
-      timestamp: new Date(),
-    },
-  ],
-  '2': [
-    {
-      id: '2-a',
-      role: 'assistant',
-      content: '你可以把 AI 页面拆成侧栏、消息流和输入框三个独立组件，后续接模型时会更好维护。',
-      timestamp: new Date(),
-    },
-  ],
-  '3': [
-    {
-      id: '3-a',
-      role: 'assistant',
-      content: '我可以把这批价格数据整理成一段客户沟通话术，保持专业但不生硬的语气。',
-      timestamp: new Date(),
-    },
-  ],
-})
+const messageMap = ref<Record<string, AiMessage[]>>({ ...AI_MOCK_MESSAGE_MAP })
 
 const activeMessages = computed(() => messageMap.value[activeConversationId.value] || [])
 
 const createConversation = () => {
   const id = String(Date.now())
-  const item: Conversation = {
+  const item: AiConversation = {
     id,
     title: '新会话',
     preview: '开始新的对话...',
@@ -86,21 +36,11 @@ const createConversation = () => {
     {
       id: `${id}-init`,
       role: 'assistant',
-      content: '新的会话已创建。你可以直接输入问题，我会根据上下文继续回答。',
+      content: AI_NEW_CONVERSATION_WELCOME,
       timestamp: new Date(),
     },
   ]
   activeConversationId.value = id
-}
-
-const buildMockReply = (content: string) => {
-  const replies = [
-    '收到，我先帮你抽取重点，再给出可执行建议。',
-    '这个问题可以分三步处理：先澄清目标，再拆解结构，最后给出落地方案。',
-    '我建议先给出一个最小可用版本，然后逐步补齐细节能力。',
-    '这是一个典型的交互设计问题，建议从信息层级和输入反馈两方面同时优化。',
-  ]
-  return `${replies[Math.floor(Math.random() * replies.length)]}\n\n你刚刚提到的是：“${content}”。`
 }
 
 const sendMessage = () => {
@@ -108,7 +48,7 @@ const sendMessage = () => {
   if (!text || isTyping.value) return
 
   const conversationId = activeConversationId.value
-  const userMessage: Message = {
+  const userMessage: AiMessage = {
     id: `${Date.now()}-u`,
     role: 'user',
     content: text,
@@ -130,7 +70,7 @@ const sendMessage = () => {
   isTyping.value = true
 
   window.setTimeout(() => {
-    const aiMessage: Message = {
+    const aiMessage: AiMessage = {
       id: `${Date.now()}-a`,
       role: 'assistant',
       content: buildMockReply(text),
