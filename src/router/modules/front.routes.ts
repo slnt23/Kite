@@ -5,6 +5,7 @@ import UserProfileView from '@/views/front/UserProfileView.vue'
 import ImageVideoView from '@/views/front/ImageVideoView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
+import BlogListView from '@/views/front/BlogListView.vue'
 
 
 const frontRoutes = [
@@ -45,6 +46,14 @@ const frontRoutes = [
         path: 'blog',
         name: 'front-blog',
         component: BlogView,
+        meta: {
+          // requiresAuth: true,
+        },
+      },
+      {
+        path: 'blog/posts',
+        name: 'front-blog-posts',
+        component: BlogListView,
         meta: {
           // requiresAuth: true,
         },

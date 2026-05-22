@@ -2,126 +2,107 @@
 import { ref } from 'vue'
 
 const educations = ref([
-    {
-        school: '北京大学',
-        degree: '预防医学 & 计算机科学技术双学位',
-        period: 'August 2021 - Present',
-        color: '#c4a7c7'
-    },
-    {
-        school: '中国人民大学附属中学',
-        degree: '早培班 & 人工智能实验班',
-        period: 'August 2014 - July 2021',
-        color: '#7db4d8'
-    }
+  {
+    school: '北京大学',
+    degree: '预防医学 & 计算机科学技术双学位',
+    period: 'August 2021 - Present',
+  },
+  {
+    school: '中国人民大学附属中学',
+    degree: '早培班 & 人工智能实验班',
+    period: 'August 2014 - July 2021',
+  },
 ])
 </script>
 
 <template>
-    <section class="education-section">
-        <h2 class="section-title">Education</h2>
-        <div class="education-list">
-            <div v-for="(edu, index) in educations" :key="index" class="education-card"
-                :style="{ '--accent-color': edu.color }">
-                <div class="education-content">
-                    <h3 class="school-name">{{ edu.school }}</h3>
-                    <p class="degree">{{ edu.degree }}</p>
-                    <p class="period">{{ edu.period }}</p>
-                </div>
-                <div class="education-decoration"></div>
-            </div>
+  <section class="education-section">
+    <div class="section-label">
+      <h2>Education</h2>
+    </div>
+    <div class="section-content">
+      <div class="education-list">
+        <div v-for="(edu, index) in educations" :key="index" class="education-card">
+          <h3 class="school-name">{{ edu.school }}</h3>
+          <p class="degree">{{ edu.degree }}</p>
+          <p class="period">{{ edu.period }}</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
 .education-section {
-    padding: 40px 20px;
-    max-width: 900px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
-.section-title {
-    font-size: 1.5rem;
+.section-label {
+  @media (min-width: 768px) {
+    min-width: 144px;
+  }
+
+  h2 {
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 32px;
+    margin: 0;
     color: var(--color-text-deep);
+  }
+}
+
+.section-content {
+  flex: 1;
 }
 
 .education-list {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .education-card {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid var(--color-border);
-    border-radius: 24px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 16px 20px;
+  background: var(--color-background);
+  transition: all 0.2s ease;
 
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-    }
-}
-
-.education-content {
-    flex: 1;
-    padding: 24px 32px;
-    z-index: 2;
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--color-border);
+  }
 }
 
 .school-name {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin: 0 0 8px 0;
-    color: var(--color-text-deep);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--color-text-deep);
 }
 
 .degree {
-    font-size: 1rem;
-    color: var(--color-muted-deep);
-    margin: 0 0 6px 0;
+  font-size: 0.9rem;
+  color: var(--color-muted-foreground);
+  margin: 0 0 4px;
 }
 
 .period {
-    font-size: 0.9rem;
-    color: #686d79;
-    margin: 0;
-}
-
-.education-decoration {
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle at center, var(--accent-color) 0%, transparent 70%);
-    opacity: 0.3;
-    border-radius: 50%;
+  font-size: 0.8rem;
+  color: var(--color-muted-foreground);
+  opacity: 0.7;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
-    .education-section {
-        padding: 30px 16px;
-    }
-
-    .education-content {
-        padding: 20px 24px;
-    }
-
-    .school-name {
-        font-size: 1.1rem;
-    }
-
-    .education-decoration {
-        width: 150px;
-        height: 150px;
-    }
+  .education-card {
+    padding: 12px 16px;
+    border-radius: 12px;
+  }
 }
 </style>

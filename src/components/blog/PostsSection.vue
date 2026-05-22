@@ -1,210 +1,262 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Calendar } from '@element-plus/icons-vue'
 
 const posts = ref([
-    {
-        id: 1,
-        title: '从医学到AI：我的跨界学习之路',
-        excerpt: '作为一名医学生，我是如何踏上AI研究之路的...',
-        date: '2024-01-15',
-        tags: ['AI', '学习', '医学'],
-        readTime: '8 min'
-    },
-    {
-        id: 2,
-        title: 'PyTorch实战：从零开始构建LLM',
-        excerpt: '详细记录了我学习PyTorch并构建大型语言模型的过程...',
-        date: '2024-01-10',
-        tags: ['PyTorch', 'LLM', 'NLP'],
-        readTime: '12 min'
-    },
-    {
-        id: 3,
-        title: 'Minecraft中的编程思维',
-        excerpt: '游戏不仅仅是娱乐，更是培养编程思维的好工具...',
-        date: '2024-01-05',
-        tags: ['游戏', '编程', '思维'],
-        readTime: '6 min'
-    },
-    {
-        id: 4,
-        title: '双学位的挑战与收获',
-        excerpt: '同时修读医学和计算机双学位是一种怎样的体验...',
-        date: '2023-12-28',
-        tags: ['学习', '经验', '大学'],
-        readTime: '10 min'
-    }
+  {
+    id: 1,
+    title: '从医学到AI：我的跨界学习之路',
+    date: '2024-01-15',
+    datetime: '2024-01-15',
+  },
+  {
+    id: 2,
+    title: 'PyTorch实战：从零开始构建LLM',
+    date: '2024-01-10',
+    datetime: '2024-01-10',
+  },
+  {
+    id: 3,
+    title: 'Minecraft中的编程思维',
+    date: '2024-01-05',
+    datetime: '2024-01-05',
+  },
+  {
+    id: 4,
+    title: '双学位的挑战与收获',
+    date: '2023-12-28',
+    datetime: '2023-12-28',
+  },
 ])
+
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
 </script>
 
 <template>
-    <section class="posts-section">
-        <div class="section-header">
-            <h2 class="section-title">Posts</h2>
-            <button class="view-all-btn">View All</button>
-        </div>
-
-        <div class="posts-grid">
-            <article v-for="post in posts" :key="post.id" class="post-card">
-                <div class="post-header">
-                    <span class="read-time">{{ post.readTime }}</span>
-                    <span class="date">
-                        <Calendar class="date-icon" />
-                        {{ post.date }}
-                    </span>
-                </div>
-
-                <h3 class="post-title">{{ post.title }}</h3>
-                <p class="post-excerpt">{{ post.excerpt }}</p>
-
-                <div class="post-tags">
-                    <span v-for="tag in post.tags" :key="tag" class="post-tag">
-                        <Tag class="tag-icon" />
-                        {{ tag }}
-                    </span>
-                </div>
-            </article>
-        </div>
-    </section>
+  <section class="posts-section">
+    <div class="section-label">
+      <h2>Posts</h2>
+    </div>
+    <div class="section-content">
+      <ul class="posts-list">
+        <li v-for="post in posts" :key="post.id" class="post-preview">
+          <a class="post-link" href="#">
+            <time class="post-date" :datetime="post.datetime">
+              {{ formatDate(post.date) }}
+            </time>
+            <div class="post-title-row">
+              <span class="post-title">{{ post.title }}</span>
+              <svg
+                class="post-arrow"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
+                <polyline points="12 5 19 12 12 19" class="arrow-head" />
+              </svg>
+            </div>
+          </a>
+        </li>
+      </ul>
+      <RouterLink class="view-all" to="/blog/posts">
+        View All
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" class="arrow-line" />
+          <polyline points="12 5 19 12 12 19" class="arrow-head" />
+        </svg>
+      </RouterLink>
+    </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
 .posts-section {
-    padding: 40px 20px;
-    max-width: 900px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-}
+.section-label {
+  @media (min-width: 768px) {
+    min-width: 144px;
+  }
 
-.section-title {
-    font-size: 1.5rem;
+  h2 {
+    font-size: 20px;
     font-weight: 600;
     margin: 0;
     color: var(--color-text-deep);
+  }
 }
 
-.view-all-btn {
-    padding: 10px 20px;
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--color-muted-deep);
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-
-    &:hover {
-        background: var(--color-accent);
-        border-color: var(--color-primary);
-        color: var(--color-primary);
-    }
+.section-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+/* ── Post list ── */
+.posts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.post-card {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 24px;
-    transition: all 0.3s ease;
+.post-preview {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: var(--color-background);
+  transition: all 0.2s ease;
 
-    &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-        border-color: var(--color-primary);
-    }
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: var(--color-border);
+  }
 }
 
-.post-header {
-    display: flex;
-    justify-content: space-between;
+.post-link {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s ease;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
     align-items: center;
-    margin-bottom: 16px;
-    font-size: 0.85rem;
-    color: #686d79;
+  }
+
+  &:hover {
+    color: var(--color-primary);
+  }
 }
 
-.read-time {
-    padding: 4px 10px;
-    background: var(--color-accent);
-    border-radius: 999px;
+.post-date {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.75rem;
+  color: var(--color-muted-foreground);
+  min-width: 95px;
+  padding: 4px 0;
+
+  @media (min-width: 640px) {
+    min-width: 100px;
+  }
 }
 
-.date {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.date-icon {
-    font-size: 0.75rem;
+.post-title-row {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 .post-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    margin: 0 0 12px 0;
-    color: var(--color-text-deep);
-    line-height: 1.4;
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.post-excerpt {
-    font-size: 0.95rem;
-    color: var(--color-muted-deep);
-    line-height: 1.6;
-    margin: 0 0 16px 0;
+.post-arrow {
+  flex-shrink: 0;
+  stroke: var(--color-muted-foreground);
+  transition: stroke 0.2s ease;
+
+  .post-link:hover & {
+    stroke: var(--color-primary);
+  }
+
+  .arrow-line {
+    transition: all 0.3s ease;
+    transform: translateX(4px) scaleX(0);
+  }
+
+  .arrow-head {
+    transition: all 0.3s ease;
+    transform: translateX(0);
+  }
+
+  .post-link:hover & .arrow-line {
+    transform: translateX(1px) scaleX(1);
+  }
+
+  .post-link:hover & .arrow-head {
+    transform: translateX(1px);
+  }
 }
 
-.post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
+/* ── View All ── */
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-end;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
 
-.post-tag {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 6px 12px;
-    background: rgba(64, 158, 255, 0.08);
-    border-radius: 999px;
-    font-size: 0.8rem;
+  &:hover {
+    background: var(--color-background);
     color: var(--color-primary);
-}
+  }
 
-.tag-icon {
-    font-size: 0.65rem;
+  .arrow-line {
+    transition: all 0.3s ease;
+    transform: translateX(4px) scaleX(0);
+  }
+
+  .arrow-head {
+    transition: all 0.3s ease;
+    transform: translateX(0);
+  }
+
+  &:hover .arrow-line {
+    transform: translateX(1px) scaleX(1);
+  }
+
+  &:hover .arrow-head {
+    transform: translateX(1px);
+  }
 }
 
 @media (max-width: 768px) {
-    .posts-section {
-        padding: 30px 16px;
-    }
+  .post-preview {
+    border-radius: 12px;
+  }
 
-    .posts-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .post-card {
-        padding: 20px;
-    }
-
-    .section-header {
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-start;
-    }
+  .post-link {
+    padding: 8px 16px;
+  }
 }
 </style>

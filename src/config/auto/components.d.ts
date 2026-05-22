@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AboutSection: typeof import('./../../components/blog/AboutSection.vue')['default']
+    BlogList: typeof import('./../../components/blog/BlogList.vue')['default']
     ChatComposer: typeof import('./../../components/ai/ChatComposer.vue')['default']
     ChatSidebar: typeof import('./../../components/ai/ChatSidebar.vue')['default']
     ChatStream: typeof import('./../../components/ai/ChatStream.vue')['default']

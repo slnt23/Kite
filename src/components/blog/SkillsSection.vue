@@ -2,155 +2,174 @@
 import { ref } from 'vue'
 
 const skills = ref([
-    {
-        category: 'Web',
-        items: ['Vue.js', 'Nuxt.js', 'Node.js', 'React.js', 'TypeScript', 'JavaScript', 'CSS', 'HTML']
-    },
-    {
-        category: 'Programming',
-        items: ['Python', 'PyTorch', 'C', 'C++', 'C#', 'R', 'MySQL', 'PostgreSQL']
-    },
-    {
-        category: 'Tools',
-        items: ['VSCode', 'Vim', 'Git', 'Linux', 'Docker', 'Nginx']
-    },
-    {
-        category: 'Design',
-        items: ['Figma', 'Photoshop', 'Illustrator']
-    },
-    {
-        category: 'Other',
-        items: ['Markdown', 'LaTeX']
-    }
+  {
+    category: 'Web',
+    items: ['Vue.js', 'Nuxt.js', 'Node.js', 'React.js', 'TypeScript', 'JavaScript', 'CSS', 'HTML'],
+  },
+  {
+    category: 'Programming',
+    items: ['Python', 'PyTorch', 'C', 'C++', 'C#', 'R', 'MySQL', 'PostgreSQL'],
+  },
+  {
+    category: 'Tools',
+    items: ['VSCode', 'Vim', 'Git', 'Linux', 'Docker', 'Nginx'],
+  },
+  {
+    category: 'Design',
+    items: ['Figma', 'Photoshop', 'Illustrator'],
+  },
+  {
+    category: 'Other',
+    items: ['Markdown', 'LaTeX'],
+  },
 ])
 </script>
 
 <template>
-    <section class="skills-section">
-        <h2 class="section-title">Skills</h2>
-        <div class="skills-container">
-            <div v-for="skill in skills" :key="skill.category" class="skill-category">
-                <h3 class="category-name">{{ skill.category }}</h3>
-                <div class="skill-tags">
-                    <span v-for="item in skill.items" :key="item" class="skill-tag">
-                        {{ item }}
-                    </span>
-                </div>
-            </div>
+  <section class="skills-section">
+    <div class="section-label">
+      <h2>Skills</h2>
+    </div>
+    <div class="section-content">
+      <div class="skills-container">
+        <div v-for="skill in skills" :key="skill.category" class="skill-category">
+          <h3 class="category-name">{{ skill.category }}</h3>
+          <div class="skill-tags">
+            <span v-for="item in skill.items" :key="item" class="skill-tag">
+              {{ item }}
+            </span>
+          </div>
         </div>
+      </div>
 
-        <div class="poem-box">
-            <span class="poem-dot"></span>
-            <span class="poem-text">春潮带雨晚来急，野渡无人舟自横。</span>
-        </div>
-    </section>
+      <div class="poem-box">
+        <span class="poem-dot"></span>
+        <span class="poem-text">春潮带雨晚来急，野渡无人舟自横。</span>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped lang="scss">
 .skills-section {
-    padding: 40px 20px;
-    max-width: 900px;
-    margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 }
 
-.section-title {
-    font-size: 1.5rem;
+.section-label {
+  @media (min-width: 768px) {
+    min-width: 144px;
+  }
+
+  h2 {
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 32px;
+    margin: 0;
     color: var(--color-text-deep);
+  }
+}
+
+.section-content {
+  flex: 1;
 }
 
 .skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .skill-category {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
 }
 
 .category-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-deep);
-    min-width: 100px;
-    margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-deep);
+  min-width: 100px;
+  margin: 0;
 }
 
 .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
 }
 
 .skill-tag {
-    display: inline-block;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
-    font-size: 0.9rem;
-    color: var(--color-muted-deep);
-    transition: all 0.2s ease;
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: var(--color-muted-foreground);
+  transition: all 0.2s ease;
 
-    &:hover {
-        background: var(--color-accent);
-        border-color: var(--color-primary);
-        color: var(--color-primary);
-    }
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    color: var(--color-text-deep);
+  }
 }
 
+/* ── Poem ── */
 .poem-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 40px;
-    padding: 16px 32px;
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid var(--color-border);
-    border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-background);
 }
 
 .poem-dot {
-    width: 10px;
-    height: 10px;
-    background: #22c55e;
-    border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .poem-text {
-    font-size: 1rem;
-    color: var(--color-text);
-    font-style: italic;
+  font-size: 0.9rem;
+  color: var(--color-muted-foreground);
+  font-style: italic;
 }
 
 @media (max-width: 768px) {
-    .skills-section {
-        padding: 30px 16px;
-    }
+  .skill-category {
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .skill-category {
-        flex-direction: column;
-        gap: 8px;
-    }
+  .category-name {
+    min-width: auto;
+  }
 
-    .category-name {
-        min-width: auto;
-    }
+  .poem-box {
+    padding: 10px 16px;
+  }
 
-    .poem-box {
-        padding: 12px 20px;
-        margin-top: 30px;
-    }
-
-    .poem-text {
-        font-size: 0.9rem;
-    }
+  .poem-text {
+    font-size: 0.8rem;
+  }
 }
 </style>

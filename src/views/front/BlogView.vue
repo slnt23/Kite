@@ -6,17 +6,28 @@ import PostsSection from '@/components/blog/PostsSection.vue'
 </script>
 
 <template>
-    <div class="blog-container">
-        <AboutSection />
-        <PostsSection />
-        <EducationSection />
-        <SkillsSection />
-    </div>
+  <div class="blog-container">
+    <AboutSection />
+    <PostsSection />
+    <EducationSection />
+    <SkillsSection />
+  </div>
 </template>
 
 <style scoped lang="scss">
 .blog-container {
-    min-height: 100vh;
-    padding-bottom: 60px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 60px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 30px 16px 60px;
+    gap: 40px;
+  }
 }
 </style>

@@ -11,7 +11,25 @@
       "Bash(cp -r \"D:/IT/HTML/Dev/Kite/src/app/modules/\"* \"D:/IT/HTML/Dev/Kite/src/config/modules/\")",
       "Bash(echo \"exit: $?\")",
       "Bash(cp \"D:/IT/HTML/Dev/Kite/src/app/modules/admin/\"*.ts \"D:/IT/HTML/Dev/Kite/src/config/modules/admin/\")",
-      "Bash(cp \"D:/IT/HTML/Dev/Kite/src/app/modules/front/\"*.ts \"D:/IT/HTML/Dev/Kite/src/config/modules/front/\")"
+      "Bash(cp \"D:/IT/HTML/Dev/Kite/src/app/modules/front/\"*.ts \"D:/IT/HTML/Dev/Kite/src/config/modules/front/\")",
+      "WebFetch(domain:oftheoak.co.uk)",
+      "WebSearch",
+      "Bash(curl -sL -o /dev/null -w \"%{http_code}\" \"https://oftheoak.co.uk/oak-species\" --connect-timeout 10)",
+      "WebFetch(domain:arthals.ink)",
+      "Bash(npx --version)",
+      "Bash(npx -y @modelcontextprotocol/server-puppeteer --version)",
+      "Bash(where chromium *)",
+      "Bash(where chromium-browser *)",
+      "Bash(where google-chrome *)",
+      "Bash(where chrome *)",
+      "mcp__puppeteer__puppeteer_navigate",
+      "mcp__puppeteer__puppeteer_screenshot",
+      "mcp__puppeteer__puppeteer_evaluate",
+      "Bash(npm run *)",
+      "Bash(sleep 5 && cat /dev/null)",
+      "Read(//dev/**)",
+      "mcp__puppeteer__puppeteer_hover",
+      "mcp__puppeteer__puppeteer_click"
     ]
   }
 }
