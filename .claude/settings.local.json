@@ -29,7 +29,10 @@
       "Bash(sleep 5 && cat /dev/null)",
       "Read(//dev/**)",
       "mcp__puppeteer__puppeteer_hover",
-      "mcp__puppeteer__puppeteer_click"
+      "mcp__puppeteer__puppeteer_click",
+      "Bash(curl -L -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://oftheoak.co.uk/meditations\")",
+      "Bash(curl -L -s \"https://oftheoak.co.uk/_astro/hoisted.CUxW-_jQ.js\")",
+      "Bash(curl -L -s \"https://oftheoak.co.uk/meditations\")"
     ]
   }
 }

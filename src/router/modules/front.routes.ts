@@ -6,6 +6,7 @@ import ImageVideoView from '@/views/front/ImageVideoView.vue'
 import HomeView from '@/views/front/HomeView.vue'
 import BlogView from '@/views/front/BlogView.vue'
 import BlogListView from '@/views/front/BlogListView.vue'
+import MeditationView from '@/views/front/MeditationView.vue'
 
 
 const frontRoutes = [
@@ -54,6 +55,14 @@ const frontRoutes = [
         path: 'blog/posts',
         name: 'front-blog-posts',
         component: BlogListView,
+        meta: {
+          // requiresAuth: true,
+        },
+      },
+      {
+        path: 'meditations',
+        name: 'front-meditations',
+        component: MeditationView,
         meta: {
           // requiresAuth: true,
         },
