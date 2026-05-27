@@ -6,7 +6,13 @@ import type {
   PriceItemVO,
   Currency,
 } from '@/types'
-import { Search, Coin, TrendCharts, DataAnalysis, Connection } from '@element-plus/icons-vue'
+import {
+  Search,
+  Coin,
+  TrendCharts,
+  DataAnalysis,
+  Connection
+} from '@element-plus/icons-vue'
 
 // ==================== 导航菜单 ====================
 
@@ -45,68 +51,83 @@ export const PRICE_CURRENCY_OPTIONS: { label: string; value: Currency }[] = [
 
 // ==================== 物品基础信息 ====================
 
-const ITEM_PIG: PriceItemVO = {
-  itemId: 1,
-  itemName: '生猪',
-  unit: '公斤',
-  specification: '外三元 110kg',
-  categoryName: '畜牧',
-}
+// const ITEM_PIG: PriceItemVO = {
+//   itemId: 1,
+//   itemName: '生猪',
+//   unit: '公斤',
+//   specification: '外三元 110kg',
+//   categoryName: '畜牧',
+// }
 
-const ITEM_CORN: PriceItemVO = {
-  itemId: 2,
-  itemName: '玉米',
-  unit: '公斤',
-  specification: '二等黄玉米',
-  categoryName: '粮食',
-}
+// const ITEM_CORN: PriceItemVO = {
+//   itemId: 2,
+//   itemName: '玉米',
+//   unit: '公斤',
+//   specification: '二等黄玉米',
+//   categoryName: '粮食',
+// }
 
-const ITEM_SOYBEAN: PriceItemVO = {
-  itemId: 3,
-  itemName: '豆粕',
-  unit: '公斤',
-  specification: '43%蛋白',
-  categoryName: '饲料',
-}
+// const ITEM_SOYBEAN: PriceItemVO = {
+//   itemId: 3,
+//   itemName: '豆粕',
+//   unit: '公斤',
+//   specification: '43%蛋白',
+//   categoryName: '饲料',
+// }
 
-const ITEM_EGG: PriceItemVO = {
-  itemId: 4,
-  itemName: '鸡蛋',
-  unit: '公斤',
-  specification: '褐壳 散装',
-  categoryName: '禽蛋',
-}
+// const ITEM_EGG: PriceItemVO = {
+//   itemId: 4,
+//   itemName: '鸡蛋',
+//   unit: '公斤',
+//   specification: '褐壳 散装',
+//   categoryName: '禽蛋',
+// }
 
 // ==================== 物品搜索示例数据 ====================
 
 export const EXAMPLE_PRICE_ITEM_LIST: PriceItemVO[] = [
-  ITEM_PIG,
-  ITEM_CORN,
-  ITEM_SOYBEAN,
-  ITEM_EGG,
   { itemId: 5, itemName: '牛肉', unit: '公斤', specification: '西门塔尔 育肥牛', categoryName: '畜牧' },
-  { itemId: 6, itemName: '羊肉', unit: '公斤', specification: '内蒙古 羔羊肉', categoryName: '畜牧' },
-  { itemId: 7, itemName: '白条鸡', unit: '公斤', specification: '西装鸡 1.5kg', categoryName: '禽类' },
-  { itemId: 8, itemName: '鸭肉', unit: '公斤', specification: '樱桃谷鸭 冷冻', categoryName: '禽类' },
-  { itemId: 9, itemName: '小麦', unit: '吨', specification: '二等冬小麦', categoryName: '粮食' },
-  { itemId: 10, itemName: '大豆', unit: '吨', specification: '国产 非转基因', categoryName: '粮食' },
-  { itemId: 11, itemName: '稻谷', unit: '吨', specification: '晚籼稻 三等', categoryName: '粮食' },
-  { itemId: 12, itemName: '花生', unit: '公斤', specification: '带壳 通货', categoryName: '油料' },
-  { itemId: 13, itemName: '菜籽油', unit: '升', specification: '四级 压榨', categoryName: '油脂' },
-  { itemId: 14, itemName: '豆油', unit: '升', specification: '一级 浸出', categoryName: '油脂' },
-  { itemId: 15, itemName: '棕榈油', unit: '升', specification: '24度 精炼', categoryName: '油脂' },
-  { itemId: 16, itemName: '白糖', unit: '吨', specification: '一级 白砂糖', categoryName: '糖料' },
-  { itemId: 17, itemName: '棉花', unit: '吨', specification: '3128B级 皮棉', categoryName: '纺织' },
-  { itemId: 18, itemName: '天然橡胶', unit: '吨', specification: 'SCR5 标准胶', categoryName: '化工' },
-  { itemId: 19, itemName: '螺纹钢', unit: '吨', specification: 'HRB400E Φ20mm', categoryName: '钢材' },
-  { itemId: 20, itemName: '热轧卷板', unit: '吨', specification: 'Q235B 5.5mm', categoryName: '钢材' },
-  { itemId: 21, itemName: '电解铜', unit: '吨', specification: '1# 阴极铜', categoryName: '有色金属' },
-  { itemId: 22, itemName: '铝锭', unit: '吨', specification: 'A00 重熔用', categoryName: '有色金属' },
-  { itemId: 23, itemName: '动力煤', unit: '吨', specification: 'Q5500 秦皇岛', categoryName: '能源' },
-  { itemId: 24, itemName: '原油', unit: '桶', specification: 'WTI 轻质低硫', categoryName: '能源' },
-  { itemId: 25, itemName: '尿素', unit: '吨', specification: '小颗粒 46%氮', categoryName: '化肥' },
-  { itemId: 26, itemName: '磷酸二铵', unit: '吨', specification: '64% 总养分', categoryName: '化肥' },
+  { itemId: 6, itemName: '猪肉', unit: '公斤', specification: '三元杂交 去皮去骨', categoryName: '畜牧' },
+  { itemId: 7, itemName: '五花肉', unit: '公斤', specification: '肥瘦相间 三层以上', categoryName: '畜牧' },
+  { itemId: 8, itemName: '里脊肉', unit: '公斤', specification: '猪通脊 无筋膜', categoryName: '畜牧' },
+  { itemId: 9, itemName: '前腿肉', unit: '公斤', specification: '带皮 适合红烧', categoryName: '畜牧' },
+  { itemId: 10, itemName: '牛腩', unit: '公斤', specification: '筋膜均匀 适合炖煮', categoryName: '畜牧' },
+  { itemId: 11, itemName: '牛里脊', unit: '公斤', specification: '草饲 嫩肉无筋', categoryName: '畜牧' },
+  { itemId: 12, itemName: '羊肉', unit: '公斤', specification: '小尾寒羊 整羊净肉', categoryName: '畜牧' },
+  { itemId: 13, itemName: '羊排', unit: '公斤', specification: '法式切 羔羊', categoryName: '畜牧' },
+  { itemId: 14, itemName: '鸡胸肉', unit: '公斤', specification: '单冻去皮 白羽鸡', categoryName: '禽类' },
+  { itemId: 15, itemName: '鸡腿肉', unit: '公斤', specification: '去骨带皮 冷冻', categoryName: '禽类' },
+  { itemId: 16, itemName: '鸭肉', unit: '公斤', specification: '樱桃谷鸭 净膛', categoryName: '禽类' },
+  { itemId: 17, itemName: '鸭腿', unit: '公斤', specification: '冷冻 单冻散装', categoryName: '禽类' },
+  { itemId: 18, itemName: '鹅肉', unit: '公斤', specification: '散养 老鹅', categoryName: '禽类' },
+  { itemId: 19, itemName: '兔肉', unit: '公斤', specification: '去皮 去内脏', categoryName: '畜牧' },
+  { itemId: 20, itemName: '鸽子肉', unit: '只', specification: '乳鸽 净重350g', categoryName: '禽类' },
+  { itemId: 21, itemName: '马肉', unit: '公斤', specification: '草原散养 瘦肉', categoryName: '畜牧' },
+  { itemId: 22, itemName: '驴肉', unit: '公斤', specification: '育肥驴 后腿肉', categoryName: '畜牧' },
+  { itemId: 23, itemName: '火鸡肉', unit: '公斤', specification: '胸肉 低脂', categoryName: '禽类' },
+  { itemId: 24, itemName: '羊肉', unit: '公斤', specification: '内蒙古 羔羊肉', categoryName: '畜牧' },
+  { itemId: 25, itemName: '白条鸡', unit: '公斤', specification: '西装鸡 1.5kg', categoryName: '禽类' },
+  { itemId: 26, itemName: '小麦', unit: '吨', specification: '二等冬小麦', categoryName: '粮食' },
+  { itemId: 27, itemName: '大豆', unit: '吨', specification: '国产 非转基因', categoryName: '粮食' },
+  { itemId: 28, itemName: '稻谷', unit: '吨', specification: '晚籼稻 三等', categoryName: '粮食' },
+  { itemId: 29, itemName: '花生', unit: '公斤', specification: '带壳 通货', categoryName: '油料' },
+  { itemId: 30, itemName: '菜籽油', unit: '升', specification: '四级 压榨', categoryName: '油脂' },
+  { itemId: 31, itemName: '豆油', unit: '升', specification: '一级 浸出', categoryName: '油脂' },
+  { itemId: 32, itemName: '棕榈油', unit: '升', specification: '24度 精炼', categoryName: '油脂' },
+  { itemId: 33, itemName: '白糖', unit: '吨', specification: '一级 白砂糖', categoryName: '糖料' },
+  { itemId: 34, itemName: '棉花', unit: '吨', specification: '3128B级 皮棉', categoryName: '纺织' },
+  { itemId: 35, itemName: '天然橡胶', unit: '吨', specification: 'SCR5 标准胶', categoryName: '化工' },
+  { itemId: 36, itemName: '螺纹钢', unit: '吨', specification: 'HRB400E Φ20mm', categoryName: '钢材' },
+  { itemId: 37, itemName: '热轧卷板', unit: '吨', specification: 'Q235B 5.5mm', categoryName: '钢材' },
+  { itemId: 38, itemName: '电解铜', unit: '吨', specification: '1# 阴极铜', categoryName: '有色金属' },
+  { itemId: 39, itemName: '铝锭', unit: '吨', specification: 'A00 重熔用', categoryName: '有色金属' },
+  { itemId: 40, itemName: '动力煤', unit: '吨', specification: 'Q5500 秦皇岛', categoryName: '能源' },
+  { itemId: 41, itemName: '原油', unit: '桶', specification: 'WTI 轻质低硫', categoryName: '能源' },
+  { itemId: 42, itemName: '尿素', unit: '吨', specification: '小颗粒 46%氮', categoryName: '化肥' },
+  { itemId: 43, itemName: '磷酸二铵', unit: '吨', specification: '64% 总养分', categoryName: '化肥' },
 ]
+
+
 
 /** 本地模拟搜索，按名称模糊匹配（用于开发调试或 API 不可用时降级） */
 export function mockSearchItems(keyword: string): PriceItemVO[] {

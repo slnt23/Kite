@@ -1,33 +1,3 @@
-<template>
-  <div class="price-source">
-    <div class="source-controls">
-      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
-        <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
-      </el-select>
-      <el-date-picker
-        v-model="targetTime"
-        type="datetime" placeholder="对比时间点"
-        value-format="YYYY-MM-DDTHH:mm:ss" size="default"
-      />
-      <el-button type="primary" :loading="loading" @click="fetchSourceCompare" size="default">查询</el-button>
-    </div>
-
-    <div class="source-grid" v-if="selectedItem">
-      <div class="source-panel">
-        <v-chart :option="barOption" :autoresize="true" class="source-chart" />
-      </div>
-      <div class="source-panel">
-        <v-chart :option="radarOption" :autoresize="true" class="source-chart" />
-      </div>
-    </div>
-
-    <div v-if="!selectedItem" class="empty-hint">
-      请先在「物品查询」中选择一个物品
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
@@ -126,6 +96,33 @@ const radarOption = computed(() => {
 })
 </script>
 
+<template>
+  <div class="price-source">
+    <div class="source-controls">
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
+      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+        <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
+      </el-select>
+      <el-date-picker v-model="targetTime" type="datetime" placeholder="对比时间点" value-format="YYYY-MM-DDTHH:mm:ss"
+        size="default" />
+      <el-button type="primary" :loading="loading" @click="fetchSourceCompare" size="default">查询</el-button>
+    </div>
+
+    <div class="source-grid" v-if="selectedItem">
+      <div class="source-panel">
+        <v-chart :option="barOption" :autoresize="true" class="source-chart" />
+      </div>
+      <div class="source-panel">
+        <v-chart :option="radarOption" :autoresize="true" class="source-chart" />
+      </div>
+    </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .price-source {
   padding: 32px;
@@ -139,7 +136,9 @@ const radarOption = computed(() => {
   align-items: center;
 
   .el-select,
-  .el-date-picker { width: 180px; }
+  .el-date-picker {
+    width: 180px;
+  }
 }
 
 .source-grid {
@@ -162,7 +161,9 @@ const radarOption = computed(() => {
 }
 
 @media (max-width: 900px) {
-  .source-grid { grid-template-columns: 1fr; }
+  .source-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .empty-hint {
@@ -173,7 +174,12 @@ const radarOption = computed(() => {
 }
 
 @media (max-width: 760px) {
-  .price-source { padding: 20px; }
-  .source-chart { height: 320px; }
+  .price-source {
+    padding: 20px;
+  }
+
+  .source-chart {
+    height: 320px;
+  }
 }
 </style>

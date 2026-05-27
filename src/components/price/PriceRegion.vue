@@ -1,28 +1,3 @@
-<template>
-  <div class="price-region">
-    <div class="region-controls">
-      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
-        <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
-      </el-select>
-      <el-date-picker
-        v-model="targetTime"
-        type="datetime" placeholder="对比时间点"
-        value-format="YYYY-MM-DDTHH:mm:ss" size="default"
-      />
-      <el-button type="primary" :loading="loading" @click="fetchCompare" size="default">查询</el-button>
-    </div>
-
-    <div class="region-card" v-if="selectedItem">
-      <v-chart :option="chartOption" :autoresize="true" class="region-chart" />
-    </div>
-
-    <div v-if="!selectedItem" class="empty-hint">
-      请先在「物品查询」中选择一个物品
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
@@ -96,6 +71,28 @@ const chartOption = computed(() => {
 })
 </script>
 
+<template>
+  <div class="price-region">
+    <div class="region-controls">
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
+      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+        <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
+      </el-select>
+      <el-date-picker v-model="targetTime" type="datetime" placeholder="对比时间点" value-format="YYYY-MM-DDTHH:mm:ss"
+        size="default" />
+      <el-button type="primary" :loading="loading" @click="fetchCompare" size="default">查询</el-button>
+    </div>
+
+    <div class="region-card" v-if="selectedItem">
+      <v-chart :option="chartOption" :autoresize="true" class="region-chart" />
+    </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .price-region {
   padding: 32px;
@@ -109,7 +106,9 @@ const chartOption = computed(() => {
   align-items: center;
 
   .el-select,
-  .el-date-picker { width: 180px; }
+  .el-date-picker {
+    width: 180px;
+  }
 }
 
 .region-card {
@@ -133,7 +132,12 @@ const chartOption = computed(() => {
 }
 
 @media (max-width: 760px) {
-  .price-region { padding: 20px; }
-  .region-chart { height: 340px; }
+  .price-region {
+    padding: 20px;
+  }
+
+  .region-chart {
+    height: 340px;
+  }
 }
 </style>

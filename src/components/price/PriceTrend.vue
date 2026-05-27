@@ -1,35 +1,3 @@
-<template>
-  <div class="price-trend">
-    <div class="trend-controls">
-      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.granularity" placeholder="时间粒度" size="default">
-        <el-option label="按小时" value="HOUR" />
-        <el-option label="按天" value="DAY" />
-        <el-option label="按周" value="WEEK" />
-        <el-option label="按月" value="MONTH" />
-      </el-select>
-      <el-date-picker
-        v-model="dateRange"
-        type="datetimerange"
-        range-separator="至"
-        start-placeholder="开始时间"
-        end-placeholder="结束时间"
-        value-format="YYYY-MM-DDTHH:mm:ss"
-        size="default"
-      />
-      <el-button type="primary" :loading="loading" @click="fetchTrend" size="default">查询</el-button>
-    </div>
-
-    <div class="trend-card" v-if="selectedItem">
-      <v-chart :option="chartOption" :autoresize="true" class="trend-chart" />
-    </div>
-
-    <div v-if="!selectedItem" class="empty-hint">
-      请先在「物品查询」中选择一个物品
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
@@ -115,6 +83,31 @@ const chartOption = computed(() => {
 })
 </script>
 
+<template>
+  <div class="price-trend">
+    <div class="trend-controls">
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
+      <el-select v-model="query.granularity" placeholder="时间粒度" size="default">
+        <el-option label="按小时" value="HOUR" />
+        <el-option label="按天" value="DAY" />
+        <el-option label="按周" value="WEEK" />
+        <el-option label="按月" value="MONTH" />
+      </el-select>
+      <el-date-picker v-model="dateRange" type="datetimerange" range-separator="至" start-placeholder="开始时间"
+        end-placeholder="结束时间" value-format="YYYY-MM-DDTHH:mm:ss" size="default" />
+      <el-button type="primary" :loading="loading" @click="fetchTrend" size="default">查询</el-button>
+    </div>
+
+    <div class="trend-card" v-if="selectedItem">
+      <v-chart :option="chartOption" :autoresize="true" class="trend-chart" />
+    </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .price-trend {
   padding: 32px;
@@ -128,7 +121,9 @@ const chartOption = computed(() => {
   align-items: center;
 
   .el-select,
-  .el-date-picker { width: 190px; }
+  .el-date-picker {
+    width: 190px;
+  }
 }
 
 .trend-card {
@@ -152,7 +147,12 @@ const chartOption = computed(() => {
 }
 
 @media (max-width: 760px) {
-  .price-trend { padding: 20px; }
-  .trend-chart { height: 340px; }
+  .price-trend {
+    padding: 20px;
+  }
+
+  .trend-chart {
+    height: 340px;
+  }
 }
 </style>
