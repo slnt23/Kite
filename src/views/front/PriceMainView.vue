@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import PriceNavigator from '@/components/price/PriceNavigator.vue'
+import PriceItemQuery from '@/components/price/PriceItemQuery.vue'
 import PriceLatest from '@/components/price/PriceLatest.vue'
 import PriceTrend from '@/components/price/PriceTrend.vue'
 import PriceRegion from '@/components/price/PriceRegion.vue'
 import PriceSource from '@/components/price/PriceSource.vue'
 
-const activeNav = ref('1')
+const activeNav = ref('0')
 const handleNavigate = (index: string) => { activeNav.value = index }
+
+// 确保 singleton composable 在父级初始化
+usePriceItemStore()
 </script>
 
 <template>
@@ -16,7 +21,8 @@ const handleNavigate = (index: string) => { activeNav.value = index }
       <PriceNavigator @navigate="handleNavigate" />
     </aside>
     <main class="price-content">
-      <PriceLatest v-if="activeNav === '1'" />
+      <PriceItemQuery v-if="activeNav === '0'" />
+      <PriceLatest v-else-if="activeNav === '1'" />
       <PriceTrend v-else-if="activeNav === '2'" />
       <PriceRegion v-else-if="activeNav === '3'" />
       <PriceSource v-else-if="activeNav === '4'" />

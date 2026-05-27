@@ -1,9 +1,7 @@
 <template>
   <div class="price-region">
     <div class="region-controls">
-      <el-select v-model="query.itemId" placeholder="选择物品" clearable size="default">
-        <el-option v-for="item in PRICE_ITEM_OPTIONS" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
       <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
         <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
       </el-select>
@@ -15,22 +13,36 @@
       <el-button type="primary" :loading="loading" @click="fetchCompare" size="default">查询</el-button>
     </div>
 
-    <div class="region-card">
+    <div class="region-card" v-if="selectedItem">
       <v-chart :option="chartOption" :autoresize="true" class="region-chart" />
+    </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_COMPARE, PRICE_ITEM_OPTIONS, PRICE_LOCATION_OPTIONS } from '@/constant'
+import { EXAMPLE_PRICE_COMPARE, PRICE_LOCATION_OPTIONS } from '@/constant'
+import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const compareData = ref<PriceCompareVO>(EXAMPLE_PRICE_COMPARE)
 const query = ref({ itemId: undefined as number | undefined, locationId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
+
+const { selectedItem } = usePriceItemStore()
+
+watch(selectedItem, (item) => {
+  if (item) {
+    query.value.itemId = item.itemId
+    fetchCompare()
+  }
+})
 
 async function fetchCompare() {
   loading.value = true
@@ -111,6 +123,13 @@ const chartOption = computed(() => {
 .region-chart {
   width: 100%;
   height: 440px;
+}
+
+.empty-hint {
+  text-align: center;
+  color: var(--vercel-mute);
+  font-size: 14px;
+  padding: 48px 0;
 }
 
 @media (max-width: 760px) {

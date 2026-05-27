@@ -1,9 +1,7 @@
 <template>
   <div class="price-trend">
     <div class="trend-controls">
-      <el-select v-model="query.itemId" placeholder="选择物品" clearable size="default">
-        <el-option v-for="item in PRICE_ITEM_OPTIONS" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
       <el-select v-model="query.granularity" placeholder="时间粒度" size="default">
         <el-option label="按小时" value="HOUR" />
         <el-option label="按天" value="DAY" />
@@ -22,16 +20,21 @@
       <el-button type="primary" :loading="loading" @click="fetchTrend" size="default">查询</el-button>
     </div>
 
-    <div class="trend-card">
+    <div class="trend-card" v-if="selectedItem">
       <v-chart :option="chartOption" :autoresize="true" class="trend-chart" />
+    </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_TREND_LIST, PRICE_ITEM_OPTIONS } from '@/constant'
+import { EXAMPLE_PRICE_TREND_LIST } from '@/constant'
+import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceTrendVO, PriceTrendQueryDTO } from '@/types/modules/price.type'
 
 const loading = ref(false)
@@ -41,6 +44,15 @@ const dateRange = ref<[string, string] | null>(null)
 const query = ref<Omit<PriceTrendQueryDTO, 'startTime' | 'endTime'>>({
   itemId: undefined,
   granularity: 'DAY',
+})
+
+const { selectedItem } = usePriceItemStore()
+
+watch(selectedItem, (item) => {
+  if (item) {
+    query.value.itemId = item.itemId
+    if (dateRange.value) fetchTrend()
+  }
 })
 
 async function fetchTrend() {
@@ -130,6 +142,13 @@ const chartOption = computed(() => {
 .trend-chart {
   width: 100%;
   height: 440px;
+}
+
+.empty-hint {
+  text-align: center;
+  color: var(--vercel-mute);
+  font-size: 14px;
+  padding: 48px 0;
 }
 
 @media (max-width: 760px) {

@@ -8,7 +8,8 @@ import type {
     PriceLatestQueryDTO,
     PriceTrendQueryDTO,
     PriceCompareLocationDTO,
-    PriceCompareSourceDTO
+    PriceCompareSourceDTO,
+    PriceItemSearchDTO
 } from '@/types/modules/price.type';
 import type { Result } from '@/types';
 
@@ -42,5 +43,12 @@ export const priceApi = {
      */
     compareSource(data: PriceCompareSourceDTO): Promise<Result<SourceCompareVO[]>> {
         return request.post(`${PRICE_BASE_URL}/compare/source`, data);
-    }
+    },
+
+    /**
+     * 5. 搜索物品（按名称模糊匹配）
+     */
+    searchItems(data: PriceItemSearchDTO): Promise<Result<PriceItemVO[]>> {
+        return request.get(`${PRICE_BASE_URL}/item/search`, { params: data });
+    },
 };

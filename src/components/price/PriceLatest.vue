@@ -1,20 +1,100 @@
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue'
+import { priceApi } from '@/api/modules/price.api'
+import {
+  EXAMPLE_PRICE_LATEST,
+  PRICE_LOCATION_OPTIONS,
+  PRICE_CURRENCY_OPTIONS
+} from '@/constant'
+import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import type { PriceLatestVO, Currency, PriceLatestQueryDTO } from '@/types/modules/price.type'
+
+const loading = ref(false)
+const latestItem = ref<PriceLatestVO>(EXAMPLE_PRICE_LATEST)
+
+const query = ref<PriceLatestQueryDTO>({
+  itemId: undefined as number | undefined,
+  locationId: undefined as number | undefined,
+  currency: 'CNY' as Currency | undefined,
+})
+
+const { selectedItem } = usePriceItemStore()
+
+watch(selectedItem, (item) => {
+  if (item) {
+    query.value.itemId = item.itemId
+    fetchLatest()
+  }
+})
+
+async function fetchLatest() {
+  loading.value = true
+  try {
+    const res = await priceApi.getLatest({ ...query.value })
+    latestItem.value = res.data
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+const gaugeOption = computed(() => {
+  const c = latestItem.value.confidence
+  return {
+    series: [
+      {
+        type: 'pie' as const,
+        radius: ['58%', '78%'],
+        center: ['50%', '50%'],
+        silent: true,
+        label: {
+          show: true, position: 'center' as const,
+          formatter: () => `{big|${c.toFixed(1)}%}\n{small|可信度}`,
+          rich: {
+            big: { fontSize: 22, fontWeight: 600, color: 'var(--vercel-ink)', lineHeight: 28 },
+            small: { fontSize: 12, color: 'var(--vercel-mute)', lineHeight: 20 },
+          },
+        },
+        data: [
+          { value: c, name: '可信度', itemStyle: { color: c >= 90 ? '#30d158' : c >= 80 ? '#f5a623' : '#ee0000' } },
+          { value: 100 - c, name: '', itemStyle: { color: 'var(--vercel-hairline)' }, label: { show: false } },
+        ],
+      },
+      {
+        type: 'pie' as const,
+        radius: ['52%', '55%'],
+        center: ['50%', '50%'],
+        silent: true,
+        label: { show: false },
+        data: Array.from({ length: 40 }, (_, i) => ({
+          value: 1,
+          itemStyle: {
+            color: i < latestItem.value.reliabilityLevel * 8 ? 'var(--vercel-ink)' : 'var(--vercel-hairline)',
+            borderColor: 'var(--vercel-canvas)',
+            borderWidth: 1,
+          },
+        })),
+      },
+    ],
+  }
+})
+</script>
+
 <template>
   <div class="price-latest">
     <div class="latest-controls">
-      <el-select v-model="query.itemId" placeholder="选择物品" clearable size="default">
-        <el-option v-for="item in PRICE_ITEM_OPTIONS" :key="item.value" :label="item.label" :value="item.value" />
-      </el-select>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
+      <el-select v-model="query.locationId" placeholder="选择地区" clearable filterable size="default">
         <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
       </el-select>
       <el-select v-model="query.currency" placeholder="币种" size="default">
-        <el-option label="人民币 (CNY)" value="CNY" />
-        <el-option label="美元 (USD)" value="USD" />
+        <el-option v-for="currency in PRICE_CURRENCY_OPTIONS" :key="currency.value" :label="currency.label"
+          :value="currency.value" />
       </el-select>
       <el-button type="primary" :loading="loading" @click="fetchLatest" size="default">查询</el-button>
     </div>
 
-    <div class="latest-card">
+    <div class="latest-card" v-if="selectedItem">
       <div class="latest-card__left">
         <div class="latest-card__title">{{ latestItem.item.itemName }}</div>
         <div class="latest-card__meta">
@@ -35,67 +115,14 @@
         <v-chart :option="gaugeOption" :autoresize="true" class="gauge-chart" />
       </div>
     </div>
+
+    <div v-if="!selectedItem" class="empty-hint">
+      请先在「物品查询」中选择一个物品
+    </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, computed } from 'vue'
-import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_LATEST, PRICE_ITEM_OPTIONS, PRICE_LOCATION_OPTIONS } from '@/constant'
-import type { PriceLatestVO, Currency } from '@/types/modules/price.type'
 
-const loading = ref(false)
-const latestItem = ref<PriceLatestVO>(EXAMPLE_PRICE_LATEST)
-
-const query = ref({
-  itemId: undefined as number | undefined,
-  locationId: undefined as number | undefined,
-  currency: 'CNY' as Currency | undefined,
-})
-
-async function fetchLatest() {
-  loading.value = true
-  try {
-    const res = await priceApi.getLatest({ ...query.value })
-    latestItem.value = res.data
-  } finally { loading.value = false }
-}
-
-const gaugeOption = computed(() => {
-  const c = latestItem.value.confidence
-  return {
-    series: [
-      {
-        type: 'pie' as const, radius: ['58%', '78%'], center: ['50%', '50%'], silent: true,
-        label: {
-          show: true, position: 'center' as const,
-          formatter: () => `{big|${c.toFixed(1)}%}\n{small|可信度}`,
-          rich: {
-            big: { fontSize: 22, fontWeight: 600, color: 'var(--vercel-ink)', lineHeight: 28 },
-            small: { fontSize: 12, color: 'var(--vercel-mute)', lineHeight: 20 },
-          },
-        },
-        data: [
-          { value: c, name: '可信度', itemStyle: { color: c >= 90 ? '#30d158' : c >= 80 ? '#f5a623' : '#ee0000' } },
-          { value: 100 - c, name: '', itemStyle: { color: 'var(--vercel-hairline)' }, label: { show: false } },
-        ],
-      },
-      {
-        type: 'pie' as const, radius: ['52%', '55%'], center: ['50%', '50%'], silent: true,
-        label: { show: false },
-        data: Array.from({ length: 40 }, (_, i) => ({
-          value: 1,
-          itemStyle: {
-            color: i < latestItem.value.reliabilityLevel * 8 ? 'var(--vercel-ink)' : 'var(--vercel-hairline)',
-            borderColor: 'var(--vercel-canvas)',
-            borderWidth: 1,
-          },
-        })),
-      },
-    ],
-  }
-})
-</script>
 
 <style scoped lang="scss">
 .price-latest {
@@ -109,7 +136,9 @@ const gaugeOption = computed(() => {
   flex-wrap: wrap;
   align-items: center;
 
-  .el-select { width: 170px; }
+  .el-select {
+    width: 170px;
+  }
 }
 
 .latest-card {
@@ -123,7 +152,9 @@ const gaugeOption = computed(() => {
   padding: 28px 32px;
   box-shadow: var(--vercel-shadow-card);
 
-  &__left { flex: 1; }
+  &__left {
+    flex: 1;
+  }
 
   &__title {
     font-family: 'Inter', 'Geist', system-ui, sans-serif;
@@ -145,6 +176,7 @@ const gaugeOption = computed(() => {
 
   &__price {
     margin-bottom: 16px;
+
     .price-value {
       font-family: 'Inter', 'Geist', system-ui, sans-serif;
       font-size: 42px;
@@ -153,6 +185,7 @@ const gaugeOption = computed(() => {
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.04em;
     }
+
     .price-unit {
       font-size: 16px;
       color: var(--vercel-mute);
@@ -174,6 +207,13 @@ const gaugeOption = computed(() => {
   }
 }
 
+.empty-hint {
+  text-align: center;
+  color: var(--vercel-mute);
+  font-size: 14px;
+  padding: 48px 0;
+}
+
 .gauge-chart {
   width: 100%;
   height: 100%;
@@ -188,9 +228,18 @@ const gaugeOption = computed(() => {
     flex-direction: column;
     padding: 20px;
 
-    &__title { font-size: 18px; }
-    &__price .price-value { font-size: 32px; }
-    &__info { flex-wrap: wrap; gap: 12px; }
+    &__title {
+      font-size: 18px;
+    }
+
+    &__price .price-value {
+      font-size: 32px;
+    }
+
+    &__info {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
   }
 }
 </style>
