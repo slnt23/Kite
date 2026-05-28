@@ -2,7 +2,9 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { getCurrentUser, onAuthChange } from '../utils/auth.js'
-import { FRONT_MENU_ITEMS } from '@/constant'
+import {
+  FRONT_MENU_ITEMS
+} from '@/constant'
 import MenuPanel from '../components/site/MenuPanel.vue'
 import SiteFooter from '../components/site/SiteFooter.vue'
 import LoginDialog from '../components/site/LoginDialog.vue'
@@ -20,6 +22,8 @@ let removeAuthListener = () => { }
 let lastScrollY = 0
 let lastShiftPressAt = 0
 let pinnedHideTimer = 0
+let scrollRafPending = false
+let lastRefreshTs = 0
 
 const shiftDoublePressGap = 360
 const pinnedHeaderDuration = 5000
@@ -28,13 +32,9 @@ const isHome = computed(() => route.path === '/')
 const isChatRoute = computed(() => route.path === '/ai-ai')
 const showCompactHeader = computed(() => !isHome.value || isScrolled.value)
 const showFooter = computed(() => isHome.value)
-const menuItems = computed(() => FRONT_MENU_ITEMS)
+
 const accountRoute = computed(() => (currentUser.value ? '/profile' : '/login'))
 const accountLabel = computed(() => (currentUser.value ? '我的' : '登录'))
-// 音乐功能暂未实现，预留接口
-// const openMusic = computed(() => isScrolled.value)
-
-
 
 const clearPinnedHideTimer = () => {
   if (pinnedHideTimer) {
@@ -74,24 +74,30 @@ const hideHeader = () => {
 }
 
 const syncScrollState = () => {
-  const currentScrollY = window.scrollY
-  const scrollDelta = currentScrollY - lastScrollY
+  if (scrollRafPending) return
+  scrollRafPending = true
+  requestAnimationFrame(() => {
+    scrollRafPending = false
 
-  isScrolled.value = currentScrollY > window.innerHeight * 0.28
+    const currentScrollY = window.scrollY
+    const scrollDelta = currentScrollY - lastScrollY
 
-  if (isHeaderForcedHidden.value) {
-    isHeaderVisible.value = false
-  } else if (menuOpen.value || showLoginDialog.value || isHeaderPinned.value) {
-    isHeaderVisible.value = true
-  } else if (currentScrollY <= 24) {
-    isHeaderVisible.value = false
-  } else if (scrollDelta > scrollRevealThreshold) {
-    isHeaderVisible.value = false
-  } else if (scrollDelta < -scrollRevealThreshold) {
-    isHeaderVisible.value = true
-  }
+    isScrolled.value = currentScrollY > window.innerHeight * 0.28
 
-  lastScrollY = currentScrollY
+    if (isHeaderForcedHidden.value) {
+      isHeaderVisible.value = false
+    } else if (menuOpen.value || showLoginDialog.value || isHeaderPinned.value) {
+      isHeaderVisible.value = true
+    } else if (currentScrollY <= 24) {
+      isHeaderVisible.value = false
+    } else if (scrollDelta > scrollRevealThreshold) {
+      isHeaderVisible.value = false
+    } else if (scrollDelta < -scrollRevealThreshold) {
+      isHeaderVisible.value = true
+    }
+
+    lastScrollY = currentScrollY
+  })
 }
 
 const toggleMenu = () => {
@@ -124,26 +130,21 @@ const handleKeydown = (event) => {
 }
 
 const refreshPinnedHeader = () => {
-  if (!isHeaderPinned.value) {
-    return
-  }
-
+  if (!isHeaderPinned.value) return
+  const now = Date.now()
+  if (now - lastRefreshTs < 200) return
+  lastRefreshTs = now
   schedulePinnedHeaderHide()
 }
 
-// 登录成功后的处理
-// const handleLoginSuccess = () => {
-//   // 登录成功后，如果有待处理的路径，则进行跳转
-//   if (authState.pendingRoute) {
-//     const pendingRoute = authState.pendingRoute
-//     authState.closeLoginDialog()
-
-//     // 延迟跳转，确保登录状态已更新
-//     setTimeout(() => {
-//       window.location.href = pendingRoute
-//     }, 100)
-//   }
-// }
+const onOverlayOpenChange = (open) => {
+  if (open) {
+    isHeaderForcedHidden.value = false
+    isHeaderVisible.value = true
+    return
+  }
+  lastScrollY = window.scrollY
+}
 
 watch(
   () => route.path,
@@ -157,43 +158,9 @@ watch(
   },
 )
 
-watch(
-  () => menuOpen.value,
-  (open) => {
-    if (open) {
-      isHeaderForcedHidden.value = false
-      isHeaderVisible.value = true
-      return
-    }
+watch(() => menuOpen.value, onOverlayOpenChange)
 
-    lastScrollY = window.scrollY
-  },
-)
-
-watch(
-  () => showLoginDialog.value,
-  (open) => {
-    if (open) {
-      isHeaderForcedHidden.value = false
-      isHeaderVisible.value = true
-      return
-    }
-
-    lastScrollY = window.scrollY
-  },
-)
-
-// 监听全局状态变化
-// watch(() => authState.showLoginDialog, (newVal) => {
-//   showLoginDialog.value = newVal
-// })
-
-// // 监听本地弹窗状态变化，同步到全局状态
-// watch(showLoginDialog, (newVal) => {
-//   if (!newVal) {
-//     authState.closeLoginDialog()
-//   }
-// })
+watch(() => showLoginDialog.value, onOverlayOpenChange)
 
 onMounted(() => {
   lastScrollY = window.scrollY
@@ -205,7 +172,7 @@ onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   window.addEventListener('mousemove', refreshPinnedHeader, { passive: true })
   window.addEventListener('touchstart', refreshPinnedHeader, { passive: true })
-  window.addEventListener('click', refreshPinnedHeader, { passive: true })
+
 })
 
 onBeforeUnmount(() => {
@@ -215,7 +182,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('keydown', handleKeydown)
   window.removeEventListener('mousemove', refreshPinnedHeader)
   window.removeEventListener('touchstart', refreshPinnedHeader)
-  window.removeEventListener('click', refreshPinnedHeader)
+
 })
 </script>
 
@@ -253,7 +220,7 @@ onBeforeUnmount(() => {
 
     <SiteFooter v-if="showFooter" />
 
-    <MenuPanel :open="menuOpen" :items="menuItems" @close="closeMenu" />
+    <MenuPanel :open="menuOpen" :items="FRONT_MENU_ITEMS" @close="closeMenu" />
 
     <LoginDialog v-model="showLoginDialog" />
   </div>
