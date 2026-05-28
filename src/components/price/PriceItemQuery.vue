@@ -47,14 +47,8 @@ onBeforeUnmount(() => {
 <template>
   <div class="price-item-query">
     <div class="query-search-area">
-      <el-input
-        v-model="keyword"
-        placeholder="请输入物品名称"
-        clearable
-        size="default"
-        :prefix-icon="'Search'"
-        @keyup.enter="immediateSearch"
-      >
+      <el-input v-model="keyword" placeholder="请输入物品名称" clearable size="default" :prefix-icon="'Search'"
+        @keyup.enter="immediateSearch">
         <template #append>
           <el-button :loading="searchLoading" :icon="'Search'" @click="immediateSearch">查询</el-button>
         </template>
@@ -73,13 +67,8 @@ onBeforeUnmount(() => {
         </div>
 
         <div v-if="searchResults.length > 0 && !searchLoading" class="query-results">
-          <div
-            v-for="item in searchResults"
-            :key="item.itemId"
-            class="result-card"
-            :class="{ 'result-card--active': selectedItem?.itemId === item.itemId }"
-            @click="selectItem(item)"
-          >
+          <div v-for="item in searchResults" :key="item.itemId" class="result-card"
+            :class="{ 'result-card--active': selectedItem?.itemId === item.itemId }" @click="selectItem(item)">
             <div class="result-card__header">
               <span class="result-card__name">{{ item.itemName }}</span>
               <el-icon v-if="selectedItem?.itemId === item.itemId" class="result-card__check"><span>✓</span></el-icon>
@@ -128,6 +117,7 @@ onBeforeUnmount(() => {
 
 .query-search-area {
   margin-bottom: 20px;
+  // margin: 0 auto 20px;
   max-width: 680px;
 }
 

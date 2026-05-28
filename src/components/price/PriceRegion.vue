@@ -7,10 +7,10 @@ import type { PriceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const compareData = ref<PriceCompareVO>(EXAMPLE_PRICE_COMPARE)
-const query = ref({ itemId: undefined as number | undefined, locationId: undefined as number | undefined })
+const query = ref({ itemId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
 
-const { selectedItem } = usePriceItemStore()
+const { selectedItem, selectedLocationId } = usePriceItemStore()
 
 watch(selectedItem, (item) => {
   if (item) {
@@ -24,7 +24,7 @@ async function fetchCompare() {
   try {
     const res = await priceApi.compareLocation({
       itemId: query.value.itemId,
-      locationId: query.value.locationId,
+      locationId: selectedLocationId.value,
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })
     compareData.value = res.data
@@ -33,40 +33,59 @@ async function fetchCompare() {
 
 const chartOption = computed(() => {
   const list = [...compareData.value.compareList].sort((a, b) => Number(b.price) - Number(a.price))
-  const sources = list.map((s) => `${s.sourceName} (Lv${s.reliabilityLevel})`)
   const prices = list.map((s) => Number(s.price))
-  const confidences = list.map((s) => s.confidence)
+  const minPrice = Math.min(...prices)
+  const maxPrice = Math.max(...prices)
+
+  const mapData = list.map((s) => ({
+    name: s.sourceName,
+    value: Number(s.price),
+    confidence: s.confidence,
+    reliability: s.reliabilityLevel,
+  }))
 
   return {
     title: {
-      text: `${compareData.value.item.itemName} · ${compareData.value.locationName}`,
-      subtext: '各来源价格对比',
+      text: `${compareData.value.item.itemName} · 全国价格分布`,
+      subtext: `数据时间: ${targetTime.value ? new Date(targetTime.value).toLocaleString('zh-CN') : '最新'}`,
       left: 'center',
       textStyle: { color: '#171717' },
     },
     tooltip: {
-      trigger: 'axis' as const,
-      axisPointer: { type: 'shadow' as const },
-      formatter: (params: any[]) => {
-        const i = params[0].dataIndex
-        return `${sources[i]}<br/>价格: ¥${prices[i].toFixed(2)}<br/>可信度: ${confidences[i]}%`
+      trigger: 'item' as const,
+      formatter: (params: any) => {
+        if (!params.data) return ''
+        const d = params.data
+        return `<b>${d.name}</b><br/>价格: ¥${d.value?.toFixed(2) ?? '-'}<br/>可信度: ${d.confidence ?? '-'}%<br/>可靠性: Lv${d.reliability ?? '-'}`
       },
     },
-    grid: { left: 155, right: 55, top: 60, bottom: 30 },
-    xAxis: { type: 'value' as const, name: '价格 (¥)', axisLabel: { formatter: '¥{value}', color: '#888888' } },
-    yAxis: { type: 'category' as const, data: sources },
+    visualMap: {
+      min: minPrice,
+      max: maxPrice,
+      left: 'left',
+      bottom: 20,
+      calculable: true,
+      inRange: { color: ['#e0f3db', '#a8ddb5', '#43a2ca', '#0868ac'] },
+      text: ['高', '低'],
+      formatter: (value: number) => `¥${value.toFixed(0)}`,
+    },
     series: [{
-      name: '价格', type: 'bar' as const,
-      data: prices.map((price, i) => ({
-        value: price,
-        itemStyle: {
-          color: confidences[i] >= 90 ? '#30d158' : confidences[i] >= 80 ? '#f5a623' : '#ee0000',
-          borderRadius: [0, 4, 4, 0],
-        },
-      })),
-      label: { show: true, position: 'right' as const, formatter: (p: any) => `¥${Number(p.value).toFixed(2)}` },
+      type: 'map' as const,
+      map: 'china',
+      roam: true,
+      zoom: 1.2,
+      center: [104.5, 38],
+      label: {
+        show: true,
+        color: '#4d4d4d',
+        fontSize: 10,
+      },
+      emphasis: {
+        label: { show: true, fontSize: 14, fontWeight: 'bold' as const },
+        itemStyle: { areaColor: '#fbb03b' },
+      },
+      data: mapData,
     }],
-    toolbox: { feature: { saveAsImage: { title: '保存' } }, right: 10 },
   }
 })
 </script>
@@ -75,7 +94,7 @@ const chartOption = computed(() => {
   <div class="price-region">
     <div class="region-controls">
       <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+      <el-select v-model="selectedLocationId" placeholder="选择地区" clearable size="default">
         <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
       </el-select>
       <el-date-picker v-model="targetTime" type="datetime" placeholder="对比时间点" value-format="YYYY-MM-DDTHH:mm:ss"
@@ -121,7 +140,7 @@ const chartOption = computed(() => {
 
 .region-chart {
   width: 100%;
-  height: 440px;
+  height: 560px;
 }
 
 .empty-hint {
@@ -137,7 +156,7 @@ const chartOption = computed(() => {
   }
 
   .region-chart {
-    height: 340px;
+    height: 400px;
   }
 }
 </style>

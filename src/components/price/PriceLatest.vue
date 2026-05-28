@@ -14,11 +14,10 @@ const latestItem = ref<PriceLatestVO>(EXAMPLE_PRICE_LATEST)
 
 const query = ref<PriceLatestQueryDTO>({
   itemId: undefined as number | undefined,
-  locationId: undefined as number | undefined,
   currency: 'CNY' as Currency | undefined,
 })
 
-const { selectedItem } = usePriceItemStore()
+const { selectedItem, selectedLocationId } = usePriceItemStore()
 
 watch(selectedItem, (item) => {
   if (item) {
@@ -30,7 +29,7 @@ watch(selectedItem, (item) => {
 async function fetchLatest() {
   loading.value = true
   try {
-    const res = await priceApi.getLatest({ ...query.value })
+    const res = await priceApi.getLatest({ ...query.value, locationId: selectedLocationId.value })
     latestItem.value = res.data
   }
   finally {
@@ -84,7 +83,7 @@ const gaugeOption = computed(() => {
   <div class="price-latest">
     <div class="latest-controls">
       <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable filterable size="default">
+      <el-select v-model="selectedLocationId" placeholder="选择地区" clearable filterable size="default">
         <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
       </el-select>
       <el-select v-model="query.currency" placeholder="币种" size="default">

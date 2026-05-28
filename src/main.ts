@@ -6,9 +6,9 @@ import 'element-plus/dist/index.css'
 import './style/index.scss'
 import { createPinia } from "pinia";
 import VChart from 'vue-echarts';
-import { use } from 'echarts/core';
+import { use, registerMap } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
-import { BarChart, LineChart, PieChart, RadarChart } from 'echarts/charts';
+import { BarChart, LineChart, PieChart, RadarChart, MapChart, ScatterChart } from 'echarts/charts';
 import {
     TitleComponent,
     TooltipComponent,
@@ -19,7 +19,10 @@ import {
     MarkPointComponent,
     ToolboxComponent,
     RadarComponent,
+    GeoComponent,
+    VisualMapComponent,
 } from 'echarts/components';
+import chinaGeo from 'china-geojson'
 
 // 注册 echarts 组件
 use([
@@ -28,6 +31,8 @@ use([
     LineChart,
     PieChart,
     RadarChart,
+    MapChart,
+    ScatterChart,
     TitleComponent,
     TooltipComponent,
     LegendComponent,
@@ -37,7 +42,12 @@ use([
     MarkPointComponent,
     ToolboxComponent,
     RadarComponent,
+    GeoComponent,
+    VisualMapComponent,
 ]);
+
+// 注册中国地图
+registerMap('china', chinaGeo.China as any)
 
 const app = createApp(App)
 const pinia = createPinia()

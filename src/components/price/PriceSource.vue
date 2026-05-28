@@ -7,10 +7,10 @@ import type { SourceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const sourceData = ref<SourceCompareVO[]>(EXAMPLE_PRICE_SOURCE_COMPARE)
-const query = ref({ itemId: undefined as number | undefined, locationId: undefined as number | undefined })
+const query = ref({ itemId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
 
-const { selectedItem } = usePriceItemStore()
+const { selectedItem, selectedLocationId } = usePriceItemStore()
 
 watch(selectedItem, (item) => {
   if (item) {
@@ -24,7 +24,7 @@ async function fetchSourceCompare() {
   try {
     const res = await priceApi.compareSource({
       itemId: query.value.itemId,
-      locationId: query.value.locationId,
+      locationId: selectedLocationId.value,
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })
     sourceData.value = res.data ?? []
@@ -32,7 +32,7 @@ async function fetchSourceCompare() {
 }
 
 const barOption = computed(() => {
-  const sorted = [...sourceData.value].sort((a, b) => Number(b.price) - Number(a.price))
+  const sorted = [...sourceData.value].sort((a, b) => Number(a.price) - Number(b.price))
   const names = sorted.map((s) => s.sourceName)
   const prices = sorted.map((s) => Number(s.price))
   const confidences = sorted.map((s) => s.confidence)
@@ -47,9 +47,20 @@ const barOption = computed(() => {
         return `${names[i]}<br/>价格: ¥${prices[i].toFixed(2)}<br/>可靠等级: Lv${reliabilities[i]}<br/>可信度: ${confidences[i]}%`
       },
     },
-    grid: { left: 130, right: 55, top: 40, bottom: 30 },
+    grid: { left: 130, right: 55, top: 40, bottom: 50 },
     xAxis: { type: 'value' as const, name: '价格 (¥)', axisLabel: { formatter: '¥{value}', color: '#888888' } },
-    yAxis: { type: 'category' as const, data: names },
+    yAxis: {
+      type: 'category' as const,
+      data: names,
+      axisLabel: { color: '#4d4d4d' },
+    },
+    dataZoom: [{
+      type: 'slider' as const,
+      yAxisIndex: 0,
+      left: 0,
+      width: 16,
+      show: names.length > 10,
+    }],
     series: [{
       type: 'bar' as const,
       data: prices.map((price, i) => ({
@@ -71,27 +82,60 @@ const barOption = computed(() => {
   }
 })
 
-const radarOption = computed(() => {
-  const maxPrice = Math.max(...sourceData.value.map((s) => Number(s.price)))
+const bubbleOption = computed(() => {
+  const maxReliability = Math.max(...sourceData.value.map((s) => s.reliabilityLevel), 1)
+
   return {
-    title: { text: '来源可信度雷达', left: 'center', textStyle: { color: '#171717' } },
-    tooltip: {},
-    legend: { bottom: 0, type: 'scroll' as const, textStyle: { color: '#4d4d4d' } },
-    radar: {
-      indicator: [
-        { name: '价格指数', max: 100 },
-        { name: '可信度', max: 100 },
-        { name: '可靠等级', max: 5 },
-      ],
-      center: ['50%', '50%'], radius: '60%',
+    title: { text: '价格 × 可信度', left: 'center', textStyle: { color: '#171717' } },
+    tooltip: {
+      trigger: 'item' as const,
+      formatter: (params: any) => {
+        const d = params.data
+        return `<b>${d[3]}</b><br/>价格: ¥${Number(d[0]).toFixed(2)}<br/>可信度: ${d[1]}%<br/>可靠等级: Lv${d[2]}`
+      },
+    },
+    grid: { left: 60, right: 30, top: 40, bottom: 40 },
+    xAxis: {
+      type: 'value' as const,
+      name: '价格 (¥)',
+      axisLabel: { formatter: '¥{value}', color: '#888888' },
+    },
+    yAxis: {
+      type: 'value' as const,
+      name: '可信度 (%)',
+      min: 60,
+      max: 100,
+      axisLabel: { formatter: '{value}%', color: '#888888' },
     },
     series: [{
-      type: 'radar' as const,
-      data: sourceData.value.map((s) => ({
-        name: s.sourceName,
-        value: [Math.round((Number(s.price) / maxPrice) * 100), s.confidence, s.reliabilityLevel],
-      })),
+      type: 'scatter' as const,
+      symbolSize: (data: number[]) => Math.max(12, (data[2] / maxReliability) * 48),
+      data: sourceData.value.map((s) => [
+        Number(s.price),
+        s.confidence,
+        s.reliabilityLevel,
+        s.sourceName,
+      ]),
+      itemStyle: {
+        color: (params: any) => {
+          const conf = params.data?.[1] ?? 0
+          return conf >= 90 ? '#30d158' : conf >= 80 ? '#f5a623' : '#ee0000'
+        },
+        opacity: 0.75,
+      },
+      label: {
+        show: true,
+        formatter: (params: any) => params.data?.[3] ?? '',
+        position: 'right' as const,
+        fontSize: 11,
+        color: '#4d4d4d',
+      },
+      emphasis: {
+        scale: 1.5,
+        itemStyle: { opacity: 1 },
+      },
     }],
+    toolbox: { feature: { saveAsImage: { title: '保存' } }, right: 10 },
   }
 })
 </script>
@@ -100,7 +144,7 @@ const radarOption = computed(() => {
   <div class="price-source">
     <div class="source-controls">
       <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
-      <el-select v-model="query.locationId" placeholder="选择地区" clearable size="default">
+      <el-select v-model="selectedLocationId" placeholder="选择地区" clearable size="default">
         <el-option v-for="loc in PRICE_LOCATION_OPTIONS" :key="loc.value" :label="loc.label" :value="loc.value" />
       </el-select>
       <el-date-picker v-model="targetTime" type="datetime" placeholder="对比时间点" value-format="YYYY-MM-DDTHH:mm:ss"
@@ -113,7 +157,7 @@ const radarOption = computed(() => {
         <v-chart :option="barOption" :autoresize="true" class="source-chart" />
       </div>
       <div class="source-panel">
-        <v-chart :option="radarOption" :autoresize="true" class="source-chart" />
+        <v-chart :option="bubbleOption" :autoresize="true" class="source-chart" />
       </div>
     </div>
 

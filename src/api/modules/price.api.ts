@@ -47,6 +47,8 @@ export const priceApi = {
 
     /**
      * 5. 搜索物品（按名称模糊匹配）
+     * @param {PriceItemSearchDTO} data - 物品搜索参数，包含关键词等条件
+     * @returns {Promise<Result<PriceItemVO[]>>} - 返回物品列表
      */
     searchItems(data: PriceItemSearchDTO): Promise<Result<PriceItemVO[]>> {
         return request.get(`${PRICE_BASE_URL}/item/search`, { params: data });

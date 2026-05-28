@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_TREND_LIST } from '@/constant'
+import {
+  EXAMPLE_PRICE_TREND_LIST, // 可删除，示例数据
+  PRICE_GRANULARITY_OPTIONS
+} from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceTrendVO, PriceTrendQueryDTO } from '@/types/modules/price.type'
 
@@ -33,15 +36,63 @@ async function fetchTrend() {
       endTime: dateRange.value[1],
     })
     trendData.value = res.data ?? []
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
+}
+
+// 根据时间粒度获取轴标签和 X 轴最小刻度间隔
+function getAxisTimeConfig(granularity: string): {
+  minInterval: number | undefined
+  format: (value: number) => string
+} {
+  const fmt = new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: granularity === 'YEAR' ? undefined : '2-digit',
+    day: granularity === 'YEAR' || granularity === 'MONTH' ? undefined : '2-digit',
+    hour: granularity === 'HOUR' ? '2-digit' : undefined,
+    minute: granularity === 'HOUR' ? '2-digit' : undefined,
+  })
+
+  let minInterval: number | undefined
+  switch (granularity) {
+    case 'HOUR':
+      minInterval = 3600 * 1000
+      break
+    case 'DAY':
+      minInterval = 86400 * 1000
+      break
+    case 'WEEK':
+      minInterval = 7 * 86400 * 1000
+      break
+    case 'MONTH':
+      minInterval = 28 * 86400 * 1000
+      break
+    case 'YEAR':
+      minInterval = 365 * 86400 * 1000
+      break
+  }
+
+  let lastLabel = ''
+  const format = (value: number): string => {
+    const label = fmt.format(new Date(value))
+    if (label === lastLabel) return ''
+    lastLabel = label
+    return label
+  }
+
+  return { minInterval, format }
 }
 
 const chartOption = computed(() => {
+  const granularity = query.value.granularity
+  const axisCfg = getAxisTimeConfig(granularity)
   const seriesList = trendData.value.map((vo) => ({
     name: `${vo.item.itemName} · ${vo.locationName}`,
     type: 'line' as const,
     smooth: true,
-    symbol: 'circle', symbolSize: 4,
+    symbol: granularity === 'HOUR' ? 'circle' : 'none',
+    symbolSize: 4,
     data: vo.trend.map((p) => [p.time, Number(p.price)]),
     markLine: {
       silent: true,
@@ -61,13 +112,28 @@ const chartOption = computed(() => {
     tooltip: {
       trigger: 'axis' as const,
       formatter: (params: any[]) =>
-        params.map((p) => `${p.marker} ${p.seriesName}<br/>时间: ${p.axisValue}<br/>价格: ¥${Number(p.value[1]).toFixed(2)}`).join('<br/>'),
+        params.map((p) => {
+          const timeStr = new Date(p.axisValue).toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: granularity === 'YEAR' ? undefined : '2-digit',
+            day: granularity === 'YEAR' || granularity === 'MONTH' ? undefined : '2-digit',
+            hour: granularity === 'HOUR' ? '2-digit' : undefined,
+            minute: granularity === 'HOUR' ? '2-digit' : undefined,
+          })
+          return `${p.marker} ${p.seriesName}<br/>时间: ${timeStr}<br/>价格: ¥${Number(p.value[1]).toFixed(2)}`
+        }).join('<br/>'),
     },
     legend: { top: 0, type: 'scroll' as const, textStyle: { color: '#4d4d4d' } },
     grid: { left: 55, right: 25, top: 40, bottom: 60 },
     xAxis: {
-      type: 'time' as const, name: '时间',
-      axisLabel: { formatter: '{yyyy}-{MM}-{dd}\n{HH}:{mm}', color: '#888888' },
+      type: 'time' as const,
+      name: '时间',
+      minInterval: axisCfg.minInterval,
+      axisLabel: {
+        formatter: axisCfg.format,
+        color: '#888888',
+        rotate: granularity === 'HOUR' ? 45 : 0,
+      },
     },
     yAxis: {
       type: 'value' as const, name: '价格 (¥)',
@@ -86,12 +152,12 @@ const chartOption = computed(() => {
 <template>
   <div class="price-trend">
     <div class="trend-controls">
-      <el-tag v-if="selectedItem" type="info" size="default">当前物品: {{ selectedItem.itemName }}</el-tag>
+      <el-tag v-if="selectedItem" type="info" size="default">
+        当前物品: {{ selectedItem.itemName }}
+      </el-tag>
       <el-select v-model="query.granularity" placeholder="时间粒度" size="default">
-        <el-option label="按小时" value="HOUR" />
-        <el-option label="按天" value="DAY" />
-        <el-option label="按周" value="WEEK" />
-        <el-option label="按月" value="MONTH" />
+        <el-option v-for="option in PRICE_GRANULARITY_OPTIONS" :key="option.value" :label="option.label"
+          :value="option.value" />
       </el-select>
       <el-date-picker v-model="dateRange" type="datetimerange" range-separator="至" start-placeholder="开始时间"
         end-placeholder="结束时间" value-format="YYYY-MM-DDTHH:mm:ss" size="default" />

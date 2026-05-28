@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { PRICE_TAB_COMPONENT_MAP } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import PriceNavigator from '@/components/price/PriceNavigator.vue'
-import PriceItemQuery from '@/components/price/PriceItemQuery.vue'
-import PriceLatest from '@/components/price/PriceLatest.vue'
-import PriceTrend from '@/components/price/PriceTrend.vue'
-import PriceRegion from '@/components/price/PriceRegion.vue'
-import PriceSource from '@/components/price/PriceSource.vue'
 
 const activeNav = ref('0')
 const handleNavigate = (index: string) => { activeNav.value = index }
@@ -21,11 +17,9 @@ usePriceItemStore()
       <PriceNavigator @navigate="handleNavigate" />
     </aside>
     <main class="price-content">
-      <PriceItemQuery v-if="activeNav === '0'" />
-      <PriceLatest v-else-if="activeNav === '1'" />
-      <PriceTrend v-else-if="activeNav === '2'" />
-      <PriceRegion v-else-if="activeNav === '3'" />
-      <PriceSource v-else-if="activeNav === '4'" />
+      <KeepAlive>
+        <component :is="PRICE_TAB_COMPONENT_MAP[activeNav]" />
+      </KeepAlive>
     </main>
   </div>
 </template>
