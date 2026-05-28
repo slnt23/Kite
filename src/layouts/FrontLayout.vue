@@ -230,6 +230,7 @@ onBeforeUnmount(() => {
         <strong>
           <img class="site-brand__logo" src="../assets/example/brand_home_header.png" alt="主页" />
         </strong>
+        <span class="site-brand__name">主页中心</span>
       </RouterLink>
 
       <div class="site-header__actions">
