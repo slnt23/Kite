@@ -2,7 +2,6 @@
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
 import {
-  EXAMPLE_PRICE_LATEST,
   PRICE_LOCATION_OPTIONS,
   PRICE_CURRENCY_OPTIONS
 } from '@/constant'
@@ -10,7 +9,7 @@ import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceLatestVO, Currency, PriceLatestQueryDTO } from '@/types/modules/price.type'
 
 const loading = ref(false)
-const latestItem = ref<PriceLatestVO>(EXAMPLE_PRICE_LATEST)
+const latestItem = ref<PriceLatestVO | null>(null)
 
 const query = ref<PriceLatestQueryDTO>({
   itemId: undefined as number | undefined,
@@ -38,7 +37,7 @@ async function fetchLatest() {
 }
 
 const gaugeOption = computed(() => {
-  const c = latestItem.value.confidence
+  const c = latestItem.value?.confidence ?? 0
   return {
     series: [
       {
@@ -68,7 +67,7 @@ const gaugeOption = computed(() => {
         data: Array.from({ length: 40 }, (_, i) => ({
           value: 1,
           itemStyle: {
-            color: i < latestItem.value.reliabilityLevel * 8 ? 'var(--vercel-ink)' : 'var(--vercel-hairline)',
+            color: i < (latestItem.value?.reliabilityLevel ?? 0) * 8 ? 'var(--vercel-ink)' : 'var(--vercel-hairline)',
             borderColor: 'var(--vercel-canvas)',
             borderWidth: 1,
           },
@@ -93,7 +92,7 @@ const gaugeOption = computed(() => {
       <el-button type="primary" :loading="loading" @click="fetchLatest" size="default">查询</el-button>
     </div>
 
-    <div class="latest-card" v-if="selectedItem">
+    <div class="latest-card" v-if="selectedItem && latestItem">
       <div class="latest-card__left">
         <div class="latest-card__title">{{ latestItem.item.itemName }}</div>
         <div class="latest-card__meta">

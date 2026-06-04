@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_SOURCE_COMPARE, PRICE_LOCATION_OPTIONS } from '@/constant'
+import { PRICE_LOCATION_OPTIONS } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { SourceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
-const sourceData = ref<SourceCompareVO[]>(EXAMPLE_PRICE_SOURCE_COMPARE)
+const sourceData = ref<SourceCompareVO[]>([])
 const query = ref({ itemId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
 

@@ -3,49 +3,83 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import ChatSidebar from '@/components/ai/ChatSidebar.vue'
 import ChatStream from '@/components/ai/ChatStream.vue'
 import ChatComposer from '@/components/ai/ChatComposer.vue'
+import { type AiMessage, type AiConversation } from '@/constant'
+// import {
+//   AI_MOCK_CONVERSATIONS,
+//   AI_MOCK_MESSAGE_MAP,
+//   AI_NEW_CONVERSATION_WELCOME,
+//   buildMockReply,
+// } from '@/constant'
 import {
-  type AiMessage,
-  type AiConversation,
-  AI_MOCK_CONVERSATIONS,
-  AI_MOCK_MESSAGE_MAP,
-  AI_NEW_CONVERSATION_WELCOME,
-  buildMockReply,
-} from '@/constant'
+  sendChatApi,
+  createConversationApi,
+  listConversationsApi,
+  getMessagesApi,
+  deleteConversationApi,
+} from '@/api/modules/ai.api'
+import type { ConversationVO, MessageVO } from '@/types'
 
 const inputValue = ref('')
 const isTyping = ref(false)
-const activeConversationId = ref('1')
-
-const conversations = ref<AiConversation[]>([...AI_MOCK_CONVERSATIONS])
-
-const messageMap = ref<Record<string, AiMessage[]>>({ ...AI_MOCK_MESSAGE_MAP })
+const activeConversationId = ref('')
+const conversations = ref<AiConversation[]>([])
+const messageMap = ref<Record<string, AiMessage[]>>({})
 
 const activeMessages = computed(() => messageMap.value[activeConversationId.value] || [])
 
-const createConversation = () => {
-  const id = String(Date.now())
-  const item: AiConversation = {
-    id,
-    title: '新会话',
-    preview: '开始新的对话...',
-    timestamp: new Date(),
-  }
+const mapConversation = (vo: ConversationVO): AiConversation => ({
+  id: vo.id,
+  title: vo.title,
+  preview: '',
+  timestamp: new Date(vo.updatedAt),
+})
 
-  conversations.value = [item, ...conversations.value]
-  messageMap.value[id] = [
-    {
-      id: `${id}-init`,
-      role: 'assistant',
-      content: AI_NEW_CONVERSATION_WELCOME,
-      timestamp: new Date(),
-    },
-  ]
-  activeConversationId.value = id
+const mapMessage = (vo: MessageVO): AiMessage => ({
+  id: String(vo.id),
+  role: vo.role === 'system' ? 'assistant' : vo.role,
+  content: vo.content,
+  timestamp: new Date(vo.createdAt),
+})
+
+const loadConversations = async () => {
+  try {
+    const res = await listConversationsApi()
+    conversations.value = (res.data || [])
+      .map(mapConversation)
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+  } catch (e) {
+    console.error('加载会话列表失败:', e)
+  }
 }
 
-const sendMessage = () => {
+const loadMessages = async (conversationId: string) => {
+  try {
+    const res = await getMessagesApi(conversationId)
+    messageMap.value[conversationId] = (res.data || []).map(mapMessage)
+  } catch (e) {
+    console.error('加载消息失败:', e)
+    messageMap.value[conversationId] = []
+  }
+}
+
+const createConversation = async () => {
+  try {
+    const now = new Date()
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const title = `${now.getMonth() + 1}月${now.getDate()}日 ${pad(now.getHours())}:${pad(now.getMinutes())}`
+    const res = await createConversationApi({ title })
+    const newId = res.data
+    await loadConversations()
+    activeConversationId.value = newId
+    messageMap.value[newId] = []
+  } catch (e) {
+    console.error('创建会话失败:', e)
+  }
+}
+
+const sendMessage = async () => {
   const text = inputValue.value.trim()
-  if (!text || isTyping.value) return
+  if (!text || isTyping.value || !activeConversationId.value) return
 
   const conversationId = activeConversationId.value
   const userMessage: AiMessage = {
@@ -59,30 +93,65 @@ const sendMessage = () => {
   conversations.value = conversations.value.map((item) =>
     item.id === conversationId
       ? {
-        ...item,
-        preview: text.length > 26 ? `${text.slice(0, 26)}...` : text,
-        timestamp: new Date(),
-      }
+          ...item,
+          preview: text.length > 26 ? `${text.slice(0, 26)}...` : text,
+          timestamp: new Date(),
+        }
       : item,
   )
 
   inputValue.value = ''
   isTyping.value = true
 
-  window.setTimeout(() => {
+  try {
+    const res = await sendChatApi({ conversationId, message: text })
     const aiMessage: AiMessage = {
       id: `${Date.now()}-a`,
       role: 'assistant',
-      content: buildMockReply(text),
+      content: res.data || '',
       timestamp: new Date(),
     }
     messageMap.value[conversationId] = [...(messageMap.value[conversationId] || []), aiMessage]
+  } catch (e) {
+    console.error('发送消息失败:', e)
+  } finally {
     isTyping.value = false
-  }, 900)
+  }
+}
+
+const selectConversation = (id: string) => {
+  activeConversationId.value = id
+  if (!messageMap.value[id]) {
+    loadMessages(id)
+  }
+}
+
+const loadHistory = () => {
+  if (activeConversationId.value) {
+    loadMessages(activeConversationId.value)
+  }
+}
+
+const deleteConversation = async (id: string) => {
+  try {
+    await deleteConversationApi(id)
+    delete messageMap.value[id]
+    if (activeConversationId.value === id) {
+      activeConversationId.value = ''
+    }
+    await loadConversations()
+  } catch (e) {
+    console.error('删除会话失败:', e)
+  }
 }
 
 onMounted(() => {
   document.body.classList.add('body-ai-lock')
+  loadConversations().then(() => {
+    if (conversations.value.length > 0 && !activeConversationId.value) {
+      selectConversation(conversations.value[0].id)
+    }
+  })
 })
 
 onBeforeUnmount(() => {
@@ -93,12 +162,22 @@ onBeforeUnmount(() => {
 <template>
   <div class="chat-page">
     <section class="chat-workspace">
-      <ChatSidebar :conversations="conversations" :active-conversation-id="activeConversationId"
-        @create="createConversation" @select="activeConversationId = $event" />
+      <ChatSidebar
+        :conversations="conversations"
+        :active-conversation-id="activeConversationId"
+        @create="createConversation"
+        @select="selectConversation"
+        @delete="deleteConversation"
+      />
 
-      <div class="chat-workspace__main">
+      <div v-if="!activeConversationId" class="chat-workspace__empty">
+        <p>选择或创建一个会话开始聊天</p>
+      </div>
+
+      <div v-else class="chat-workspace__main">
         <div class="chat-workspace__title">
-          {{conversations.find((item) => item.id === activeConversationId)?.title || '新会话'}}
+          <span>{{ conversations.find((item) => item.id === activeConversationId)?.title || '新会话' }}</span>
+          <button type="button" class="chat-workspace__load-history" title="加载历史消息" @click="loadHistory">↑</button>
         </div>
 
         <div class="chat-workspace__messages u-scrollbar-hidden">
@@ -106,7 +185,11 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="chat-workspace__composer">
-          <ChatComposer v-model="inputValue" :disabled="!inputValue.trim() || isTyping" @send="sendMessage" />
+          <ChatComposer
+            v-model="inputValue"
+            :disabled="!inputValue.trim() || isTyping"
+            @send="sendMessage"
+          />
         </div>
       </div>
     </section>
@@ -143,6 +226,9 @@ onBeforeUnmount(() => {
 }
 
 .chat-workspace__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 14px 18px;
   border-bottom: 1px solid #e6dfd8;
   /* {colors.hairline} */
@@ -152,6 +238,36 @@ onBeforeUnmount(() => {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
+}
+
+.chat-workspace__load-history {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e6dfd8;
+  border-radius: 8px;
+  background: #faf9f5;
+  color: #6c6a64;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.chat-workspace__load-history:hover {
+  background: #e6dfd8;
+  color: #141413;
+}
+
+.chat-workspace__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  border-left: 1px solid #e6dfd8;
+  color: #8e8b82;
+  font-size: 15px;
 }
 
 .chat-workspace__messages {

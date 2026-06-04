@@ -2,14 +2,13 @@
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
 import {
-  EXAMPLE_PRICE_TREND_LIST, // 可删除，示例数据
   PRICE_GRANULARITY_OPTIONS
 } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceTrendVO, PriceTrendQueryDTO } from '@/types/modules/price.type'
 
 const loading = ref(false)
-const trendData = ref<PriceTrendVO[]>(EXAMPLE_PRICE_TREND_LIST)
+const trendData = ref<PriceTrendVO[]>([])
 const dateRange = ref<[string, string] | null>(null)
 
 const query = ref<Omit<PriceTrendQueryDTO, 'startTime' | 'endTime'>>({

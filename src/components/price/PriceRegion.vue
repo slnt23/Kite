@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
 import { priceApi } from '@/api/modules/price.api'
-import { EXAMPLE_PRICE_COMPARE, PRICE_LOCATION_OPTIONS } from '@/constant'
+import { PRICE_LOCATION_OPTIONS } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
 import type { PriceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
-const compareData = ref<PriceCompareVO>(EXAMPLE_PRICE_COMPARE)
+const compareData = ref<PriceCompareVO | null>(null)
 const query = ref({ itemId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
 
@@ -32,6 +32,8 @@ async function fetchCompare() {
 }
 
 const chartOption = computed(() => {
+  if (!compareData.value) return {}
+
   const list = [...compareData.value.compareList].sort((a, b) => Number(b.price) - Number(a.price))
   const prices = list.map((s) => Number(s.price))
   const minPrice = Math.min(...prices)
@@ -102,7 +104,7 @@ const chartOption = computed(() => {
       <el-button type="primary" :loading="loading" @click="fetchCompare" size="default">查询</el-button>
     </div>
 
-    <div class="region-card" v-if="selectedItem">
+    <div class="region-card" v-if="selectedItem && compareData">
       <v-chart :option="chartOption" :autoresize="true" class="region-chart" />
     </div>
 

@@ -4,16 +4,14 @@ import type {
     PriceTrendVO,
     PriceCompareVO,
     SourceCompareVO,
-    PriceItemVO,
     PriceLatestQueryDTO,
     PriceTrendQueryDTO,
     PriceCompareLocationDTO,
     PriceCompareSourceDTO,
-    PriceItemSearchDTO
 } from '@/types/modules/price.type';
 import type { Result } from '@/types';
 
-const PRICE_BASE_URL = '/api/price';   // 根据您的代理配置调整
+const PRICE_BASE_URL = '/price';
 
 export const priceApi = {
 
@@ -44,13 +42,19 @@ export const priceApi = {
     compareSource(data: PriceCompareSourceDTO): Promise<Result<SourceCompareVO[]>> {
         return request.post(`${PRICE_BASE_URL}/compare/source`, data);
     },
+};
+
+// ==================== 物品查询 ====================
+
+import type { ItemIntroDTO, ItemIntroVO } from '@/types/modules/price.type';
+import type { PageResult } from '@/types';
+
+export const itemApi = {
 
     /**
-     * 5. 搜索物品（按名称模糊匹配）
-     * @param {PriceItemSearchDTO} data - 物品搜索参数，包含关键词等条件
-     * @returns {Promise<Result<PriceItemVO[]>>} - 返回物品列表
+     * 搜索物品（分页查询，按名称模糊匹配）
      */
-    searchItems(data: PriceItemSearchDTO): Promise<Result<PriceItemVO[]>> {
-        return request.get(`${PRICE_BASE_URL}/item/search`, { params: data });
+    searchItems(data: ItemIntroDTO): Promise<Result<PageResult<ItemIntroVO>>> {
+        return request.post(`/item/page`, data);
     },
 };

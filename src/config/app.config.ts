@@ -11,8 +11,8 @@ export const appMeta = {
   ],
   hero: {
     eyebrow: 'Kite Studio',
-    headline: '面向长期扩展的个人网站架构',
-    subtitle: '个人品牌展示、内容发布、实验项目与后台管理，统一在一个 Vue 骨架中渐进生长。',
+    headline: '兴趣驱动的个人网点',
+    subtitle: '并发，模块化，Agent, AI，内容创作，长期演进',
     cta: '探索更多',
   },
 }

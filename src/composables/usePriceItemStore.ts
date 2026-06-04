@@ -1,13 +1,11 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { priceApi } from '@/api/modules/price.api'
-import { mockSearchItems } from '@/constant'
-import type { PriceItemVO } from '@/types'
+import { itemApi } from '@/api/modules/price.api'
+import type { ItemIntroVO } from '@/types'
 
-// 模块级单例状态（所有组件实例共享）
-const selectedItem = ref<PriceItemVO | null>(null)  // 当前选中的物品
-const selectedLocationId = ref<number | undefined>(undefined) // 当前选中的地区
-const searchResults = ref<PriceItemVO[]>([])         // 搜索结果列表
+const selectedItem = ref<ItemIntroVO | null>(null)
+const selectedLocationId = ref<number | undefined>(undefined)
+const searchResults = ref<ItemIntroVO[]>([])
 const searchLoading = ref(false)                     // 搜索加载状态
 
 /**
@@ -26,20 +24,17 @@ export function usePriceItemStore() {
         searchLoading.value = true      // 开始加载
         try {
             // 调用 API 搜索
-            const res = await priceApi.searchItems({ keyword: trimmed })
-            searchResults.value = res.data ?? []  // 保存结果（空值处理）
+            const res = await itemApi.searchItems({ itemName: trimmed })
+            searchResults.value = res.data?.records ?? []
         } catch {
-            // 模拟数据（API 失败时使用）
-            searchResults.value = mockSearchItems(trimmed)
-            // API 失败时提示用户
-            // ElMessage.error('请求搜索失败，请稍后再试')
+            ElMessage.error('搜索失败，请稍后再试')
         } finally {
             searchLoading.value = false  // 结束加载（无论成功失败）
         }
     }
 
     // 选中物品
-    function selectItem(item: PriceItemVO) {
+    function selectItem(item: ItemIntroVO) {
         selectedItem.value = item
     }
 

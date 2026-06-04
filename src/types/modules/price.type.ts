@@ -65,8 +65,8 @@ export interface BasePriceQueryDTO {
 }
 
 /** 物品搜索请求参数 */
-export interface PriceItemSearchDTO {
-    keyword: string
+export interface ItemIntroDTO {
+    itemName: string
 }
 
 export interface PriceLatestQueryDTO
@@ -103,7 +103,7 @@ export interface PriceCompareSourceDTO
 
 
 // 物品基础信息
-export interface PriceItemVO {
+export interface ItemIntroVO {
     // 物品ID
     itemId: number;
     // 物品名称
@@ -119,7 +119,7 @@ export interface PriceItemVO {
 // 最新价格视图对象
 export interface PriceLatestVO {
     // 物品基本信息
-    item: PriceItemVO;
+    item: ItemIntroVO;
     // 地点名称
     locationName: string;
     // 价格金额
@@ -149,7 +149,7 @@ export interface PriceTrendPointVO {
 // 价格趋势数据
 export interface PriceTrendVO {
     // 物品基本信息
-    item: PriceItemVO;
+    item: ItemIntroVO;
     // 地点名称
     locationName: string;
     // 价格趋势数据点列表（按时间升序）
@@ -171,7 +171,7 @@ export interface SourceCompareVO {
 // 多来源价格对比返回对象
 export interface PriceCompareVO {
     // 物品基本信息
-    item: PriceItemVO;
+    item: ItemIntroVO;
     // 地点名称
     locationName: string;
     // 多来源对比列表
