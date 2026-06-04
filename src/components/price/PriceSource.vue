@@ -16,8 +16,10 @@ watch(selectedItem, (item) => {
   if (item) {
     query.value.itemId = item.itemId
     fetchSourceCompare()
+  } else {
+    query.value.itemId = undefined
   }
-})
+}, { immediate: true })
 
 async function fetchSourceCompare() {
   loading.value = true

@@ -38,6 +38,7 @@ export const PRICE_TAB_COMPONENT_MAP: Record<string, any> = {
 
 
 // 示例地区数据，后期可以更改为从后端获取的动态数据，
+// 加接口获取则会个别增加一些加载状态的处理，暂时先写死在前端
 export const PRICE_LOCATION_OPTIONS: { label: string; value: number }[] = [
   { label: '北京', value: 1 },
   { label: '天津', value: 2 },
@@ -76,6 +77,8 @@ export const PRICE_LOCATION_OPTIONS: { label: string; value: number }[] = [
 ]
 
 // ==================== 币种选项 ====================
+// 示例币种数据，后期可以更改为从后端获取的动态数据，
+// 加接口获取则会个别增加一些加载状态的处理，暂时先写死在前端
 export const PRICE_CURRENCY_OPTIONS: { label: string; value: Currency }[] = [
   { label: '人民币 (CNY)', value: 'CNY' },
   { label: '美元 (USD)', value: 'USD' },
@@ -86,7 +89,8 @@ export const PRICE_CURRENCY_OPTIONS: { label: string; value: Currency }[] = [
 ]
 
 // ==================== 时间粒度选项 ====================
-
+// 示例时间粒度数据，后期可以更改为从后端获取的动态数据，
+// 加接口获取则会个别增加一些加载状态的处理，暂时先写死在前端
 export const PRICE_GRANULARITY_OPTIONS: { label: string; value: TimeGranularity }[] = [
   { label: '按小时', value: 'HOUR' },
   { label: '按天', value: 'DAY' },

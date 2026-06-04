@@ -22,13 +22,18 @@ watch(selectedItem, (item) => {
   if (item) {
     query.value.itemId = item.itemId
     fetchLatest()
+  } else {
+    query.value.itemId = undefined
   }
-})
+}, { immediate: true })
 
 async function fetchLatest() {
   loading.value = true
   try {
-    const res = await priceApi.getLatest({ ...query.value, locationId: selectedLocationId.value })
+    console.log('Query Params:', query.value)
+    const res = await priceApi.getLatest({ ...query.value, itemId: selectedItem.value?.itemId, locationId: selectedLocationId.value, currency: query.value.currency })
+    // console.log('Latest Price Result:', res)
+
     latestItem.value = res.data
   }
   finally {

@@ -22,8 +22,10 @@ watch(selectedItem, (item) => {
   if (item) {
     query.value.itemId = item.itemId
     if (dateRange.value) fetchTrend()
+  } else {
+    query.value.itemId = undefined
   }
-})
+}, { immediate: true })
 
 async function fetchTrend() {
   if (!dateRange.value) return
