@@ -67,11 +67,11 @@ onBeforeUnmount(() => {
         </div>
 
         <div v-if="searchResults.length > 0 && !searchLoading" class="query-results">
-          <div v-for="item in searchResults" :key="item.id" class="result-card"
-            :class="{ 'result-card--active': selectedItem?.id === item.id }" @click="selectItem(item)">
+          <div v-for="item in searchResults" :key="item.itemId" class="result-card"
+            :class="{ 'result-card--active': selectedItem?.itemId === item.itemId }" @click="selectItem(item)">
             <div class="result-card__header">
               <span class="result-card__name">{{ item.itemName }}</span>
-              <el-icon v-if="selectedItem?.id === item.id" class="result-card__check"><span>✓</span></el-icon>
+              <el-icon v-if="selectedItem?.itemId === item.itemId" class="result-card__check"><span>✓</span></el-icon>
               <el-tag size="small">{{ item.categoryName }}</el-tag>
             </div>
             <div class="result-card__meta">
@@ -100,7 +100,7 @@ onBeforeUnmount(() => {
             </div>
             <div class="selected-card__info">
               <span>计量单位: {{ selectedItem.unit }}</span>
-              <span class="selected-card__id">ID: {{ selectedItem.id }}</span>
+              <span class="selected-card__id">ID: {{ selectedItem.itemId }}</span>
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ export const priceApi = {
 
 // ==================== 物品查询 ====================
 
-import type { ItemIntroDTO, ItemIntroVO } from '@/types/modules/price.type';
+import type { ItemIntroDTO, PriceItemVO } from '@/types/modules/price.type';
 import type { PageResult } from '@/types';
 
 export const itemApi = {
@@ -54,7 +54,7 @@ export const itemApi = {
     /**
      * 搜索物品（分页查询，按名称模糊匹配）
      */
-    searchItems(data: ItemIntroDTO): Promise<Result<PageResult<ItemIntroVO>>> {
+    searchItems(data: ItemIntroDTO): Promise<Result<PageResult<PriceItemVO>>> {
         return request.post(`/item/page`, data);
     },
 };

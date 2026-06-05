@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { itemApi } from '@/api/modules/price.api'
-import type { ItemIntroVO } from '@/types'
+import type { PriceItemVO } from '@/types'
 
-const selectedItem = ref<ItemIntroVO | null>(null)
+const selectedItem = ref<PriceItemVO | null>(null)
 const selectedLocationId = ref<number | undefined>(undefined)
-const searchResults = ref<ItemIntroVO[]>([])
+const searchResults = ref<PriceItemVO[]>([])
 const searchLoading = ref(false)                     // 搜索加载状态
 
 /**
@@ -35,9 +35,9 @@ export function usePriceItemStore() {
     }
 
     // 选中物品
-    function selectItem(item: ItemIntroVO) {
+    function selectItem(item: PriceItemVO) {
         selectedItem.value = item
-        console.log('选中物品：', item)
+        // console.log('选中物品：', item)
     }
 
     // 清除选中状态

@@ -25,7 +25,7 @@ async function fetchCompare() {
   loading.value = true
   try {
     const res = await priceApi.compareLocation({
-      itemId: selectedItem.value.id,
+      itemId: selectedItem.value.itemId,
       locationId: selectedLocationId.value,
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })
@@ -38,16 +38,14 @@ async function fetchCompare() {
 const chartOption = computed(() => {
   if (!compareData.value) return {}
 
-  const list = [...compareData.value.compareList].sort((a, b) => Number(b.price) - Number(a.price))
+  const list = [...compareData.value.prices].sort((a, b) => Number(b.price) - Number(a.price))
   const prices = list.map((s) => Number(s.price))
   const minPrice = Math.min(...prices)
   const maxPrice = Math.max(...prices)
 
   const mapData = list.map((s) => ({
-    name: s.sourceName,
+    name: s.locationName,
     value: Number(s.price),
-    confidence: s.confidence,
-    reliability: s.reliabilityLevel,
   }))
 
   return {
@@ -62,7 +60,7 @@ const chartOption = computed(() => {
       formatter: (params: any) => {
         if (!params.data) return ''
         const d = params.data
-        return `<b>${d.name}</b><br/>价格: ¥${d.value?.toFixed(2) ?? '-'}<br/>可信度: ${d.confidence ?? '-'}%<br/>可靠性: Lv${d.reliability ?? '-'}`
+        return `<b>${d.name}</b><br/>价格: ¥${d.value?.toFixed(2) ?? '-'}`
       },
     },
     visualMap: {

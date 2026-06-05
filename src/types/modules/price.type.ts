@@ -7,7 +7,7 @@ export type DateTimeString = string
 // 金额类型（建议使用 string 避免浮点精度问题）
 export type Money = string;
 
-// 时间粒度
+// 时间粒度，这个后期也是从后端获取，目前先写死，不然总是产生歧义，
 export type TimeGranularity =
     | 'HOUR'
     | 'DAY'
@@ -15,7 +15,7 @@ export type TimeGranularity =
     | 'MONTH'
     | 'YEAR'
 
-// 币种
+// 币种，这个后期也是从后端获取，目前先写死，不然总是产生歧义，
 export type Currency =
     | 'CNY'
     | 'USD'
@@ -25,11 +25,11 @@ export type Currency =
     | 'HKD'
 
 
+// DTO（Data Transfer Object）是用于数据传输的对象，通常用于前后端之间的数据交换。VO（View Object）是用于视图展示的对象，通常包含了前端需要展示的数据结构。
 // 价格查询基础参数
 export interface BasePriceQueryDTO {
 
     // ==================== 物品 ====================
-
     // 单个物品ID
     itemId?: number
 
@@ -40,7 +40,6 @@ export interface BasePriceQueryDTO {
     itemCode?: string
 
     // ==================== 地点 ====================
-
     // 单个地点ID
     locationId?: number
 
@@ -48,7 +47,6 @@ export interface BasePriceQueryDTO {
     locationIds?: number[]
 
     // ==================== 来源 ====================
-
     // 来源ID列表
     sourceIds?: number[]
 
@@ -93,7 +91,6 @@ export interface PriceCompareLocationDTO
     targetTime: DateTimeString
 }
 
-
 export interface PriceCompareSourceDTO
     extends BasePriceQueryDTO {
 
@@ -102,10 +99,17 @@ export interface PriceCompareSourceDTO
 }
 
 
-// 物品基础信息
-export interface ItemIntroVO {
+
+
+
+
+
+
+// VO（View Object）是用于视图展示的对象，通常包含了前端需要展示的数据结构。
+// 物品简洁基础信息
+export interface PriceItemVO {
     // 物品ID
-    id: number;
+    itemId: number;
     // 物品名称
     itemName: string;
     // 计量单位
@@ -117,24 +121,14 @@ export interface ItemIntroVO {
 }
 
 // 最新价格视图对象
-export interface PriceLatestVO {
-    // 物品基本信息
-    item: ItemIntroVO;
-    // 地点名称
+export interface PriceLatestVO extends PriceItemVO {
     locationName: string;
-    // 价格金额
     price: Money;
-    // 币种
     currency: string;
-    // 价格单位
     priceUnit: string;
-    // 价格来源名称
     sourceName: string;
-    // 可靠等级（1-5）
     reliabilityLevel: number;
-    // 生效时间
     effectiveTime: DateTimeString;
-    // 可信度（0.00-100.00）
     confidence: number;
 }
 
@@ -148,11 +142,12 @@ export interface PriceTrendPointVO {
 
 // 价格趋势数据
 export interface PriceTrendVO {
-    // 物品基本信息
-    item: ItemIntroVO;
-    // 地点名称
+    itemId: number;
+    itemName: string;
+    unit: string;
+    specification: string;
+    categoryName: string;
     locationName: string;
-    // 价格趋势数据点列表（按时间升序）
     trend: PriceTrendPointVO[];
 }
 
@@ -168,12 +163,14 @@ export interface SourceCompareVO {
     confidence: number;
 }
 
-// 多来源价格对比返回对象
-export interface PriceCompareVO {
-    // 物品基本信息
-    item: ItemIntroVO;
-    // 地点名称
+// 多地区价格对比 - 单地区价格点
+export interface PriceRegionPointVO {
     locationName: string;
-    // 多来源对比列表
-    compareList: SourceCompareVO[];
+    price: Money;
+}
+
+// 多地区价格对比返回对象
+export interface PriceCompareVO {
+    item: PriceItemVO;
+    prices: PriceRegionPointVO[];
 }

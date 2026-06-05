@@ -25,7 +25,7 @@ async function fetchLatest() {
   }
 
   // 后端返回 id 字段（非 itemId），这里提取 itemId
-  const itemId = selectedItem.value.id
+  const itemId = selectedItem.value.itemId
 
   if (!itemId) {
     ElMessage.warning('无法获取物品ID，请返回「物品查询」重新选择物品')
@@ -34,14 +34,14 @@ async function fetchLatest() {
 
   loading.value = true
   try {
-    console.log('查询参数：', {
-      itemId: selectedItem.value.id,
-      locationId: selectedLocationId.value,
-      currency: query.value.currency,
-    })
+    // console.log('查询参数：', {
+    //   itemId: selectedItem.value.itemId,
+    //   locationId: selectedLocationId.value,
+    //   currency: query.value.currency,
+    // })
 
     const res = await priceApi.getLatest({
-      itemId: selectedItem.value.id,
+      itemId: selectedItem.value.itemId,
       locationId: selectedLocationId.value,
       currency: query.value.currency,
     })
@@ -111,14 +111,14 @@ const gaugeOption = computed(() => {
 
     <div class="latest-card" v-if="selectedItem && latestItem">
       <div class="latest-card__left">
-        <div class="latest-card__title">{{ latestItem.item.itemName }}</div>
+        <div class="latest-card__title">{{ latestItem.itemName }}</div>
         <div class="latest-card__meta">
-          <el-tag size="small">{{ latestItem.item.categoryName }}</el-tag>
-          <span>{{ latestItem.item.specification }}</span>
+          <el-tag size="small">{{ latestItem.categoryName }}</el-tag>
+          <span>{{ latestItem.specification }}</span>
         </div>
         <div class="latest-card__price">
           <span class="price-value">¥{{ Number(latestItem.price).toFixed(2) }}</span>
-          <span class="price-unit">/ {{ latestItem.priceUnit || latestItem.item.unit }}</span>
+          <span class="price-unit">/ {{ latestItem.priceUnit || latestItem.unit }}</span>
         </div>
         <div class="latest-card__info">
           <span>来源: {{ latestItem.sourceName }}</span>

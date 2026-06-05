@@ -25,7 +25,7 @@ async function fetchSourceCompare() {
   loading.value = true
   try {
     const res = await priceApi.compareSource({
-      itemId: selectedItem.value.id,
+      itemId: selectedItem.value.itemId,
       locationId: selectedLocationId.value,
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })

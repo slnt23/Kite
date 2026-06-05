@@ -6,14 +6,14 @@ import {
   PRICE_GRANULARITY_OPTIONS
 } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
-import type { PriceTrendVO } from '@/types/modules/price.type'
+import type { PriceTrendVO, TimeGranularity } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const trendData = ref<PriceTrendVO[]>([])
 const dateRange = ref<[string, string] | null>(null)
 
-const query = ref({
-  granularity: 'DAY' as const,
+const query = ref<{ granularity: TimeGranularity }>({
+  granularity: 'DAY',
 })
 
 const { selectedItem } = usePriceItemStore()
@@ -32,7 +32,7 @@ async function fetchTrend() {
   loading.value = true
   try {
     const res = await priceApi.getTrend({
-      itemId: selectedItem.value.id,
+      itemId: selectedItem.value.itemId,
       granularity: query.value.granularity,
       startTime: dateRange.value[0],
       endTime: dateRange.value[1],
@@ -92,7 +92,7 @@ const chartOption = computed(() => {
   const granularity = query.value.granularity
   const axisCfg = getAxisTimeConfig(granularity)
   const seriesList = trendData.value.map((vo) => ({
-    name: `${vo.item.itemName} · ${vo.locationName}`,
+    name: `${vo.itemName} · ${vo.locationName}`,
     type: 'line' as const,
     smooth: true,
     symbol: granularity === 'HOUR' ? 'circle' : 'none',

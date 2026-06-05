@@ -24,15 +24,15 @@ const frontRoutes = [
         name: 'front-price-query',
         component: PriceMainView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
-        path: 'story',
+        path: 'story',  //虽然展示，但是界面并不完善，后续会继续完善
         name: 'front-story',
         component: ImageVideoView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
@@ -40,31 +40,31 @@ const frontRoutes = [
         name: 'front-ai-ai',
         component: AiChatView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
-        path: 'blog',
+        path: 'blog',  //虽然展示，但是界面并不完善，后续会继续完善
         name: 'front-blog',
         component: BlogView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
-        path: 'blog/posts',
+        path: 'blog/posts',  //虽然展示，但是界面并不完善，后续会继续完善
         name: 'front-blog-posts',
         component: BlogListView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
-        path: 'meditations',
+        path: 'meditations', //暂时不展示
         name: 'front-meditations',
         component: MeditationView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
       {
@@ -72,7 +72,7 @@ const frontRoutes = [
         name: 'front-profile',
         component: UserProfileView,
         meta: {
-          // requiresAuth: true,
+          requiresAuth: true,
         },
       },
 

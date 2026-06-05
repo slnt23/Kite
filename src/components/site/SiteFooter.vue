@@ -7,17 +7,21 @@
 
       <div class="footer-links">
         <a href="https://space.bilibili.com/1237791199?spm_id_from=333.1007.0.0" class="footer-link">
-          <el-icon class="link-icon"><VideoCamera /></el-icon>
+          <el-icon class="link-icon">
+            <VideoCamera />
+          </el-icon>
           BiliBili
         </a>
         <a href="https://github.com/" target="_blank" rel="noreferrer" class="footer-link">
-          <el-icon class="link-icon"><Star /></el-icon>
+          <el-icon class="link-icon">
+            <Star />
+          </el-icon>
           GitHub
         </a>
-        <a href="https://www.behance.net/" target="_blank" rel="noreferrer" class="footer-link">
+        <!-- <a href="https://www.behance.net/" target="_blank" rel="noreferrer" class="footer-link">
           <el-icon class="link-icon"><CoffeeCup /></el-icon>
           占位
-        </a>
+        </a> -->
       </div>
 
       <div class="footer-bottom">
