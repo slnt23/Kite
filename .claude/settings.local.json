@@ -45,7 +45,9 @@
       "Bash(node -e \"const geo = require\\('china-geojson'\\); const names = Object.keys\\(geo\\).filter\\(k => k !== 'China'\\); console.log\\(names.join\\('\\\\n'\\)\\)\")",
       "Bash(du -sh node_modules/china-geojson/src/geojson/china.json)",
       "Bash(wc -c node_modules/china-geojson/src/geojson/china.json)",
-      "Bash(node -e \"const g = require\\('china-geojson'\\); const c = g.China; console.log\\('features:', c.features.length\\); console.log\\('JSON size:', JSON.stringify\\(c\\).length, 'chars'\\)\")"
+      "Bash(node -e \"const g = require\\('china-geojson'\\); const c = g.China; console.log\\('features:', c.features.length\\); console.log\\('JSON size:', JSON.stringify\\(c\\).length, 'chars'\\)\")",
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__edit_file"
     ]
   }
 }

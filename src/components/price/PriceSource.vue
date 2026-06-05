@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
+import { ElMessage } from 'element-plus'
 import { priceApi } from '@/api/modules/price.api'
 import { PRICE_LOCATION_OPTIONS } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
@@ -7,29 +8,30 @@ import type { SourceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const sourceData = ref<SourceCompareVO[]>([])
-const query = ref({ itemId: undefined as number | undefined })
 const targetTime = ref<string | null>(null)
 
 const { selectedItem, selectedLocationId } = usePriceItemStore()
 
-watch(selectedItem, (item) => {
-  if (item) {
-    query.value.itemId = item.itemId
-    fetchSourceCompare()
-  } else {
-    query.value.itemId = undefined
-  }
-}, { immediate: true })
+// 改为手动点击查询按钮触发
+// watch(selectedItem, (item) => {
+//   if (item) fetchSourceCompare()
+// }, { immediate: true })
 
 async function fetchSourceCompare() {
+  if (!selectedItem.value) {
+    ElMessage.warning('请先在「物品查询」中选择一个物品')
+    return
+  }
   loading.value = true
   try {
     const res = await priceApi.compareSource({
-      itemId: query.value.itemId,
+      itemId: selectedItem.value.id,
       locationId: selectedLocationId.value,
       targetTime: targetTime.value ?? new Date().toISOString().slice(0, 19),
     })
     sourceData.value = res.data ?? []
+  } catch {
+    ElMessage.error('查询失败，请稍后再试')
   } finally { loading.value = false }
 }
 

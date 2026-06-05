@@ -26,6 +26,7 @@ export function usePriceItemStore() {
             // 调用 API 搜索
             const res = await itemApi.searchItems({ itemName: trimmed })
             searchResults.value = res.data?.records ?? []
+            // console.log('搜索结果：', searchResults.value)
         } catch {
             ElMessage.error('搜索失败，请稍后再试')
         } finally {
@@ -36,6 +37,7 @@ export function usePriceItemStore() {
     // 选中物品
     function selectItem(item: ItemIntroVO) {
         selectedItem.value = item
+        console.log('选中物品：', item)
     }
 
     // 清除选中状态

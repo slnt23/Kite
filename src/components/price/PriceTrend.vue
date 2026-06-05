@@ -1,42 +1,45 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
+import { ElMessage } from 'element-plus'
 import { priceApi } from '@/api/modules/price.api'
 import {
   PRICE_GRANULARITY_OPTIONS
 } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
-import type { PriceTrendVO, PriceTrendQueryDTO } from '@/types/modules/price.type'
+import type { PriceTrendVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const trendData = ref<PriceTrendVO[]>([])
 const dateRange = ref<[string, string] | null>(null)
 
-const query = ref<Omit<PriceTrendQueryDTO, 'startTime' | 'endTime'>>({
-  itemId: undefined,
-  granularity: 'DAY',
+const query = ref({
+  granularity: 'DAY' as const,
 })
 
 const { selectedItem } = usePriceItemStore()
 
-watch(selectedItem, (item) => {
-  if (item) {
-    query.value.itemId = item.itemId
-    if (dateRange.value) fetchTrend()
-  } else {
-    query.value.itemId = undefined
-  }
-}, { immediate: true })
+// 改为手动点击查询按钮触发
+// watch(selectedItem, (item) => {
+//   if (item && dateRange.value) fetchTrend()
+// }, { immediate: true })
 
 async function fetchTrend() {
+  if (!selectedItem.value) {
+    ElMessage.warning('请先在「物品查询」中选择一个物品')
+    return
+  }
   if (!dateRange.value) return
   loading.value = true
   try {
     const res = await priceApi.getTrend({
-      ...query.value,
+      itemId: selectedItem.value.id,
+      granularity: query.value.granularity,
       startTime: dateRange.value[0],
       endTime: dateRange.value[1],
     })
     trendData.value = res.data ?? []
+  } catch {
+    ElMessage.error('查询失败，请稍后再试')
   } finally {
     loading.value = false
   }

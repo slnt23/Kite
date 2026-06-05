@@ -11,7 +11,7 @@ import { type AiMessage, type AiConversation } from '@/constant'
 //   buildMockReply,
 // } from '@/constant'
 import {
-  sendChatApi,
+  sendChatStreamApi,
   createConversationApi,
   listConversationsApi,
   getMessagesApi,
@@ -103,20 +103,43 @@ const sendMessage = async () => {
   inputValue.value = ''
   isTyping.value = true
 
-  try {
-    const res = await sendChatApi({ conversationId, message: text })
-    const aiMessage: AiMessage = {
-      id: `${Date.now()}-a`,
-      role: 'assistant',
-      content: res.data || '',
-      timestamp: new Date(),
+  const aiMessageId = `${Date.now()}-a`
+  let aiContent = ''
+  let isFirstChunk = true
+
+  sendChatStreamApi({ conversationId, message: text }, (chunk) => {
+    aiContent += chunk
+    if (isFirstChunk) {
+      isFirstChunk = false
+      isTyping.value = false
+      messageMap.value[conversationId] = [
+        ...(messageMap.value[conversationId] || []),
+        {
+          id: aiMessageId,
+          role: 'assistant',
+          content: aiContent,
+          timestamp: new Date(),
+        },
+      ]
+    } else {
+      const msgs = messageMap.value[conversationId] || []
+      const idx = msgs.findIndex((m) => m.id === aiMessageId)
+      if (idx !== -1) {
+        const updated = [...msgs]
+        updated[idx] = { ...updated[idx], content: aiContent }
+        messageMap.value[conversationId] = updated
+      }
     }
-    messageMap.value[conversationId] = [...(messageMap.value[conversationId] || []), aiMessage]
-  } catch (e) {
-    console.error('发送消息失败:', e)
-  } finally {
-    isTyping.value = false
-  }
+  })
+    .catch((e) => {
+      console.error('发送消息失败:', e)
+      if (isFirstChunk) {
+        isTyping.value = false
+      }
+    })
+    .finally(() => {
+      isTyping.value = false
+    })
 }
 
 const selectConversation = (id: string) => {

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { appMeta } from '@/config/app.config'
-import heroVideo1 from '@/assets/front/Front_Hero_1.mp4'
+import heroVideo2 from '@/assets/modules/HOME/HOME_V1.mp4'
+import heroVideo1 from '@/assets/modules/HOME/HOME_V2.mp4'
 import poster404 from '@/assets/status/404.png'
 
-const videos = [heroVideo1]
+const videos = [heroVideo2, heroVideo1]
 const currentIndex = ref(0)
 const heroRef = ref<HTMLElement | null>(null)
 const isMuted = ref(true)
@@ -35,7 +36,7 @@ const scrollDown = () => window.scrollTo({ top: window.innerHeight, behavior: 's
 const pauseAllVideos = () => document.querySelectorAll('.home-hero__video').forEach((v) => (v as HTMLVideoElement).pause())
 const playCurrentVideo = () => {
   const v = document.querySelector('.home-hero__video--active') as HTMLVideoElement | null
-  v?.play().catch(() => {})
+  v?.play().catch(() => { })
 }
 
 const handleScroll = () => {
@@ -66,14 +67,9 @@ onUnmounted(() => {
 
 <template>
   <section class="home-hero" ref="heroRef">
-    <video
-      v-for="(video, index) in videos"
-      :key="index"
-      class="home-hero__video"
-      :class="{ 'home-hero__video--active': index === currentIndex }"
-      :poster="poster404"
-      autoplay loop muted playsinline
-    >
+    <video v-for="(video, index) in videos" :key="index" class="home-hero__video"
+      :class="{ 'home-hero__video--active': index === currentIndex }" :poster="poster404" autoplay loop muted
+      playsinline>
       <source :src="video" type="video/mp4" />
     </video>
 
@@ -94,7 +90,8 @@ onUnmounted(() => {
 
     <div class="home-hero__controls">
       <button class="home-hero__button" @click="toggleMute" :aria-label="isMuted ? '取消静音' : '静音'">
-        <svg v-if="isMuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg v-if="isMuted" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
           <line x1="23" y1="9" x2="17" y2="15" />
           <line x1="17" y1="9" x2="23" y2="15" />
@@ -113,13 +110,8 @@ onUnmounted(() => {
         </button>
 
         <div class="home-hero__indicators">
-          <span
-            v-for="(_, index) in videos"
-            :key="index"
-            class="home-hero__indicator"
-            :class="{ 'home-hero__indicator--active': index === currentIndex }"
-            @click="currentIndex = index"
-          />
+          <span v-for="(_, index) in videos" :key="index" class="home-hero__indicator"
+            :class="{ 'home-hero__indicator--active': index === currentIndex }" @click="currentIndex = index" />
         </div>
 
         <button class="home-hero__button" @click="nextVideo" aria-label="下一个视频">
@@ -165,7 +157,9 @@ $hero-overlay-color: rgba(10, 23, 35, 0.45);
     transition: opacity 0.5s ease;
     pointer-events: none;
 
-    &--active { opacity: 1; }
+    &--active {
+      opacity: 1;
+    }
   }
 
   &__overlay {
@@ -250,7 +244,9 @@ $hero-overlay-color: rgba(10, 23, 35, 0.45);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
-    svg { flex-shrink: 0; }
+    svg {
+      flex-shrink: 0;
+    }
   }
 
   // ========== 底部控件 ==========
@@ -283,7 +279,9 @@ $hero-overlay-color: rgba(10, 23, 35, 0.45);
       transform: scale(1.25);
     }
 
-    &:hover { background: rgba(255, 255, 255, 0.6); }
+    &:hover {
+      background: rgba(255, 255, 255, 0.6);
+    }
   }
 
   &__button {
@@ -299,9 +297,14 @@ $hero-overlay-color: rgba(10, 23, 35, 0.45);
     cursor: pointer;
     transition: background 0.2s ease;
 
-    &:hover { background: rgba(255, 255, 255, 0.18); }
+    &:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
 
-    svg { width: 18px; height: 18px; }
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 

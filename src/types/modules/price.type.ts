@@ -105,7 +105,7 @@ export interface PriceCompareSourceDTO
 // 物品基础信息
 export interface ItemIntroVO {
     // 物品ID
-    itemId: number;
+    id: number;
     // 物品名称
     itemName: string;
     // 计量单位

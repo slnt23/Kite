@@ -1,42 +1,54 @@
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
+import { ElMessage } from 'element-plus'
 import { priceApi } from '@/api/modules/price.api'
 import {
   PRICE_LOCATION_OPTIONS,
   PRICE_CURRENCY_OPTIONS
 } from '@/constant'
 import { usePriceItemStore } from '@/composables/usePriceItemStore'
-import type { PriceLatestVO, Currency, PriceLatestQueryDTO } from '@/types/modules/price.type'
+import type { PriceLatestVO, Currency } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const latestItem = ref<PriceLatestVO | null>(null)
 
-const query = ref<PriceLatestQueryDTO>({
-  itemId: undefined as number | undefined,
+const query = ref({
   currency: 'CNY' as Currency | undefined,
 })
 
 const { selectedItem, selectedLocationId } = usePriceItemStore()
 
-watch(selectedItem, (item) => {
-  if (item) {
-    query.value.itemId = item.itemId
-    fetchLatest()
-  } else {
-    query.value.itemId = undefined
-  }
-}, { immediate: true })
-
 async function fetchLatest() {
+  if (!selectedItem.value) {
+    ElMessage.warning('请先在「物品查询」中选择一个物品')
+    return
+  }
+
+  // 后端返回 id 字段（非 itemId），这里提取 itemId
+  const itemId = selectedItem.value.id
+
+  if (!itemId) {
+    ElMessage.warning('无法获取物品ID，请返回「物品查询」重新选择物品')
+    return
+  }
+
   loading.value = true
   try {
-    console.log('Query Params:', query.value)
-    const res = await priceApi.getLatest({ ...query.value, itemId: selectedItem.value?.itemId, locationId: selectedLocationId.value, currency: query.value.currency })
-    // console.log('Latest Price Result:', res)
+    console.log('查询参数：', {
+      itemId: selectedItem.value.id,
+      locationId: selectedLocationId.value,
+      currency: query.value.currency,
+    })
 
+    const res = await priceApi.getLatest({
+      itemId: selectedItem.value.id,
+      locationId: selectedLocationId.value,
+      currency: query.value.currency,
+    })
     latestItem.value = res.data
-  }
-  finally {
+  } catch {
+    ElMessage.error('查询失败，请稍后再试')
+  } finally {
     loading.value = false
   }
 }
