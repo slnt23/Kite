@@ -1,15 +1,11 @@
 <script lang="ts" setup>
 import { ref, watch, onBeforeUnmount } from 'vue'
-import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import { storeToRefs } from 'pinia'
+import { usePriceItemStore } from '@/stores/priceItem'
 
-const {
-  selectedItem,
-  searchResults,
-  searchLoading,
-  searchItems,
-  selectItem,
-  clearSelection,
-} = usePriceItemStore()
+const store = usePriceItemStore()
+const { selectedItem, searchResults, searchLoading } = storeToRefs(store)
+const { searchItems, selectItem, clearSelection } = store
 
 const keyword = ref('')
 let debounceTimer: ReturnType<typeof setTimeout> | null = null

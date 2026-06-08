@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { PRICE_TAB_COMPONENT_MAP } from '@/constant'
-import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import { usePriceItemStore } from '@/stores/priceItem'
 import PriceNavigator from '@/components/price/PriceNavigator.vue'
 
 const activeNav = ref('0')

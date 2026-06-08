@@ -6,7 +6,8 @@ import {
   PRICE_LOCATION_OPTIONS,
   PRICE_CURRENCY_OPTIONS
 } from '@/constant'
-import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import { storeToRefs } from 'pinia'
+import { usePriceItemStore } from '@/stores/priceItem'
 import type { PriceLatestVO, Currency } from '@/types/modules/price.type'
 
 const loading = ref(false)
@@ -16,7 +17,7 @@ const query = ref({
   currency: 'CNY' as Currency | undefined,
 })
 
-const { selectedItem, selectedLocationId } = usePriceItemStore()
+const { selectedItem, selectedLocationId } = storeToRefs(usePriceItemStore())
 
 async function fetchLatest() {
   if (!selectedItem.value) {

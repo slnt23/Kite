@@ -5,7 +5,8 @@ import { priceApi } from '@/api/modules/price.api'
 import {
   PRICE_GRANULARITY_OPTIONS
 } from '@/constant'
-import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import { storeToRefs } from 'pinia'
+import { usePriceItemStore } from '@/stores/priceItem'
 import type { PriceTrendVO, TimeGranularity } from '@/types/modules/price.type'
 
 const loading = ref(false)
@@ -16,7 +17,7 @@ const query = ref<{ granularity: TimeGranularity }>({
   granularity: 'DAY',
 })
 
-const { selectedItem } = usePriceItemStore()
+const { selectedItem } = storeToRefs(usePriceItemStore())
 
 // 改为手动点击查询按钮触发
 // watch(selectedItem, (item) => {

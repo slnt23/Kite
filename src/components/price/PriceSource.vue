@@ -3,14 +3,15 @@ import { ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { priceApi } from '@/api/modules/price.api'
 import { PRICE_LOCATION_OPTIONS } from '@/constant'
-import { usePriceItemStore } from '@/composables/usePriceItemStore'
+import { storeToRefs } from 'pinia'
+import { usePriceItemStore } from '@/stores/priceItem'
 import type { SourceCompareVO } from '@/types/modules/price.type'
 
 const loading = ref(false)
 const sourceData = ref<SourceCompareVO[]>([])
 const targetTime = ref<string | null>(null)
 
-const { selectedItem, selectedLocationId } = usePriceItemStore()
+const { selectedItem, selectedLocationId } = storeToRefs(usePriceItemStore())
 
 // 改为手动点击查询按钮触发
 // watch(selectedItem, (item) => {
