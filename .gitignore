@@ -1,73 +1,31 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
 # Dependencies
 node_modules/
 
-# Build outputs
+# Build
 dist/
-dist-ssr/
-*.local
-*.tgz
-*.tar.gz
+*.tsbuildinfo
 
-# Cache directories
-.cache/
-.parcel-cache/
-.vite/
-.sass-cache/
-.eslintcache
-
-# Environment variables
-.env
-.env.local
 .env.development
-.env.production
-.env.test
 
-# Testing
-coverage/
-.nyc_output/
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/snippets/
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS generated files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Temporary files
+# Temp & backup
 *.tmp
 *.temp
-
-# Backup files
 *.bak
 *.backup
 
-# Performance profiles
-*.cpuprofile
-
-# Example directories
-EXAMPLE/
-.trae/
-*.tsbuildinfo
+# Claude
 .claude/
+
+# Codex
+.codex/
+
+
+
+
+
+# 自定义
+example/
+frontend-api.md
+AGENTS.md
+CLOUDE.md
+.prettierrc
